@@ -14,7 +14,8 @@ enum class WarningType(val value: String) {
     WARNING("warning"),
     DISRUPTION("DISRUPTION"),
     MAINTENANCE("MAINTENANCE"),
-    ERROR("error");
+    ERROR("error"),
+    ALTERNATIVE_TRANSPORT("ALTERNATIVE_TRANSPORT");
     companion object {
         fun fromValue(value: String): WarningType? {
             return values().find { it.value == value }

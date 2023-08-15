@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CompareArrows
 import androidx.compose.material.icons.filled.East
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -37,6 +38,8 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.ui.utils.ShowMessage
+import com.yungert.treinplanner.presentation.ui.utils.WarningType
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
@@ -90,6 +93,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                 Text(text = "Reisopties")
             }
         }
+
         item {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(
@@ -189,6 +193,28 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
+                        }
+                        if(advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Warning,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(iconSize)
+                                )
+                                Text(
+                                    text = "Alternatief vervoer",
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+
+                            }
                         }
                     }
 

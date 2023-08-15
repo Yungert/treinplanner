@@ -9,5 +9,6 @@ var stationNamen = listOf(
     StationNamen("Apeldoorn", "apd"),
     StationNamen("Schagen", "sgn"),
     StationNamen("Eindhoven Centraal", "ehv"),
-    StationNamen("Arhnhem Centraal", "ah")
+    StationNamen("Arhnhem Centraal", "ah"),
+    StationNamen("Almere Centrum", "alm")
 )

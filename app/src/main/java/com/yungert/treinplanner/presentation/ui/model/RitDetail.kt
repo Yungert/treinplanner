@@ -26,6 +26,7 @@ data class RitDetail(
 
 data class Message(
     val title: String,
+
     val nesProperties: NesProperties,
     val message: MessageData,
     val type: String

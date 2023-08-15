@@ -1,5 +1,7 @@
 package Data.models
 
+import com.yungert.treinplanner.presentation.ui.model.Message
+
 data class Trip(
     val actualDurationInMinutes: Int,
     val checksum: String,
@@ -25,5 +27,7 @@ data class Trip(
     val status: String,
     val transfers: Int,
     val type: String,
-    val uid: String
+    val uid: String,
+    val primaryMessage: Message,
+    val alternativeTransport : Boolean,
 )
