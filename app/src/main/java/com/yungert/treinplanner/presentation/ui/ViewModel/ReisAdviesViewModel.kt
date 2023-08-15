@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 sealed class ViewStateReisAdvies {
     object Loading : ViewStateReisAdvies()
-    data class Success(val details: ReisAdvies) : ViewStateReisAdvies()
+    data class Success(val details: List<ReisAdvies>) : ViewStateReisAdvies()
     data class Problem(val exception: ErrorState?) : ViewStateReisAdvies()
 }
 
@@ -31,16 +31,20 @@ class ReisAdviesViewModel () : ViewModel() {
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _viewState.value = ViewStateReisAdvies.Success(
-                            ReisAdvies(
-                                verstrekStation = result.data?.trips?.getOrNull(0)?.legs?.get(0)?.origin?.name ?: "",
-                                aankomstStation = result.data?.trips?.getOrNull(0)?.legs?.get(0)?.destination?.name ?: "",
-                                vertrekTijd = result.data?.trips?.getOrNull(0)?.legs?.get(0)?.origin?.actualDateTime ?: result.data?.trips?.getOrNull(0)?.legs?.get(0)?.origin?.plannedDateTime ?: "",
-                                aankomstTijd = result.data?.trips?.getOrNull(0)?.legs?.get(0)?.destination?.actualDateTime ?: result.data?.trips?.getOrNull(0)?.legs?.get(0)?.destination?.plannedDateTime ?: "",
-                                reisTijdInMinuten = result.data?.trips?.getOrNull(0)?.legs?.get(0)?.plannedDurationInMinutes ?: 0,
-                                AantalTransfers = result.data?.trips?.getOrNull(0)?.transfers ?: 0
-                            )
-                        )
+                        var reisAdviezen = mutableListOf<ReisAdvies>()
+
+                        result.data?.trips?.forEach {trip ->
+                            reisAdviezen.add(ReisAdvies(
+                                verstrekStation = trip?.legs?.get(0)?.origin?.name ?: "",
+                                aankomstStation = trip?.legs?.get(0)?.destination?.name ?: "",
+                                vertrekTijd = trip?.legs?.getOrNull(0)?.origin?.actualDateTime ?: trip?.legs?.getOrNull(0)?.origin?.plannedDateTime ?: "",
+                                aankomstTijd = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.actualDateTime ?: trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime ?: "",
+                                reisTijdInMinuten = trip?.legs?.get(0)?.plannedDurationInMinutes ?: 0,
+                                aantalTransfers = trip?.transfers ?: 0,
+                                reinadviesId = trip?.ctxRecon ?: ""
+                            ))
+                        }
+                        _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)
                     }
 
                     is Resource.Loading -> {

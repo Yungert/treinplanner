@@ -6,5 +6,6 @@ data class ReisAdvies(
     val vertrekTijd: String,
     val aankomstTijd: String,
     val reisTijdInMinuten : Int,
-    val AantalTransfers : Int,
+    val aantalTransfers : Int,
+    val reinadviesId : String,
 )
