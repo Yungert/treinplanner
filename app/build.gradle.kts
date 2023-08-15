@@ -1,8 +1,7 @@
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -54,11 +53,13 @@ android {
 }
 
 dependencies {
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-    implementation ("androidx.datastore:datastore-preferences-rxjava2:1.0.0")
-    implementation ("androidx.datastore:datastore-preferences:1.0.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
     implementation("androidx.compose.runtime:runtime:1.4.3")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
@@ -91,6 +92,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.4.3")
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("androidx.datastore:datastore-core:1.0.0")
     androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
