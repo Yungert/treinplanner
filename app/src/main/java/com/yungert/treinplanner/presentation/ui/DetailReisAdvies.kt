@@ -214,7 +214,6 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                         .padding(horizontal = 2.dp)
                                         .size(iconSize)
                                 )
-
                                 Text(
                                     text = reis.aankomstSpoor,
                                     style = fontsizeLabelCard,
@@ -224,42 +223,6 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun ShowRitMessage(msg: Message?) {
-    if (msg == null) {
-        return
-    }
-    Card(
-        onClick = {},
-        modifier = Modifier.padding(2.dp)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Warning,
-                    contentDescription = "Icon",
-                    tint = Color.Red,
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .size(12.dp)
-                )
-                Text(
-                    text = msg.title,
-                    style = TextStyle(fontSize = 10.sp),
-                    textAlign = TextAlign.Center
-                )
             }
         }
     }

@@ -50,6 +50,7 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     vertragingInSecondeAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds ?: 0,
                                     berichten = rit?.messages,
                                     transferBericht = rit.transferMessages
+
                                 )
                             )
                         }
