@@ -56,7 +56,19 @@ fun ComposeStaions(
     navController: NavController?,
 ) {
     val context = LocalContext.current
-    val stations = stationNamen
+    val stations = mutableListOf<StationNamen>()
+    stationNamen.forEach {  station ->
+        CoroutineScope(Dispatchers.IO).launch {
+            if (get(context, key = station.hiddenValue) != null) {
+                station.favorite = true
+                stations.add(station)
+            } else {
+                station.favorite = false
+                stations.add(station)
+            }
+        }
+    }
+
     Box(
         modifier = Modifier.padding(vertical = 6.dp),
         contentAlignment = Alignment.Center
@@ -67,7 +79,11 @@ fun ComposeStaions(
             state = listState,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            stations.forEach { station ->
+            val sortedStations = stations.sortedWith(
+                compareByDescending<StationNamen> { it.favorite }
+                    .thenBy { it.displayValue }
+            )
+            sortedStations.forEach { station ->
                 item {
                     StationCard(item = station, navController = navController, context = context)
                 }
@@ -115,6 +131,7 @@ fun StationCard(item: StationNamen, navController: NavController?, context: Cont
                                 value = item.displayValue
                             )
                         }
+
                     }
             )
         }
