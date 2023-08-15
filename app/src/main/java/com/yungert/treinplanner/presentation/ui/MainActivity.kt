@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.yungert.treinplanner.presentation.ui.Navigation.Navigation
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import java.util.prefs.Preferences
 
@@ -22,8 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val model: ReisAdviesViewModel = viewModel()
-            ComposeStaions("", null)
+            Navigation()
         }
     }
 }

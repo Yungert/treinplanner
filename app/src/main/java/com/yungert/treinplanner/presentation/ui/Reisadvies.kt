@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
@@ -45,6 +46,7 @@ fun ShowReisAdvies(
     vertrekStation: String,
     eindStation: String,
     viewModel: ReisAdviesViewModel,
+    navController: NavController,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
 

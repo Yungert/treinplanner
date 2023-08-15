@@ -35,6 +35,7 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
+import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
@@ -53,18 +54,20 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "fa
 @Composable
 fun ComposeStaions(
     vanStation: String?,
-    navController: NavController?,
+    navController: NavController,
 ) {
     val context = LocalContext.current
     val stations = mutableListOf<StationNamen>()
-    stationNamen.forEach {  station ->
+    stationNamen.forEach { station ->
         CoroutineScope(Dispatchers.IO).launch {
-            if (get(context, key = station.hiddenValue) != null) {
-                station.favorite = true
-                stations.add(station)
-            } else {
-                station.favorite = false
-                stations.add(station)
+            if(station.hiddenValue != vanStation) {
+                if (get(context, key = station.hiddenValue) != null) {
+                    station.favorite = true
+                    stations.add(station)
+                } else {
+                    station.favorite = false
+                    stations.add(station)
+                }
             }
         }
     }
@@ -85,7 +88,7 @@ fun ComposeStaions(
             )
             sortedStations.forEach { station ->
                 item {
-                    StationCard(item = station, navController = navController, context = context)
+                    StationCard(item = station, navController = navController, context = context, vanStation = vanStation)
                 }
             }
         }
@@ -95,13 +98,17 @@ fun ComposeStaions(
 
 
 @Composable
-fun StationCard(item: StationNamen, navController: NavController?, context: Context) {
+fun StationCard(item: StationNamen, navController: NavController, context: Context, vanStation: String?) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp),
         onClick = {
-            // navController.navigate()
+            if (vanStation != null) {
+                navController.navigate(Screen.Reisadvies.withArguments(vanStation, item.hiddenValue))
+            } else {
+                navController.navigate(Screen.StationNaarKiezen.withArguments(item.hiddenValue))
+            }
         }
     ) {
         Row(
@@ -143,11 +150,11 @@ suspend fun edit(context: Context, key: String, value: String) {
 
 
     val dataStoreKey = stringPreferencesKey(key)
-    if(!exist) {
+    if (!exist) {
         context.dataStore.edit { settings ->
             settings[dataStoreKey] = value
         }
-    } else{
+    } else {
         context.dataStore.edit { settings ->
             settings.remove(dataStoreKey)
         }
