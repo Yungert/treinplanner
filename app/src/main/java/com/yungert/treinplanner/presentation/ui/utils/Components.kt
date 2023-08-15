@@ -54,3 +54,30 @@ fun calculateTravalTime(duratinInMinutes: Int): String {
     }
     return duratinInMinutes.toString() + "M"
 }
+
+fun calculateDelay(delayInSeconds: Long?): String {
+
+    if (delayInSeconds == null) {
+        return " (-) "
+    }
+
+    if(delayInSeconds == 0.toLong()){
+        return ""
+    }
+
+    var minuten = delayInSeconds / 60
+    var seconden = delayInSeconds % 60
+
+    if(seconden > 30){
+        minuten++
+    }
+
+    if (minuten > 0) {
+        return " +"+ minuten.toString()
+    }
+
+    if(seconden > 30 && seconden < 60) {
+        return " +1"
+    }
+    return ""
+}

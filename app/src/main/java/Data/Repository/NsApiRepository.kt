@@ -3,6 +3,7 @@ package Data.Repository
 import Data.api.NSApiClient
 import Data.api.Resource
 import Data.models.ReisAdviesModel
+import Data.models.Trip
 import com.yungert.treinplanner.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,18 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
         return flow {
             emit(Resource.Loading())
             val apiResult = nsApiClient.apiService.getReisadviezen(startStation = vetrekStation, eindStation = aankomstStation, authToken = apiKey)
+            if(apiResult.isSuccessful) {
+                if (apiResult.body() != null) {
+                    emit(Resource.Success(apiResult.body()!!))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun fetchSingleTripById(reisadviesId: String): Flow<Resource<Trip>> {
+        return flow {
+            emit(Resource.Loading())
+            val apiResult = nsApiClient.apiService.getSingleReisById(id = reisadviesId, authToken = apiKey)
             if(apiResult.isSuccessful) {
                 if (apiResult.body() != null) {
                     emit(Resource.Success(apiResult.body()!!))

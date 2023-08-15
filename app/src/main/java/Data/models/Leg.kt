@@ -1,5 +1,8 @@
 package Data.models
 
+import com.yungert.treinplanner.presentation.ui.model.Message
+
+
 data class Leg(
     val alternativeTransport: Boolean,
     val bicycleSpotCount: Int,
@@ -11,7 +14,7 @@ data class Leg(
     val idx: String,
     val journeyDetail: List<JourneyDetail>,
     val journeyDetailRef: String,
-    val messages: List<Any>,
+    val messages: List<Message>,
     val name: String,
     val nesProperties: NesProperties,
     val origin: OriginXX,
@@ -21,5 +24,6 @@ data class Leg(
     val reachable: Boolean,
     val shorterStock: Boolean,
     val stops: List<Stop>,
-    val travelType: String
+    val travelType: String,
+    val transferMessages: List<TransferMessage>
 )

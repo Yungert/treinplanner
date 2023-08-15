@@ -32,10 +32,12 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
+import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
@@ -70,13 +72,13 @@ fun ShowReisAdvies(
         }
 
         is ViewStateReisAdvies.Success -> {
-            DisplayReisAdvies(reisAdvies = response.details)
+            DisplayReisAdvies(reisAdvies = response.details, navController = navController)
         }
     }
 }
 
 @Composable
-fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>) {
+fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController) {
     val listState = rememberScalingLazyListState()
     ScalingLazyColumn(
         anchorType = ScalingLazyListAnchorType.ItemStart,
@@ -117,7 +119,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>) {
             item {
                 Card(
                     onClick = {
-                        // TODO navcontroller
+                              navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,7 +136,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>) {
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             Text(
-                                text = formatTime(advies.vertrekTijd),
+                                text = formatTime(advies.geplandeVertrekTijd) + calculateDelay(
+                                    advies.vertragingInSecondeVertrek.toLong()),
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
@@ -148,7 +151,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>) {
                             )
 
                             Text(
-                                text = formatTime(advies.aankomstTijd),
+                                text = formatTime(advies.geplandeAankomstTijd) + calculateDelay(
+                                    advies.vertragingInSecondeAankomst.toLong()),
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )

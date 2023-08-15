@@ -8,7 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.yungert.treinplanner.presentation.ui.ComposeStaions
+import com.yungert.treinplanner.presentation.ui.ShowDetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowReisAdvies
+import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 
 @Composable
@@ -48,6 +50,18 @@ fun Navigation() {
                 viewModel = viewmodel,
                 navController = navController
             )
+        }
+        composable(route = Screen.Reisadvies.route + "/{reisadviesId}",
+            arguments = listOf(
+                navArgument("reisadviesId"){
+                    type = NavType.StringType
+                    nullable = false
+                }
+
+            )
+        ) { entry ->
+            var viewmodel : DetailReisAdviesViewModel = viewModel()
+            ShowDetailReisAdvies(reisADviesId = entry.arguments?.getString("reisadviesId") ?: "", viewModel = viewmodel, navController = navController)
         }
     }
 }

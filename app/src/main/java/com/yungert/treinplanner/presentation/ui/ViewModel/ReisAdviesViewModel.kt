@@ -37,11 +37,13 @@ class ReisAdviesViewModel () : ViewModel() {
                             reisAdviezen.add(ReisAdvies(
                                 verstrekStation = trip?.legs?.get(0)?.origin?.name ?: "",
                                 aankomstStation = trip?.legs?.get(0)?.destination?.name ?: "",
-                                vertrekTijd = trip?.legs?.getOrNull(0)?.origin?.actualDateTime ?: trip?.legs?.getOrNull(0)?.origin?.plannedDateTime ?: "",
-                                aankomstTijd = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.actualDateTime ?: trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime ?: "",
+                                geplandeVertrekTijd = trip?.legs?.getOrNull(0)?.origin?.plannedDateTime ?: "",
+                                geplandeAankomstTijd = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime ?: "",
                                 reisTijdInMinuten = trip?.legs?.get(0)?.plannedDurationInMinutes ?: 0,
                                 aantalTransfers = trip?.transfers ?: 0,
-                                reinadviesId = trip?.ctxRecon ?: ""
+                                reinadviesId = trip?.ctxRecon ?: "",
+                                vertragingInSecondeAankomst = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds ?: 0,
+                                vertragingInSecondeVertrek = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds ?: 0
                             ))
                         }
                         _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)

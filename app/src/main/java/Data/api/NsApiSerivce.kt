@@ -1,6 +1,7 @@
 package Data.api
 
 import Data.models.ReisAdviesModel
+import Data.models.Trip
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,11 +24,11 @@ interface NSApiService {
 //        @Header("Ocp-Apim-Subscription-Key") authToken: String
 //    ): Response<TreinRit>
 //
-//    @GET("reisinformatie-api/api/v3/trips/trip/")
-//    suspend fun getSingleReisById(
-//        @Query("ctxRecon") id: String,
-//        @Header("Ocp-Apim-Subscription-Key") authToken: String
-//    ): Response<Trip>
+    @GET("reisinformatie-api/api/v3/trips/trip/")
+    suspend fun getSingleReisById(
+        @Query("ctxRecon") id: String,
+        @Header("Ocp-Apim-Subscription-Key") authToken: String
+    ): Response<Trip>
 //
 //    @GET("places-api/v2/places/")
 //    suspend fun getDichtbijzijndeStation(

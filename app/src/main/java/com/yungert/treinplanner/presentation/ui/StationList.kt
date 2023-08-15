@@ -2,7 +2,6 @@ package com.yungert.treinplanner.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +30,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavController
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
@@ -41,9 +41,7 @@ import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
@@ -86,6 +84,11 @@ fun ComposeStaions(
                 compareByDescending<StationNamen> { it.favorite }
                     .thenBy { it.displayValue }
             )
+            item {
+                ListHeader {
+                    Text(if (vanStation != null) "Selecteer aankomst station" else "Selecteer vertrek station")
+                }
+            }
             sortedStations.forEach { station ->
                 item {
                     StationCard(item = station, navController = navController, context = context, vanStation = vanStation)
