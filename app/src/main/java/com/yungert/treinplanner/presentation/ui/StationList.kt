@@ -15,10 +15,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,6 +30,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
@@ -36,8 +42,12 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
+import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
+import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
+import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateStationPicker
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
+import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,23 +63,42 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "fa
 fun ComposeStaions(
     vanStation: String?,
     navController: NavController,
+    viewModel: StationPickerViewModel,
+    lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
+
     val context = LocalContext.current
-    val stations = mutableListOf<StationNamen>()
-    stationNamen.forEach { station ->
-        CoroutineScope(Dispatchers.IO).launch {
-            if(station.hiddenValue != vanStation) {
-                if (get(context, key = station.hiddenValue) != null) {
-                    station.favorite = true
-                    stations.add(station)
-                } else {
-                    station.favorite = false
-                    stations.add(station)
-                }
+    DisposableEffect(lifeCycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.getStations(vanStation = vanStation, context = context)
             }
+        }
+        lifeCycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifeCycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
+    when (val response = viewModel.stations.collectAsState().value) {
+        is ViewStateStationPicker.Loading -> LoadingScreen()
+        is ViewStateStationPicker.Problem -> {
+
+        }
+
+        is ViewStateStationPicker.Success -> {
+            ShowStations(stations = response.details, vanStation = vanStation,  navController = navController)
+        }
+    }
+}
+@Composable
+fun ShowStations(
+    stations: List<StationNamen>,
+    vanStation: String?,
+    navController: NavController,
+) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier.padding(vertical = 6.dp),
         contentAlignment = Alignment.Center
@@ -80,35 +109,46 @@ fun ComposeStaions(
             state = listState,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            val sortedStations = stations.sortedWith(
-                compareByDescending<StationNamen> { it.favorite }
-                    .thenBy { it.displayValue }
-            )
+
             item {
                 ListHeader {
                     Text(if (vanStation != null) "Selecteer aankomst station" else "Selecteer vertrek station")
                 }
             }
-            sortedStations.forEach { station ->
+            stations.forEach { station ->
                 item {
-                    StationCard(item = station, navController = navController, context = context, vanStation = vanStation)
+                    StationCard(
+                        item = station,
+                        navController = navController,
+                        context = context,
+                        vanStation = vanStation
+                    )
                 }
             }
         }
     }
-
 }
 
 
 @Composable
-fun StationCard(item: StationNamen, navController: NavController, context: Context, vanStation: String?) {
+fun StationCard(
+    item: StationNamen,
+    navController: NavController,
+    context: Context,
+    vanStation: String?
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp),
         onClick = {
             if (vanStation != null) {
-                navController.navigate(Screen.Reisadvies.withArguments(vanStation, item.hiddenValue))
+                navController.navigate(
+                    Screen.Reisadvies.withArguments(
+                        vanStation,
+                        item.hiddenValue
+                    )
+                )
             } else {
                 navController.navigate(Screen.StationNaarKiezen.withArguments(item.hiddenValue))
             }
@@ -141,7 +181,6 @@ fun StationCard(item: StationNamen, navController: NavController, context: Conte
                                 value = item.displayValue
                             )
                         }
-
                     }
             )
         }

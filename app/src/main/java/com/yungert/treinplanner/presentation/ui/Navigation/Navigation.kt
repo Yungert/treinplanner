@@ -12,13 +12,20 @@ import com.yungert.treinplanner.presentation.ui.ShowDetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowReisAdvies
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
+import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
+import com.yungert.treinplanner.presentation.ui.showGpsPermisson
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.StationVanKiezen.route){
+    NavHost(navController = navController, startDestination = Screen.GpsPermission.route){
+        composable(route = Screen.GpsPermission.route){
+            showGpsPermisson(navController = navController)
+        }
+
         composable(route = Screen.StationVanKiezen.route){
-            ComposeStaions(null, navController= navController)
+            var viewmodel : StationPickerViewModel = viewModel()
+            ComposeStaions(null, navController= navController, viewModel = viewmodel)
         }
 
         composable(route = Screen.StationNaarKiezen.route + "/{vanstation}",
@@ -29,7 +36,8 @@ fun Navigation() {
                 }
             )
         ) { entry ->
-            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController)
+            var viewmodel : StationPickerViewModel = viewModel()
+            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel)
         }
         composable(route = Screen.Reisadvies.route + "/{vanstation}/{naarstation}",
             arguments = listOf(

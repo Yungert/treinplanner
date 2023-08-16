@@ -1,6 +1,6 @@
 package com.yungert.treinplanner.presentation.ui.model
 
-data class StationNamen(val displayValue: String, val hiddenValue: String, var favorite: Boolean = false, var naderenRadius : Double? = -1.0)
+data class StationNamen(val displayValue: String, val hiddenValue: String, var favorite : Boolean = false )
 var stationNamen = listOf(
     StationNamen("Amsterdam Centraal", "asd"),
     StationNamen("Zaandijk Zaanse Schans", "zzs"),
