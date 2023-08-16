@@ -3,10 +3,16 @@ package com.yungert.treinplanner.presentation.ui.ViewModel
 import Data.Repository.NsApiRepository
 import Data.api.NSApiClient
 import Data.api.Resource
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GroupOff
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
+import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -34,6 +40,22 @@ class ReisAdviesViewModel () : ViewModel() {
                         var reisAdviezen = mutableListOf<ReisAdvies>()
 
                         result.data?.trips?.forEach {trip ->
+                            var icon = Icons.Default.GroupOff
+                            var color = Color.Gray
+                            var aantal = 1
+
+                            if (trip.crowdForecast == CrowdForecast.rustig.value) {
+                                icon = Icons.Default.Person
+                                color = Color.Green
+                            } else if (trip.crowdForecast == CrowdForecast.gemiddeld.value) {
+                                icon = Icons.Default.Person
+                                color = Color.Yellow
+                                aantal = 2
+                            } else if (trip.crowdForecast == CrowdForecast.druk.value) {
+                                icon = Icons.Default.Person
+                                color = Color.Red
+                                aantal = 3
+                            }
                             reisAdviezen.add(ReisAdvies(
                                 verstrekStation = trip?.legs?.getOrNull(0)?.origin?.name ?: "",
                                 aankomstStation = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
@@ -44,7 +66,12 @@ class ReisAdviesViewModel () : ViewModel() {
                                 reinadviesId = trip?.ctxRecon ?: "",
                                 vertragingInSecondeAankomst = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds ?: 0,
                                 vertragingInSecondeVertrek = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds ?: 0,
-                                bericht = trip.primaryMessage
+                                bericht = trip.primaryMessage,
+                                drukte = DrukteIndicator(
+                                    icon = icon,
+                                    aantalIconen = aantal,
+                                    color = color
+                                )
                             ))
                         }
                         _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)

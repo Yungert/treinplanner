@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
@@ -129,13 +131,13 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                     calculateTimeDiff(aankomstTijdVorigeTrein, vertrekOverstapTrein)?.let {
                                         if(reis.alternatiefVervoer){
                                             Text(
-                                                text = it + " min. overstap naar alternatief vervoer ",
+                                                text = it + " " + stringResource(id = R.string.text_tijd_overstap_op_alternatief_vervoer),
                                                 style = fontsizeLabelCard,
                                                 textAlign = TextAlign.Center
                                             )
                                         } else {
                                             Text(
-                                                text = it + " min. overstap naar spoor " + reis.vertrekSpoor,
+                                                text = it + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
                                                 style = fontsizeLabelCard,
                                                 textAlign = TextAlign.Center
                                             )
@@ -161,7 +163,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " naar:",
+                                    text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(id = R.string.label_eindbestemming_trein) + ":",
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
                                 )

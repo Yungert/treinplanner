@@ -19,12 +19,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Text
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 
 @Composable
@@ -53,15 +55,14 @@ fun showGpsPermisson(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "We hebben GPS nodig om het dichtbijzijnde station te kunnen vinden. " +
-                    "In de instellingen kun je dit aanzetten als je dat wilt",
+            text = stringResource(id = R.string.bericht_reden_gps_toestemming),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Button(onClick = {
             permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }) {
-            Text("GPS toestaan")
+            Text(stringResource(id = R.string.label_button_gps_toestaan))
         }
     }
 }

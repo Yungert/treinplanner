@@ -6,3 +6,4 @@ import androidx.compose.ui.unit.sp
 
 val fontsizeLabelCard = TextStyle(fontSize = 12.sp)
 val iconSize = 14.dp
+val deviderHeight = 0.6f

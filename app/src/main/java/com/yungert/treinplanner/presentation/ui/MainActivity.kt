@@ -14,6 +14,7 @@ import androidx.datastore.core.DataStore
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yungert.treinplanner.presentation.ui.Navigation.Navigation
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
+import java.util.Locale
 import java.util.prefs.Preferences
 
 
@@ -21,9 +22,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val defaultLocale = Locale.getDefault()
+        if (defaultLocale != Locale("nl")) {
+            setLocale(Locale("en")) // Dutch
+        }
         setContent {
             Navigation()
         }
     }
+
+    private fun setLocale(locale: Locale) {
+        val resources = resources
+        val configuration = resources.configuration
+        configuration.setLocale(locale)
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+    }
+
 }

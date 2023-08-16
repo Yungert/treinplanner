@@ -1,6 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.model
 
 import Data.models.PrimaryMessage
+import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 
 data class ReisAdvies(
     val verstrekStation: String,
@@ -13,4 +14,5 @@ data class ReisAdvies(
     val aantalTransfers : Int,
     val reinadviesId : String,
     val bericht : Message?,
+    val drukte : DrukteIndicator,
 )

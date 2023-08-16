@@ -5,12 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CompareArrows
 import androidx.compose.material.icons.filled.East
+import androidx.compose.material.icons.filled.GroupOff
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
@@ -20,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -33,15 +40,18 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
+import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.ShowMessage
 import com.yungert.treinplanner.presentation.ui.utils.WarningType
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
+import com.yungert.treinplanner.presentation.ui.utils.deviderHeight
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
@@ -91,7 +101,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
         item {
             ListHeader {
                 Text(
-                    text = "Reisopties",
+                    text = stringResource(id = R.string.label_reis_advies),
                     textAlign = TextAlign.Center,
                 )
             }
@@ -105,7 +115,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Van : " + reisAdvies?.getOrNull(0)?.verstrekStation,
+                        text = stringResource(id = R.string.label_van_reisadvies) + " : " + reisAdvies?.getOrNull(0)?.verstrekStation,
                         style = fontsizeLabelCard,
                     )
                 }
@@ -115,7 +125,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Naar : " + reisAdvies?.getOrNull(0)?.aankomstStation,
+                        text = stringResource(id = R.string.label_naar_reisadvies) + " : " + reisAdvies?.getOrNull(0)?.aankomstStation,
                         style = fontsizeLabelCard,
                     )
                 }
@@ -179,9 +189,15 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     .size(iconSize)
                             )
                             Text(
-                                text = (advies.aantalTransfers.toString() + "x | "),
+                                text = (advies.aantalTransfers.toString() + "x "),
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
+                            )
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxHeight(deviderHeight)
+                                    .width(1.dp),
+                                color = Color.White,
                             )
                             Icon(
                                 imageVector = Icons.Default.Schedule,
@@ -192,10 +208,27 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     .size(iconSize)
                             )
                             Text(
-                                text = (calculateTravalTime(advies.reisTijdInMinuten)),
+                                text = calculateTravalTime(advies.reisTijdInMinuten) + " ",
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxHeight(deviderHeight)
+                                    .width(1.dp),
+                                color = Color.White,
+                            )
+
+                            repeat(advies.drukte.aantalIconen) {
+                                Icon(
+                                    imageVector = advies.drukte.icon,
+                                    contentDescription = "Icon",
+                                    tint = advies.drukte.color,
+                                    modifier = Modifier
+                                        .size(iconSize)
+                                )
+                            }
+
                         }
                         if(advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
                             Row(
@@ -212,7 +245,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                         .size(iconSize)
                                 )
                                 Text(
-                                    text = "Alternatief vervoer",
+                                    text = stringResource(id = R.string.alternatief_vervoer_bericht),
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
                                 )

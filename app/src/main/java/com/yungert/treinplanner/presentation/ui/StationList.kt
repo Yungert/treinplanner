@@ -2,6 +2,7 @@ package com.yungert.treinplanner.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +47,7 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
@@ -117,7 +120,7 @@ fun ShowStations(
             item {
                 ListHeader {
                     Text(
-                        text = if (vanStation != null) "Selecteer aankomst station" else "Selecteer vertrek station",
+                        text = if (vanStation != null) stringResource(id = R.string.kies_aankomst_station) else stringResource(id = R.string.kies_vertrek_station),
                         textAlign = TextAlign.Center,
                     )
                 }
