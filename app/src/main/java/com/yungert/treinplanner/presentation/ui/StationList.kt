@@ -17,6 +17,10 @@ import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -137,6 +141,7 @@ fun StationCard(
     context: Context,
     vanStation: String?
 ) {
+    var isFavorite by remember { mutableStateOf(item.favorite) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -168,12 +173,13 @@ fun StationCard(
                 textAlign = TextAlign.Center,
             )
             Icon(
-                imageVector = if (item.favorite) Icons.Default.Star else Icons.Default.StarBorder,
+                imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
                 contentDescription = "Favorite",
-                tint = if (item.favorite) Color.Yellow else Color.Gray,
+                tint = if (isFavorite) Color.Yellow else Color.Gray,
                 modifier = Modifier
                     .size(18.dp)
                     .clickable {
+                        isFavorite = !isFavorite
                         CoroutineScope(Dispatchers.IO).launch {
                             edit(
                                 context = context,

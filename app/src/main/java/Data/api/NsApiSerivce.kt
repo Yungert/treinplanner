@@ -2,6 +2,7 @@ package Data.api
 
 import Data.models.ReisAdviesModel
 import Data.models.Trip
+import com.yungert.treinplanner.presentation.ui.model.PlaceResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -29,17 +30,17 @@ interface NSApiService {
         @Query("ctxRecon") id: String,
         @Header("Ocp-Apim-Subscription-Key") authToken: String
     ): Response<Trip>
-//
-//    @GET("places-api/v2/places/")
-//    suspend fun getDichtbijzijndeStation(
-//        @Query("lat") lat: String,
-//        @Query("lng") lng: String,
-//        @Query("limit") limit: Int = 3,
-//        @Query("radius") radius: Int = 10000,
-//        @Query("details") details: Boolean = false,
-//        @Query("name") name: String = "Stations",
-//        @Header("Ocp-Apim-Subscription-Key") authToken: String
-//    ): Response<PlaceResponse>
+
+    @GET("places-api/v2/places/")
+    suspend fun getDichtbijzijndeStation(
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("limit") limit: Int = 3,
+        @Query("radius") radius: Int = 10000,
+        @Query("details") details: Boolean = false,
+        @Query("name") name: String = "Stations",
+        @Header("Ocp-Apim-Subscription-Key") authToken: String
+    ): Response<PlaceResponse>
 
 
 }
