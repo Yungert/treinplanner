@@ -4,7 +4,7 @@
     <string name="kies_aankomst_station">Select arrival station</string>
     <string name="label_reis_advies">Travel options</string>
     <string name="label_van_reisadvies">From</string>
-    <string name="label_naar_reisadvies">Towards</string>
+    <string name="label_naar_reisadvies">To</string>
     <string name="alternatief_vervoer_bericht">Alternative transportation</string>
     <string name="bericht_reden_gps_toestemming">We need GPS to locate the nearest station. You can enable this in the settings.</string>
     <string name="label_button_gps_toestaan">Allow GPS</string>
