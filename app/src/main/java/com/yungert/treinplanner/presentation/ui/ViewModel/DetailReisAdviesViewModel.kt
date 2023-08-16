@@ -69,7 +69,10 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                         ) ?: 0
                                     )?.arrivalDelayInSeconds ?: 0,
                                     berichten = rit?.messages,
-                                    transferBericht = rit.transferMessages
+                                    transferBericht = rit.transferMessages,
+                                    alternatiefVervoer = rit.alternativeTransport,
+                                    actueleAankomstTijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime ?: "",
+                                    actueleVertrektijd = rit?.stops?.getOrNull(0)?.actualDepartureDateTime ?: "",
                                 )
                             } else {
                                 ritDetail = RitDetail(
@@ -78,29 +81,22 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     ritNummer = rit?.product?.number ?: "",
                                     eindbestemmingTrein = rit?.direction ?: "",
                                     naamVertrekStation = rit?.origin?.name ?: "",
-                                    geplandeVertrektijd = rit?.stops?.getOrNull(0)?.plannedDepartureDateTime
-                                        ?: "",
+                                    geplandeVertrektijd = rit?.stops?.getOrNull(0)?.plannedDepartureDateTime ?: "",
                                     vertrekSpoor = "-",
                                     vertragingInSecondeVertrekStation = 0,
-                                    naamAankomstStation = rit.stops.getOrNull(
-                                        rit?.stops?.size?.minus(
-                                            1
-                                        ) ?: 0
-                                    )?.name ?: "",
-                                    geplandeAankomsttijd = rit.stops.getOrNull(
-                                        rit?.stops?.size?.minus(
-                                            1
-                                        ) ?: 0
-                                    )?.plannedArrivalDateTime ?: "",
+                                    naamAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.name ?: "",
+                                    geplandeAankomsttijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime ?: "",
                                     aankomstSpoor = "-",
                                     vertragingInSecondeAankomstStation = 0,
                                     berichten = rit?.messages,
-                                    transferBericht = rit.transferMessages
+                                    transferBericht = rit.transferMessages,
+                                    alternatiefVervoer = rit.alternativeTransport,
+                                    actueleAankomstTijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime ?: "",
+                                    actueleVertrektijd = rit?.stops?.getOrNull(0)?.actualDepartureDateTime ?: "",
                                 )
                             }
                             ritten.add(ritDetail)
                         }
-
                         _viewState.value = ViewStateDetailReisAdvies.Success(ritten)
                     }
 

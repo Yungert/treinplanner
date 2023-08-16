@@ -90,7 +90,10 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
     ) {
         item {
             ListHeader {
-                Text(text = "Reisopties")
+                Text(
+                    text = "Reisopties",
+                    textAlign = TextAlign.Center,
+                )
             }
         }
 

@@ -11,6 +11,7 @@ data class RitDetail(
 
     val naamVertrekStation: String,
     val geplandeVertrektijd: String,
+    val actueleVertrektijd: String,
     val vertrekSpoor: String,
     val vertragingInSecondeVertrekStation: Int,
 
@@ -18,9 +19,11 @@ data class RitDetail(
     val geplandeAankomsttijd: String,
     val aankomstSpoor: String,
     val vertragingInSecondeAankomstStation: Int,
+    val actueleAankomstTijd: String,
 
     val berichten: List<Message>?,
     val transferBericht : List<TransferMessage>?,
+    val alternatiefVervoer : Boolean,
 
     )
 

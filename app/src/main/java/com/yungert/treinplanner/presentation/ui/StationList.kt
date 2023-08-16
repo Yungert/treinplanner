@@ -116,7 +116,10 @@ fun ShowStations(
 
             item {
                 ListHeader {
-                    Text(if (vanStation != null) "Selecteer aankomst station" else "Selecteer vertrek station")
+                    Text(
+                        text = if (vanStation != null) "Selecteer aankomst station" else "Selecteer vertrek station",
+                        textAlign = TextAlign.Center,
+                    )
                 }
             }
             stations.forEach { station ->

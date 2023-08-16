@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,6 +45,7 @@ import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
+import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
@@ -97,10 +99,53 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
         ) {
             item {
                 ListHeader {
-                    Text("Jouw reis")
+                    Text(
+                        text ="Jouw reis naar " + rit.get(rit.size - 1).naamAankomstStation,
+                        textAlign = TextAlign.Center,
+                    )
                 }
             }
-            rit.forEach { reis ->
+
+            rit.forEachIndexed{ index, reis ->
+                item {
+                    if(index > 0) {
+                        Card(
+                            onClick = {},
+                            modifier = Modifier
+                                .padding(2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    var aankomstTijdVorigeTrein = if(rit[index - 1].actueleAankomstTijd != "") rit[index - 1].actueleAankomstTijd else rit[index - 1].geplandeAankomsttijd
+                                    var vertrekOverstapTrein = if(rit[index].actueleVertrektijd != "") rit[index].actueleVertrektijd else rit[index].geplandeVertrektijd
+                                    calculateTimeDiff(aankomstTijdVorigeTrein, vertrekOverstapTrein)?.let {
+                                        if(reis.alternatiefVervoer){
+                                            Text(
+                                                text = it + " min. overstap naar alternatief vervoer ",
+                                                style = fontsizeLabelCard,
+                                                textAlign = TextAlign.Center
+                                            )
+                                        } else {
+                                            Text(
+                                                text = it + " min. overstap naar spoor " + reis.vertrekSpoor,
+                                                style = fontsizeLabelCard,
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 item{
                     Card(
                         onClick = {},
@@ -227,3 +272,6 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
         }
     }
 }
+
+
+

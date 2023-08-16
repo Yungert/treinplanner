@@ -23,6 +23,8 @@ import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 import com.yungert.treinplanner.presentation.ui.model.Message
+import java.time.Duration
+import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 private var lastFormattedTime : String? = null
@@ -148,4 +150,21 @@ fun ShowMessage(msg: List<Message?>) {
             }
         }
     }
+}
+
+fun calculateTimeDiff(startTime : String?, endTime: String?): String? {
+    if(startTime == null || endTime == null){
+        return ""
+    }
+
+    var start = formatTime(startTime)
+    var end = formatTime(endTime)
+
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    val startLocalTime = LocalTime.parse(start, formatter)
+    val endLocalTime = LocalTime.parse(end, formatter)
+
+    val duration = Duration.between(startLocalTime, endLocalTime)
+
+    return duration.toMinutes().toString()
 }
