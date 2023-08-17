@@ -2,7 +2,6 @@ package com.yungert.treinplanner.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.provider.Settings.Global.getString
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,10 +49,8 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
-import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateStationPicker
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
-import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import kotlinx.coroutines.CoroutineScope

@@ -3,7 +3,6 @@ package Data.Repository
 import Data.api.NSApiClient
 import Data.api.Resource
 import Data.models.ReisAdviesModel
-import Data.models.TreinRit
 import Data.models.TreinRitDetail
 import Data.models.Trip
 import com.yungert.treinplanner.BuildConfig
@@ -12,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.Response
 
 class NsApiRepository(private val nsApiClient: NSApiClient) {
     val apiKey = BuildConfig.API_KEY_NS

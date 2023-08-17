@@ -1,7 +1,6 @@
 package Data.api
 
 import Data.models.ReisAdviesModel
-import Data.models.TreinRit
 import Data.models.TreinRitDetail
 import Data.models.Trip
 import com.yungert.treinplanner.presentation.ui.model.PlaceResponse

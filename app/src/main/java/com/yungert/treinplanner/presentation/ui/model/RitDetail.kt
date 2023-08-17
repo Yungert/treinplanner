@@ -1,8 +1,5 @@
 package com.yungert.treinplanner.presentation.ui.model
 
-import Data.models.TrainStock
-import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
-
 data class TreinRitDetail(
     val eindbestemmingTrein: String,
     val ritNummer: String,
