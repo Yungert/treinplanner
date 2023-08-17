@@ -15,4 +15,5 @@
     <string name="label_jouw_reis_naar">Your journey to</string>
     <string name="label_rit">trip</string>
     <string name="label_onbekend">unknown</string>
+    <string name="label_header_homescreen">Welcome to the journey planner</string>
 </resources>

@@ -13,6 +13,9 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
+import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
+import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
+import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -59,19 +62,20 @@ class ReisAdviesViewModel () : ViewModel() {
                             reisAdviezen.add(ReisAdvies(
                                 verstrekStation = trip?.legs?.getOrNull(0)?.origin?.name ?: "",
                                 aankomstStation = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
-                                geplandeVertrekTijd = trip?.legs?.getOrNull(0)?.origin?.plannedDateTime ?: "",
-                                geplandeAankomstTijd = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime ?: "",
-                                reisTijdInMinuten = trip?.legs?.get(0)?.plannedDurationInMinutes ?: 0,
+                                geplandeVertrekTijd = formatTime(trip?.legs?.getOrNull(0)?.origin?.plannedDateTime),
+                                geplandeAankomstTijd = formatTime(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime),
+                                reisTijd = calculateTravalTime(trip?.actualDurationInMinutes ?: trip?.plannedDurationInMinutes ?: 0),
                                 aantalTransfers = trip?.transfers ?: 0,
                                 reinadviesId = trip?.ctxRecon ?: "",
-                                vertragingInSecondeAankomst = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds ?: 0,
-                                vertragingInSecondeVertrek = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds ?: 0,
+                                vertragingInSecondeAankomst = calculateDelay(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
+                                vertragingInSecondeVertrek = calculateDelay(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
                                 bericht = trip.primaryMessage,
                                 drukte = DrukteIndicator(
                                     icon = icon,
                                     aantalIconen = aantal,
                                     color = color
-                                )
+                                ),
+                                cancelled = trip?.legs?.getOrNull(0)?.cancelled ?: false
                             ))
                         }
                         _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)

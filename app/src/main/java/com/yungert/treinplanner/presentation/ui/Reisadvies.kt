@@ -46,11 +46,9 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.WarningType
-import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
-import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
 import com.yungert.treinplanner.presentation.ui.utils.deviderHeight
+import com.yungert.treinplanner.presentation.ui.utils.drukteIndicatorComposable
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
-import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
 
 @Composable
@@ -166,10 +164,14 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
         }
 
         reisAdvies.forEach { advies ->
+            if(advies.cancelled) {
+                return@forEach
+            }
+
             item {
                 Card(
                     onClick = {
-                              navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
+                        navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -186,8 +188,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             Text(
-                                text = formatTime(advies.geplandeVertrekTijd) + calculateDelay(
-                                    advies.vertragingInSecondeVertrek.toLong()),
+                                text = advies.geplandeVertrekTijd + advies.vertragingInSecondeVertrek,
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
@@ -201,8 +202,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                             )
 
                             Text(
-                                text = formatTime(advies.geplandeAankomstTijd) + calculateDelay(
-                                    advies.vertragingInSecondeAankomst.toLong()),
+                                text = advies.geplandeAankomstTijd + advies.vertragingInSecondeAankomst,
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
@@ -241,7 +241,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     .size(iconSize)
                             )
                             Text(
-                                text = calculateTravalTime(advies.reisTijdInMinuten) + " ",
+                                text = advies.reisTijd + " ",
                                 style = fontsizeLabelCard,
                                 textAlign = TextAlign.Center
                             )
@@ -251,19 +251,10 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     .width(1.dp),
                                 color = Color.White,
                             )
-
-                            repeat(advies.drukte.aantalIconen) {
-                                Icon(
-                                    imageVector = advies.drukte.icon,
-                                    contentDescription = "Icon",
-                                    tint = advies.drukte.color,
-                                    modifier = Modifier
-                                        .size(iconSize)
-                                )
-                            }
+                            drukteIndicatorComposable(aantalIconen = advies.drukte.aantalIconen, icon = advies.drukte.icon, color = advies.drukte.color)
 
                         }
-                        if(advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
+                        if (advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,

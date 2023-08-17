@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
+import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
+import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
+import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -30,8 +33,19 @@ class DetailReisAdviesViewModel() : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
-                        result.data?.legs?.forEach { rit ->
+                        result.data?.legs?.forEachIndexed { index, rit ->
                             var ritDetail: RitDetail? = null
+
+                            var overstap = ""
+                            if(index > 0){
+                                var lastStop = result.data?.legs[index - 1].stops.getOrNull(result.data?.legs[index - 1].stops.size?.minus(1) ?: 0)
+                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime ?: lastStop?.plannedArrivalDateTime
+                                if(rit?.stops?.getOrNull(0)?.actualDepartureDateTime != null){
+                                    overstap = calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.actualDepartureDateTime)
+                                } else {
+                                    overstap = calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.plannedDepartureDateTime)
+                                }
+                            }
                             if (!rit.alternativeTransport) {
                                 ritDetail = RitDetail(
                                     treinOperator = rit?.product?.operatorName ?: "",
@@ -39,22 +53,23 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     ritNummer = rit?.product?.number ?: "",
                                     eindbestemmingTrein = rit?.direction ?: "",
                                     naamVertrekStation = rit?.origin?.name ?: "",
-                                    geplandeVertrektijd = rit?.stops?.getOrNull(0)?.plannedDepartureDateTime ?: "",
+                                    geplandeVertrektijd = formatTime(rit?.stops?.getOrNull(0)?.plannedDepartureDateTime),
                                     vertrekSpoor = rit?.stops?.getOrNull(0)?.actualDepartureTrack ?: rit?.stops?.getOrNull(0)?.plannedDepartureTrack ?: "",
-                                    vertragingInSecondeVertrekStation = rit?.stops?.getOrNull(0)?.departureDelayInSeconds ?: 0,
+                                    vertragingInSecondeVertrekStation = calculateDelay(rit?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
                                     naamAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.name ?: "",
-                                    geplandeAankomsttijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime ?: "",
+                                    geplandeAankomsttijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
                                     aankomstSpoor = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalTrack ?: rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalTrack ?: "",
-                                    vertragingInSecondeAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds ?: 0,
+                                    vertragingInSecondeAankomstStation = calculateDelay(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
                                     berichten = rit?.messages,
                                     transferBericht = rit.transferMessages,
                                     alternatiefVervoer = rit.alternativeTransport,
-                                    actueleAankomstTijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime ?: "",
-                                    actueleVertrektijd = rit?.stops?.getOrNull(0)?.actualDepartureDateTime ?: "",
+                                    actueleAankomstTijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime),
+                                    actueleVertrektijd = formatTime(rit?.stops?.getOrNull(0)?.actualDepartureDateTime),
                                     ritId = rit.journeyDetailRef,
                                     vertrekStationUicCode = rit.origin.uicCode,
                                     aankomstStationUicCode = rit.destination.uicCode,
                                     datum = rit.origin.plannedDateTime,
+                                    overstapTijd = overstap,
                                 )
                             } else {
                                 ritDetail = RitDetail(
@@ -65,11 +80,11 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     naamVertrekStation = rit?.origin?.name ?: "",
                                     geplandeVertrektijd = rit?.stops?.getOrNull(0)?.plannedDepartureDateTime ?: "",
                                     vertrekSpoor = "-",
-                                    vertragingInSecondeVertrekStation = 0,
+                                    vertragingInSecondeVertrekStation = "",
                                     naamAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.name ?: "",
                                     geplandeAankomsttijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime ?: "",
                                     aankomstSpoor = "-",
-                                    vertragingInSecondeAankomstStation = 0,
+                                    vertragingInSecondeAankomstStation = "",
                                     berichten = rit?.messages,
                                     transferBericht = rit.transferMessages,
                                     alternatiefVervoer = rit.alternativeTransport,
@@ -79,6 +94,7 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     vertrekStationUicCode = rit.origin.uicCode,
                                     aankomstStationUicCode = rit.destination.uicCode,
                                     datum = rit.origin.plannedDateTime,
+                                    overstapTijd = overstap,
                                 )
                             }
                             ritten.add(ritDetail)

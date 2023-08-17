@@ -16,4 +16,5 @@
     <string name="label_jouw_reis_naar">Jouw reis naar</string>
     <string name="label_rit">rit</string>
     <string name="label_onbekend">onbekend</string>
+    <string name="label_header_homescreen">Welkom bij de reisplanner</string>
 </resources>

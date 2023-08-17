@@ -16,9 +16,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirlineSeatReclineNormal
 import androidx.compose.material.icons.filled.East
 import androidx.compose.material.icons.filled.Train
+import androidx.compose.material.icons.filled.Tram
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +46,7 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.ui.utils.drukteIndicatorComposable
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
 
@@ -165,11 +171,12 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
         }
         stops.forEach { stop ->
             item {
+                var showExtraInfo by remember { mutableStateOf(false) }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            //showExtraInfo.value = !showExtraInfo.value
+                            showExtraInfo = !showExtraInfo
                         },
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -216,6 +223,34 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                             text = stop.stationNaam,
                             style = fontsizeLabelCard
                         )
+                    }
+
+                    if(showExtraInfo){
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Tram,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
+                            )
+                            Text(
+                                text = stop.spoor + " ",
+                                style = fontsizeLabelCard
+                            )
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxHeight(0.8f)
+                                    .width(1.dp),
+                                color = Color.White,
+                            )
+                            drukteIndicatorComposable(aantalIconen = stop.drukte.aantalIconen, icon = stop.drukte.icon, color = stop.drukte.color)
+                        }
                     }
                 }
             }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -154,7 +155,7 @@ fun ShowMessage(msg: List<Message?>) {
     }
 }
 
-fun calculateTimeDiff(startTime : String?, endTime: String?): String? {
+fun calculateTimeDiff(startTime : String?, endTime: String?): String {
     if(startTime == null || endTime == null){
         return ""
     }
@@ -169,4 +170,17 @@ fun calculateTimeDiff(startTime : String?, endTime: String?): String? {
     val duration = Duration.between(startLocalTime, endLocalTime)
 
     return duration.toMinutes().toString()
+}
+
+@Composable
+fun drukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color){
+    repeat(aantalIconen) {
+        Icon(
+            imageVector = icon,
+            contentDescription = "Icon",
+            tint = color,
+            modifier = Modifier
+                .size(iconSize)
+        )
+    }
 }

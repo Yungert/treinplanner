@@ -1,6 +1,5 @@
 package com.yungert.treinplanner.presentation.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -62,7 +61,7 @@ import kotlinx.coroutines.launch
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "favourites")
 
 
-@SuppressLint("FlowOperatorInvokedInComposition")
+
 @Composable
 fun ComposeStaions(
     vanStation: String?,

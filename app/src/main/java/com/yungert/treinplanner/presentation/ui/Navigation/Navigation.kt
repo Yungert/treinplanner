@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.yungert.treinplanner.presentation.ui.ComposeStaions
+import com.yungert.treinplanner.presentation.ui.HomeScreen
 import com.yungert.treinplanner.presentation.ui.ShowDetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowRitDetail
@@ -20,7 +21,10 @@ import com.yungert.treinplanner.presentation.ui.showGpsPermisson
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.GpsPermission.route){
+    NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
+        composable(route = Screen.HomeScreen.route){
+            HomeScreen(navController = navController)
+        }
         composable(route = Screen.GpsPermission.route){
             showGpsPermisson(navController = navController)
         }

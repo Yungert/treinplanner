@@ -39,10 +39,8 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewMo
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
-import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
-import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
 
 @Composable
@@ -101,9 +99,9 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                 }
             }
 
-            rit.forEachIndexed{ index, reis ->
+            rit.forEachIndexed { index, reis ->
                 item {
-                    if(index > 0) {
+                    if (index > 0 && reis.overstapTijd != "") {
                         Card(
                             onClick = {
                             },
@@ -120,22 +118,18 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
-                                    var aankomstTijdVorigeTrein = if(rit[index - 1].actueleAankomstTijd != "") rit[index - 1].actueleAankomstTijd else rit[index - 1].geplandeAankomsttijd
-                                    var vertrekOverstapTrein = if(rit[index].actueleVertrektijd != "") rit[index].actueleVertrektijd else rit[index].geplandeVertrektijd
-                                    calculateTimeDiff(aankomstTijdVorigeTrein, vertrekOverstapTrein)?.let {
-                                        if(reis.alternatiefVervoer){
-                                            Text(
-                                                text = it + " " + stringResource(id = R.string.text_tijd_overstap_op_alternatief_vervoer),
-                                                style = fontsizeLabelCard,
-                                                textAlign = TextAlign.Center
-                                            )
-                                        } else {
-                                            Text(
-                                                text = it + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
-                                                style = fontsizeLabelCard,
-                                                textAlign = TextAlign.Center
-                                            )
-                                        }
+                                    if (reis.alternatiefVervoer) {
+                                        Text(
+                                            text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_alternatief_vervoer),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    } else {
+                                        Text(
+                                            text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
                                     }
                                 }
                             }
@@ -200,8 +194,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = formatTime(reis.geplandeVertrektijd) + calculateDelay(
-                                        reis.vertragingInSecondeVertrekStation.toLong()) + " |",
+                                    text = reis.geplandeVertrektijd + reis.vertragingInSecondeVertrekStation + " |",
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
                                 )
@@ -245,7 +238,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = formatTime(reis.geplandeAankomsttijd) + calculateDelay(reis.vertragingInSecondeAankomstStation.toLong()) + " |",
+                                    text = reis.geplandeAankomsttijd + reis.vertragingInSecondeAankomstStation + " |",
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
                                 )
