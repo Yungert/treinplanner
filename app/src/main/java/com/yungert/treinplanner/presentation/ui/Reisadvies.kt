@@ -2,10 +2,12 @@ package com.yungert.treinplanner.presentation.ui
 
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -114,20 +116,56 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.label_van_reisadvies) + " : " + reisAdvies?.getOrNull(0)?.verstrekStation,
-                        style = fontsizeLabelCard,
-                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(0.2f)
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.label_van_reisadvies) + ":",
+                            style = fontsizeLabelCard,
+                            textAlign = TextAlign.Right
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(0.8f)
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = reisAdvies?.getOrNull(0)?.verstrekStation ?: "",
+                            style = fontsizeLabelCard,
+                            textAlign = TextAlign.Left
+                        )
+                    }
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.label_naar_reisadvies) + " : " + reisAdvies?.getOrNull(0)?.aankomstStation,
-                        style = fontsizeLabelCard,
-                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(0.2f)
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.label_naar_reisadvies) + ":",
+                            style = fontsizeLabelCard,
+                            textAlign = TextAlign.Right
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(0.8f)
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = reisAdvies?.getOrNull(0)?.aankomstStation ?: "",
+                            style = fontsizeLabelCard,
+                            textAlign = TextAlign.Left
+                        )
+                    }
                 }
             }
         }
