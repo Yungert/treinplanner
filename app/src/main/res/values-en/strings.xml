@@ -13,4 +13,5 @@
     <string name="label_eindbestemming_trein">towards</string>
     <string name="label_loading">Loading...</string>
     <string name="label_jouw_reis_naar">Your journey to</string>
+    <string name="label_rit">trip</string>
 </resources>

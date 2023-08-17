@@ -54,6 +54,10 @@ class RitDetailViewModel() : ViewModel() {
                                 color = Color.Red
                                 aantal = 3
                             }
+                            val materieelNummer = mutableListOf<String>()
+                            stop.actualStock.trainParts.forEach { part ->
+                               materieelNummer.add(part.stockIdentifier)
+                            }
                             treinStops.add(TreinRitDetail(
                                 eindbestemmingTrein = stop.destination,
                                 ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
@@ -75,6 +79,8 @@ class RitDetailViewModel() : ViewModel() {
                                     aantalIconen = aantal
                                 ),
                                 punctualiteit = arrival?.punctuality?.toString() ?: "0",
+                                materieelNummers = materieelNummer,
+
                             ))
                         }
                         _viewState.value = ViewStateRitDetail.Success(treinStops)

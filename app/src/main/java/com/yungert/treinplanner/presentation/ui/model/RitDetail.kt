@@ -19,7 +19,8 @@ data class TreinRitDetail(
     val actueleVertrekTijd: String,
     val vertrekVertraging: String,
     val drukte: DrukteIndicator,
-    val punctualiteit: String
+    val punctualiteit: String,
+    val materieelNummers: List<String>
 )
 
 
