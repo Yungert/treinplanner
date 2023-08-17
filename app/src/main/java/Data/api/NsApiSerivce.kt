@@ -1,6 +1,8 @@
 package Data.api
 
 import Data.models.ReisAdviesModel
+import Data.models.TreinRit
+import Data.models.TreinRitDetail
 import Data.models.Trip
 import com.yungert.treinplanner.presentation.ui.model.PlaceResponse
 import retrofit2.Response
@@ -16,15 +18,15 @@ interface NSApiService {
         @Header("Ocp-Apim-Subscription-Key") authToken: String
     ): Response<ReisAdviesModel>
 
-//    @GET("reisinformatie-api/api/v2/journey/")
-//    suspend fun getReis(
-//        @Query("train") id: String,
-//        @Query("departureUicCode") departureUicCode: String,
-//        @Query("arrivalUicCode") arrivalUicCode: String,
-//        @Query("dateTime") dateTime: String,
-//        @Header("Ocp-Apim-Subscription-Key") authToken: String
-//    ): Response<TreinRit>
-//
+    @GET("reisinformatie-api/api/v2/journey/")
+    suspend fun getReis(
+        @Query("id") id: String,
+        @Query("departureUicCode") departureUicCode: String,
+        @Query("arrivalUicCode") arrivalUicCode: String,
+        @Query("dateTime") dateTime: String,
+        @Header("Ocp-Apim-Subscription-Key") authToken: String
+    ): Response<TreinRitDetail>
+
     @GET("reisinformatie-api/api/v3/trips/trip/")
     suspend fun getSingleReisById(
         @Query("ctxRecon") id: String,

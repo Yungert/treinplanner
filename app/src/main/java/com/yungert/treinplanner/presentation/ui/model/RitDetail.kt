@@ -1,52 +1,25 @@
 package com.yungert.treinplanner.presentation.ui.model
 
-import Data.models.NesProperties
-import Data.models.TransferMessage
+import Data.models.TrainStock
+import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 
-data class RitDetail(
-    val treinOperator: String,
-    val treinOperatorType: String,
-    val ritNummer: String,
+data class TreinRitDetail(
     val eindbestemmingTrein: String,
-
-    val naamVertrekStation: String,
-    val geplandeVertrektijd: String,
-    val actueleVertrektijd: String,
-    val vertrekSpoor: String,
-    val vertragingInSecondeVertrekStation: Int,
-
-    val naamAankomstStation: String,
-    val geplandeAankomsttijd: String,
-    val aankomstSpoor: String,
-    val vertragingInSecondeAankomstStation: Int,
+    val ritNummer: String,
+    val stationNaam: String,
+    val spoor: String,
+    val materieelType : String,
+    val aantalZitplaatsen: String,
+    val aantalTreinDelen: String,
+    val ingekort: Boolean,
+    val geplandeAankomstTijd: String,
     val actueleAankomstTijd: String,
-
-    val berichten: List<Message>?,
-    val transferBericht : List<TransferMessage>?,
-    val alternatiefVervoer : Boolean,
-
-    )
-
-data class Message(
-    val title: String,
-
-    val nesProperties: NesProperties,
-    val message: MessageData,
-    val type: String
+    val aankomstVertraging: String,
+    val geplandeVertrektTijd: String,
+    val actueleVertrekTijd: String,
+    val vertrekVertraging: String,
+    val drukte: DrukteIndicator,
+    val punctualiteit: String
 )
 
-data class MessageData(
-    val id: String,
-    val externalId: String,
-    val head: String,
-    val text: String,
-    val lead: String,
-    val routeIdxFrom: Int,
-    val routeIdxTo: Int,
-    val type: String,
-    val nesProperties: NesProperties,
-    val startDate: String,
-    val endDate: String,
-    val startTime: String,
-    val endTime: String
-)
+

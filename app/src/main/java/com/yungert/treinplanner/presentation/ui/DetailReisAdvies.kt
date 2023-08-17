@@ -38,6 +38,7 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
+import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
@@ -102,7 +103,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             item {
                 ListHeader {
                     Text(
-                        text ="Jouw reis naar " + rit.get(rit.size - 1).naamAankomstStation,
+                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(rit.size - 1).naamAankomstStation,
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -112,7 +113,8 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                 item {
                     if(index > 0) {
                         Card(
-                            onClick = {},
+                            onClick = {
+                            },
                             modifier = Modifier
                                 .padding(2.dp)
                         ) {
@@ -150,7 +152,9 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                 }
                 item{
                     Card(
-                        onClick = {},
+                        onClick = {
+                            navController.navigate(Screen.RitDetail.withArguments(reis.vertrekStationUicCode, reis.aankomstStationUicCode, reis.ritId, reis.datum))
+                        },
                         modifier = Modifier.padding(2.dp)
                     ) {
                         Column(

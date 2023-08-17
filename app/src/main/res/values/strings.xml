@@ -13,4 +13,6 @@
     <string name="text_tijd_overstap_op_andere_trein">min. overstap naar spoor</string>
     <string name="label_eindbestemming_trein">naar</string>
     <string name="label_loading">Gegevens ophalen...</string>
+    <string name="label_jouw_reis_naar">Jouw reis naar</string>
+    <string name="label_rit">rit</string>
 </resources>

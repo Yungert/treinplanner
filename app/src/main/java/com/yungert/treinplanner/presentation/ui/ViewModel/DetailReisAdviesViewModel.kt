@@ -54,6 +54,10 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     alternatiefVervoer = rit.alternativeTransport,
                                     actueleAankomstTijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime ?: "",
                                     actueleVertrektijd = rit?.stops?.getOrNull(0)?.actualDepartureDateTime ?: "",
+                                    ritId = rit.journeyDetailRef,
+                                    vertrekStationUicCode = rit.origin.uicCode,
+                                    aankomstStationUicCode = rit.destination.uicCode,
+                                    datum = rit.origin.plannedDateTime,
                                 )
                             } else {
                                 ritDetail = RitDetail(
@@ -74,6 +78,10 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     alternatiefVervoer = rit.alternativeTransport,
                                     actueleAankomstTijd = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime ?: "",
                                     actueleVertrektijd = rit?.stops?.getOrNull(0)?.actualDepartureDateTime ?: "",
+                                    ritId = rit.journeyDetailRef,
+                                    vertrekStationUicCode = rit.origin.uicCode,
+                                    aankomstStationUicCode = rit.destination.uicCode,
+                                    datum = rit.origin.plannedDateTime,
                                 )
                             }
                             ritten.add(ritDetail)

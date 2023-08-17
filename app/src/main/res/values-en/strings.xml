@@ -12,4 +12,5 @@
     <string name="text_tijd_overstap_op_andere_trein">min. transfer time to platform</string>
     <string name="label_eindbestemming_trein">towards</string>
     <string name="label_loading">Loading...</string>
+    <string name="label_jouw_reis_naar">Your journey to</string>
 </resources>
