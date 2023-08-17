@@ -39,6 +39,9 @@ class RitDetailViewModel() : ViewModel() {
                             if(stop.kind == "DEPARTURE"){
                                 stopOpRoute = true
                             }
+                            if(stop.status == "PASSING"){
+                                return@forEach
+                            }
                             if(!stopOpRoute){
                                 return@forEach
                             }
@@ -61,24 +64,29 @@ class RitDetailViewModel() : ViewModel() {
                                 aantal = 3
                             }
                             val materieelNummer = mutableListOf<String>()
-                            stop.actualStock.trainParts.forEach { part ->
-                               materieelNummer.add(part.stockIdentifier)
+                            var materieel = if(stop.actualStock == null) stop.plannedStock else stop.plannedStock
+                            val kortereTrein = false
+                            if(materieel != null) {
+                                materieel.trainParts.forEach { part ->
+                                    materieelNummer.add(part?.stockIdentifier ?: "-")
+                                }
                             }
+
                             treinStops.add(TreinRitDetail(
                                 eindbestemmingTrein = stop.destination,
                                 ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
                                 stationNaam = stop.stop.name,
                                 spoor = departure?.actualTrack ?: departure?.plannedTrack ?: "",
-                                ingekort = stop.actualStock.hasSignificantChange,
-                                aantalZitplaatsen = stop.actualStock.numberOfSeats.toString(),
-                                aantalTreinDelen = stop.actualStock.numberOfParts.toString(),
+                                ingekort = stop?.actualStock?.hasSignificantChange ?: stop?.plannedStock?.hasSignificantChange ?: false,
+                                aantalZitplaatsen = stop?.actualStock?.numberOfSeats?.toString() ?: stop?.plannedStock?.numberOfSeats?.toString() ?: "",
+                                aantalTreinDelen = stop?.actualStock?.numberOfParts?.toString() ?: stop?.plannedStock?.numberOfParts?.toString() ?: "",
                                 actueleAankomstTijd = formatTime(arrival?.actualTime),
                                 geplandeAankomstTijd = formatTime(arrival?.plannedTime),
                                 aankomstVertraging = calculateDelay(arrival?.delayInSeconds?.toLong() ?: 0),
                                 actueleVertrekTijd = formatTime(departure?.actualTime),
                                 geplandeVertrektTijd = formatTime(departure?.plannedTime),
                                 vertrekVertraging = calculateDelay(departure?.delayInSeconds?.toLong() ?: 0),
-                                materieelType = stop.actualStock.trainType,
+                                materieelType = stop?.actualStock?.trainType ?: stop?.plannedStock?.trainType ?: "",
                                 drukte = DrukteIndicator(
                                     icon = icon,
                                     color = color,
