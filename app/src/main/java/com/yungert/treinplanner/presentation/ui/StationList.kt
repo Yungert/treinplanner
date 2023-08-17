@@ -74,7 +74,7 @@ fun ComposeStaions(
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getStations(vanStation = vanStation, context = context)
+                viewModel.getStationsMetGps(vanStation = vanStation, context = context)
             }
         }
         lifeCycleOwner.lifecycle.addObserver(observer)

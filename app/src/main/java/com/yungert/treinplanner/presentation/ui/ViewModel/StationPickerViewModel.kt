@@ -2,18 +2,31 @@ package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import Data.Repository.NsApiRepository
 import Data.api.NSApiClient
+import Data.api.Resource
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Looper
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.dataStore
+import com.yungert.treinplanner.presentation.ui.get
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -24,13 +37,6 @@ sealed class ViewStateStationPicker {
     data class Problem(val exception: ErrorState?) : ViewStateStationPicker()
 }
 
-sealed class Location {
-    object Loading : Location()
-    data class Success(val details: List<StationNamen>) : Location()
-    data class Problem(val exception: ErrorState?) : Location()
-}
-
-private lateinit var fusedLocationClient: FusedLocationProviderClient
 
 class StationPickerViewModel() : ViewModel() {
     private val _viewState =
@@ -40,67 +46,97 @@ class StationPickerViewModel() : ViewModel() {
 
 
     @SuppressLint("MissingPermission")
-    fun getStations(vanStation: String?, context: Context) {
+    fun getStationsMetGps(vanStation: String?, context: Context) {
         val stations = mutableListOf<StationNamen>()
-//        var longitude = 0.0
-//        var latitude = 0.0
-//        var dichtbijZijndeStations = mutableListOf<StationNamen>()
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-//        viewModelScope.launch {
-//            fusedLocationClient.lastLocation
-//                .addOnCompleteListener { task: Task<android.location.Location> ->
-//                    if (task.isSuccessful && task.result != null) {
-//                        val location = task.result
-//                        latitude = location.latitude
-//                        longitude = location.longitude
-//                    }
-//                }
-//
-//
-//
-//
-//            nsApiRepository.fetchDichtbijzijndeStation(
-//                lat = latitude.toString(),
-//                lng = longitude.toString()
-//            ).collect { result ->
-//                result.data?.payload?.forEach { data ->
-//                    data.locations?.forEach { locatie ->
-//                        dichtbijZijndeStations.add(StationNamen(
-//                            displayValue = locatie.name ?: "",
-//                            hiddenValue = locatie.stationCode?.lowercase() ?: "",
-//                            favorite = false,
-//                            distance = locatie.distance ?: -1.0
-//                        ))
-//                    }
-//                }
-//            }
-//        }
 
-        viewModelScope.launch {
-            stationNamen.forEach { station ->
-                if (get(context = context, key = station.hiddenValue) != null) {
-                    station.favorite = true
-                }
-                if (vanStation == null) {
-                    stations.add(station)
-                } else if (station.hiddenValue != vanStation) {
-                    stations.add(station)
+        val fusedLocationClient: FusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(context)
+
+        val locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 10000
+            fastestInterval = 5000
+        }
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                val location = locationResult.lastLocation
+                val latCoordinates = location?.latitude ?: 0.0
+                val lngCoordinates = location?.longitude ?: 0.0
+                if (latCoordinates != 0.0 && lngCoordinates != 0.0) {
+                    getClosedStation(latCoordinates, lngCoordinates, context, vanStation)
                 }
             }
-            val sortedStations = stations.sortedWith(
-                compareByDescending<StationNamen> { it.favorite }
-                    .thenBy { it.displayValue }
-            )
-            _viewState.value = ViewStateStationPicker.Success(sortedStations)
+        }
+
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+
+    }
+
+    fun getClosedStation(
+        latCoordinates: Double,
+        lngCoordinates: Double,
+        context: Context,
+        vanStation: String?
+    ) {
+        var _stationNamen = stationNamen
+        val stations = mutableListOf<StationNamen>()
+        viewModelScope.launch {
+            if (latCoordinates != 0.0 && lngCoordinates != 0.0) {
+                nsApiRepository.fetchDichtbijzijndeStation(
+                    lat = latCoordinates.toString(),
+                    lng = lngCoordinates.toString()
+                ).collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.payload?.forEach { station ->
+                                station.locations?.forEach { locatie ->
+                                    val dichtbijStation =
+                                        _stationNamen.find { it.hiddenValue == locatie.stationCode?.lowercase() }
+                                    dichtbijStation?.distance = locatie?.distance
+                                }
+                            }
+
+                            _stationNamen.forEach { station ->
+                                if (get(context = context, key = station.hiddenValue) != null) {
+                                    station.favorite = true
+                                }
+                                if (vanStation == null) {
+                                    stations.add(station)
+                                } else if (station.hiddenValue != vanStation) {
+                                    stations.add(station)
+                                }
+                            }
+                            val sortedStations = stations.sortedWith(
+                                compareByDescending<StationNamen> { it.distance }
+                                    .thenByDescending { it.favorite }
+                                    .thenBy { it.distance == null }
+                            )
+                            _viewState.value = ViewStateStationPicker.Success(sortedStations)
+                        }
+
+                        is Resource.Loading -> {
+
+                        }
+
+                        is Resource.Error -> {
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        suspend fun get(context: Context, key: String): String? {
+            val dataStoreKey = stringPreferencesKey(key)
+            val preference = context.dataStore.data.first()
+            return preference[dataStoreKey]
         }
     }
-
-
-    suspend fun get(context: Context, key: String): String? {
-        val dataStoreKey = stringPreferencesKey(key)
-        val preference = context.dataStore.data.first()
-        return preference[dataStoreKey]
-    }
-
 }
 
