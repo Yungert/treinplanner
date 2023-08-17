@@ -35,7 +35,14 @@ class RitDetailViewModel() : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var treinStops = mutableListOf<TreinRitDetail>()
+                        var stopOpRoute = false
                         result.data?.payload?.stops?.forEach { stop ->
+                            if(stop.kind == "DEPARTURE"){
+                                stopOpRoute = true
+                            }
+                            if(!stopOpRoute){
+                                return@forEach
+                            }
                             val departure = stop.departures.getOrNull(0)
                             val arrival = stop.arrivals.getOrNull(0)
                             var icon = Icons.Default.GroupOff
@@ -82,6 +89,9 @@ class RitDetailViewModel() : ViewModel() {
                                 materieelNummers = materieelNummer,
 
                             ))
+                            if(stop.kind == "ARRIVAL"){
+                                stopOpRoute = false
+                            }
                         }
                         _viewState.value = ViewStateRitDetail.Success(treinStops)
                     }

@@ -169,7 +169,6 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
         }
         stops.forEach { stop ->
             item {
-
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
