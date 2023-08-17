@@ -6,11 +6,6 @@ import Data.api.Resource
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Looper
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +21,6 @@ import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -44,6 +38,26 @@ class StationPickerViewModel() : ViewModel() {
     val stations = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
 
+    fun getStationsZonderGps(vanStation: String?, context: Context){
+        val stations = mutableListOf<StationNamen>()
+        viewModelScope.launch {
+            stationNamen.forEach { station ->
+                if (get(context = context, key = station.hiddenValue) != null) {
+                    station.favorite = true
+                }
+                if (vanStation == null) {
+                    stations.add(station)
+                } else if (station.hiddenValue != vanStation) {
+                    stations.add(station)
+                }
+            }
+            val sortedStations = stations.sortedWith(
+                compareByDescending<StationNamen> { it.favorite }
+                    .thenBy { it.displayValue }
+            )
+            _viewState.value = ViewStateStationPicker.Success(sortedStations)
+        }
+    }
 
     @SuppressLint("MissingPermission")
     fun getStationsMetGps(vanStation: String?, context: Context) {

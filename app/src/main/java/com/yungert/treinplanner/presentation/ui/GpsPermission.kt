@@ -39,7 +39,7 @@ fun showGpsPermisson(navController: NavController) {
                 context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             if (isGpsEnabled) {
-                navController.navigate(Screen.StationVanKiezen.route)
+                navController.navigate(Screen.StationVanKiezen.withArguments("true"))
             }
         }
     }
@@ -47,7 +47,7 @@ fun showGpsPermisson(navController: NavController) {
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            navController.navigate(Screen.StationVanKiezen.route)
+            navController.navigate(Screen.StationVanKiezen.withArguments("true"))
         }
     }
 

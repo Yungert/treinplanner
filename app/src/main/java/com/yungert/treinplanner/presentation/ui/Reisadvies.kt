@@ -103,60 +103,60 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
         }
 
         item {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
+
                 ) {
                     Box(
                         modifier = Modifier
-                            .weight(0.2f)
-                            .fillMaxSize()
+                            .weight(0.25f)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.CenterEnd
                     ) {
                         Text(
-                            text = stringResource(id = R.string.label_van_reisadvies) + ":",
+                            text = stringResource(id = R.string.label_van_reisadvies) + ": ",
                             style = fontsizeLabelCard,
-                            textAlign = TextAlign.Right
                         )
                     }
                     Box(
                         modifier = Modifier
-                            .weight(0.8f)
+                            .weight(0.75f)
                             .fillMaxSize()
                     ) {
                         Text(
                             text = reisAdvies?.getOrNull(0)?.verstrekStation ?: "",
                             style = fontsizeLabelCard,
-                            textAlign = TextAlign.Left
                         )
                     }
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box(
                         modifier = Modifier
-                            .weight(0.2f)
-                            .fillMaxSize()
+                            .weight(0.25f)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.CenterEnd
                     ) {
                         Text(
-                            text = stringResource(id = R.string.label_naar_reisadvies) + ":",
+                            text = stringResource(id = R.string.label_naar_reisadvies) + ": ",
                             style = fontsizeLabelCard,
-                            textAlign = TextAlign.Right
                         )
                     }
                     Box(
                         modifier = Modifier
-                            .weight(0.8f)
+                            .weight(0.75f)
                             .fillMaxSize()
                     ) {
                         Text(
                             text = reisAdvies?.getOrNull(0)?.aankomstStation ?: "",
                             style = fontsizeLabelCard,
-                            textAlign = TextAlign.Left
                         )
                     }
                 }
@@ -164,7 +164,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
         }
 
         reisAdvies.forEach { advies ->
-            if(advies.cancelled) {
+            if (advies.cancelled) {
                 return@forEach
             }
 
@@ -251,8 +251,11 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     .width(1.dp),
                                 color = Color.White,
                             )
-                            drukteIndicatorComposable(aantalIconen = advies.drukte.aantalIconen, icon = advies.drukte.icon, color = advies.drukte.color)
-
+                            drukteIndicatorComposable(
+                                aantalIconen = advies.drukte.aantalIconen,
+                                icon = advies.drukte.icon,
+                                color = advies.drukte.color
+                            )
                         }
                         if (advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
                             Row(

@@ -169,7 +169,7 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                 }
             }
         }
-        stops.forEach { stop ->
+        stops.forEachIndexed { index, stop ->
             item {
                 var showExtraInfo by remember { mutableStateOf(false) }
                 Column(
@@ -250,6 +250,19 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                                 color = Color.White,
                             )
                             drukteIndicatorComposable(aantalIconen = stop.drukte.aantalIconen, icon = stop.drukte.icon, color = stop.drukte.color)
+                        }
+                    }
+
+                    if(index == stops.size - 1){
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(bottom = 60.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.text_eindpunt_van_jouw_reis),
+                                style = fontsizeLabelCard
+                            )
                         }
                     }
                 }

@@ -29,9 +29,16 @@ fun Navigation() {
             showGpsPermisson(navController = navController)
         }
 
-        composable(route = Screen.StationVanKiezen.route){
+        composable(route = Screen.StationVanKiezen.route + "/{metGps}",
+            arguments = listOf(
+                navArgument("metGps"){
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
+        ) { entry ->
             var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(null, navController= navController, viewModel = viewmodel)
+            ComposeStaions(null, navController= navController, viewModel = viewmodel, gpsToestemming = entry.arguments?.getString("metGps") ?: "")
         }
 
         composable(route = Screen.StationNaarKiezen.route + "/{vanstation}",
@@ -43,7 +50,7 @@ fun Navigation() {
             )
         ) { entry ->
             var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel)
+            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel, gpsToestemming = null)
         }
         composable(route = Screen.Reisadvies.route + "/{vanstation}/{naarstation}",
             arguments = listOf(

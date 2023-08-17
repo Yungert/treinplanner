@@ -184,3 +184,23 @@ fun drukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color
         )
     }
 }
+
+fun shortenAndReplace(text: String): String {
+    val maxLength = 18
+    val replacementMap = mapOf("Centraal" to "C.")
+
+    var shortenedText = text.take(maxLength)
+    if (text.length > maxLength) {
+        shortenedText = shortenedText.substringBeforeLast(' ')
+    }
+
+    replacementMap.forEach { (key, value) ->
+        shortenedText = shortenedText.replace(key, value, ignoreCase = true)
+    }
+
+    return if (text.length > maxLength) {
+        "$shortenedText..."
+    } else {
+        shortenedText
+    }
+}

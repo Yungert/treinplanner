@@ -39,9 +39,9 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewMo
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
-import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
+import com.yungert.treinplanner.presentation.ui.utils.shortenAndReplace
 
 @Composable
 fun ShowDetailReisAdvies(
@@ -87,14 +87,15 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             anchorType = ScalingLazyListAnchorType.ItemStart,
             state = listState,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
+                .fillMaxWidth(),
         ) {
             item {
                 ListHeader {
                     Text(
-                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(rit.size - 1).naamAankomstStation,
-                        textAlign = TextAlign.Center,
+                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + shortenAndReplace(rit.get(
+                            rit.size - 1
+                        ).naamAankomstStation),
+                        textAlign = TextAlign.Center
                     )
                 }
             }
@@ -136,16 +137,21 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                         }
                     }
                 }
-                item{
+                item {
                     Card(
                         onClick = {
-                            navController.navigate(Screen.RitDetail.withArguments(reis.vertrekStationUicCode, reis.aankomstStationUicCode, reis.ritId, reis.datum))
+                            navController.navigate(
+                                Screen.RitDetail.withArguments(
+                                    reis.vertrekStationUicCode,
+                                    reis.aankomstStationUicCode,
+                                    reis.ritId,
+                                    reis.datum
+                                )
+                            )
                         },
-                        modifier = Modifier.padding(2.dp)
                     ) {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -153,13 +159,15 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(id = R.string.label_eindbestemming_trein) + ":",
+                                    text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(
+                                        id = R.string.label_eindbestemming_trein
+                                    ) + ":",
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
                                 )
                             }
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center,
                             ) {
@@ -189,7 +197,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 )
                             }
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center,
                             ) {

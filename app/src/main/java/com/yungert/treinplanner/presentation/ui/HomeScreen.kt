@@ -64,7 +64,7 @@ fun HomeScreen(navController: NavController) {
                     ) {
                         Card(
                             onClick = {
-                                navController.navigate(Screen.StationVanKiezen.route)
+                                navController.navigate(Screen.StationVanKiezen.withArguments("false"))
                             },
                             modifier = Modifier.size(50.dp),
 

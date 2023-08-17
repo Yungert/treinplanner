@@ -67,6 +67,7 @@ fun ComposeStaions(
     vanStation: String?,
     navController: NavController,
     viewModel: StationPickerViewModel,
+    gpsToestemming: String?,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
 
@@ -74,7 +75,11 @@ fun ComposeStaions(
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getStationsMetGps(vanStation = vanStation, context = context)
+                if(gpsToestemming == "true") {
+                    viewModel.getStationsMetGps(vanStation = vanStation, context = context)
+                } else {
+                    viewModel.getStationsZonderGps(vanStation = vanStation, context = context)
+                }
             }
         }
         lifeCycleOwner.lifecycle.addObserver(observer)
