@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -131,6 +132,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Text(
                             text = reisAdvies?.getOrNull(0)?.verstrekStation ?: "",
                             style = fontsizeLabelCard,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -147,6 +150,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Text(
                             text = stringResource(id = R.string.label_naar_reisadvies) + ": ",
                             style = fontsizeLabelCard,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                     Box(
@@ -157,6 +162,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Text(
                             text = reisAdvies?.getOrNull(0)?.aankomstStation ?: "",
                             style = fontsizeLabelCard,
+                            maxLines = 1
                         )
                     }
                 }

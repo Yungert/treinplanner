@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -32,6 +33,7 @@ import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.edgeSwipeToDismiss
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
@@ -41,7 +43,6 @@ import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
-import com.yungert.treinplanner.presentation.ui.utils.shortenAndReplace
 
 @Composable
 fun ShowDetailReisAdvies(
@@ -92,10 +93,12 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             item {
                 ListHeader {
                     Text(
-                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + shortenAndReplace(rit.get(
+                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(
                             rit.size - 1
-                        ).naamAankomstStation),
-                        textAlign = TextAlign.Center
+                        ).naamAankomstStation,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
@@ -149,6 +152,8 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 )
                             )
                         },
+                        modifier = if(index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier.padding(bottom = 0.dp)
+
                     ) {
                         Column(
                             modifier = Modifier.fillMaxWidth(),

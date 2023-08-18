@@ -16,7 +16,6 @@ import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
-import com.yungert.treinplanner.presentation.ui.utils.shortenAndReplace
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -61,8 +60,9 @@ class ReisAdviesViewModel () : ViewModel() {
                                 aantal = 3
                             }
                             reisAdviezen.add(ReisAdvies(
-                                verstrekStation = shortenAndReplace(trip?.legs?.getOrNull(0)?.origin?.name ?: ""),
-                                aankomstStation = shortenAndReplace(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: ""),
+
+                                verstrekStation = trip?.legs?.getOrNull(0)?.origin?.name ?: "",
+                                aankomstStation = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
                                 geplandeVertrekTijd = formatTime(trip?.legs?.getOrNull(0)?.origin?.plannedDateTime),
                                 geplandeAankomstTijd = formatTime(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime),
                                 reisTijd = calculateTravalTime(trip?.actualDurationInMinutes ?: trip?.plannedDurationInMinutes ?: 0),
