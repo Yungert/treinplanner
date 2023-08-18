@@ -2,6 +2,8 @@ package com.yungert.treinplanner.presentation.ui
 
 import android.content.Context
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -16,14 +18,19 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -42,6 +49,8 @@ import androidx.navigation.NavController
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
@@ -109,37 +118,58 @@ fun ShowStations(
     navController: NavController,
 ) {
     val context = LocalContext.current
-    Box(
-        modifier = Modifier.padding(vertical = 6.dp),
-        contentAlignment = Alignment.Center
+    val focusRequester = remember { FocusRequester() }
+    val listState = rememberScalingLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    Scaffold(
+        positionIndicator = {
+            PositionIndicator(scalingLazyListState = listState)
+        }
     ) {
-        val listState = rememberScalingLazyListState()
-        ScalingLazyColumn(
-            anchorType = ScalingLazyListAnchorType.ItemStart,
-            state = listState,
-            modifier = Modifier.fillMaxWidth(),
+        Box(
+            modifier = Modifier.padding(vertical = 6.dp),
+            contentAlignment = Alignment.Center
         ) {
 
-            item {
-                ListHeader {
-                    Text(
-                        text = if (vanStation != null) stringResource(id = R.string.kies_aankomst_station) else stringResource(id = R.string.kies_vertrek_station),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
-            stations.forEach { station ->
+            ScalingLazyColumn(
+                anchorType = ScalingLazyListAnchorType.ItemStart,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onRotaryScrollEvent {
+                        coroutineScope.launch {
+                            listState.scrollBy(it.verticalScrollPixels)
+                        }
+                        true
+                    }
+                    .focusRequester(focusRequester)
+                    .focusable(),
+                state = listState)
+            {
+
                 item {
-                    StationCard(
-                        item = station,
-                        navController = navController,
-                        context = context,
-                        vanStation = vanStation
-                    )
+                    ListHeader {
+                        Text(
+                            text = if (vanStation != null) stringResource(id = R.string.kies_aankomst_station) else stringResource(
+                                id = R.string.kies_vertrek_station
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+                }
+                stations.forEach { station ->
+                    item {
+                        StationCard(
+                            item = station,
+                            navController = navController,
+                            context = context,
+                            vanStation = vanStation
+                        )
+                    }
                 }
             }
         }
     }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }
 
 
