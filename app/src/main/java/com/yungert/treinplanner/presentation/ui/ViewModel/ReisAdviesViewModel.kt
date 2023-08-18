@@ -14,8 +14,8 @@ import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
-import com.yungert.treinplanner.presentation.ui.utils.formatTravelTime
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
+import com.yungert.treinplanner.presentation.ui.utils.formatTravelTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
