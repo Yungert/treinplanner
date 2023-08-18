@@ -51,24 +51,26 @@ class RitDetailViewModel() : ViewModel() {
                             var color = Color.Gray
                             var aantal = 1
 
-                            if (stop.departures.getOrNull(0)?.crowdForecast == CrowdForecast.rustig.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Green
-                            } else if (stop.departures.getOrNull(0)?.crowdForecast == CrowdForecast.gemiddeld.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Yellow
-                                aantal = 2
-                            } else if (stop.departures.getOrNull(0)?.crowdForecast == CrowdForecast.druk.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Red
-                                aantal = 3
+                            when (stop.departures.getOrNull(0)?.crowdForecast) {
+                                CrowdForecast.rustig.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Green
+                                }
+                                CrowdForecast.gemiddeld.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Yellow
+                                    aantal = 2
+                                }
+                                CrowdForecast.druk.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Red
+                                    aantal = 3
+                                }
                             }
                             val materieelNummer = mutableListOf<String>()
                             var materieel = if(stop.actualStock == null) stop.plannedStock else stop.plannedStock
-                            if(materieel != null) {
-                                materieel.trainParts.forEach { part ->
-                                    materieelNummer.add(part?.stockIdentifier ?: "-")
-                                }
+                            materieel.trainParts.forEach { part ->
+                                materieelNummer.add(part.stockIdentifier ?: "-")
                             }
 
                             treinStops.add(TreinRitDetail(
@@ -76,16 +78,16 @@ class RitDetailViewModel() : ViewModel() {
                                 ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
                                 stationNaam = stop.stop.name,
                                 spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack ?:"",
-                                ingekort = stop?.actualStock?.hasSignificantChange ?: stop?.plannedStock?.hasSignificantChange ?: false,
-                                aantalZitplaatsen = stop?.actualStock?.numberOfSeats?.toString() ?: stop?.plannedStock?.numberOfSeats?.toString() ?: "",
-                                aantalTreinDelen = stop?.actualStock?.numberOfParts?.toString() ?: stop?.plannedStock?.numberOfParts?.toString() ?: "",
+                                ingekort = stop.actualStock?.hasSignificantChange ?: stop.plannedStock?.hasSignificantChange ?: false,
+                                aantalZitplaatsen = stop.actualStock?.numberOfSeats?.toString() ?: stop.plannedStock?.numberOfSeats?.toString() ?: "",
+                                aantalTreinDelen = stop.actualStock?.numberOfParts?.toString() ?: stop.plannedStock?.numberOfParts?.toString() ?: "",
                                 actueleAankomstTijd = formatTime(arrival?.actualTime),
                                 geplandeAankomstTijd = formatTime(arrival?.plannedTime),
                                 aankomstVertraging = calculateDelay(arrival?.delayInSeconds?.toLong() ?: 0),
                                 actueleVertrekTijd = formatTime(departure?.actualTime),
                                 geplandeVertrektTijd = formatTime(departure?.plannedTime),
                                 vertrekVertraging = calculateDelay(departure?.delayInSeconds?.toLong() ?: 0),
-                                materieelType = stop?.actualStock?.trainType ?: stop?.plannedStock?.trainType ?: "",
+                                materieelType = stop.actualStock?.trainType ?: stop.plannedStock?.trainType ?: "",
                                 drukte = DrukteIndicator(
                                     icon = icon,
                                     color = color,

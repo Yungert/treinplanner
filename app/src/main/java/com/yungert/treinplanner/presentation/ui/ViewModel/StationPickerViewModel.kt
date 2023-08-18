@@ -61,8 +61,6 @@ class StationPickerViewModel() : ViewModel() {
 
     @SuppressLint("MissingPermission")
     fun getStationsMetGps(vanStation: String?, context: Context) {
-        val stations = mutableListOf<StationNamen>()
-
         val fusedLocationClient: FusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(context)
 
@@ -110,7 +108,7 @@ class StationPickerViewModel() : ViewModel() {
                                 station.locations?.forEach { locatie ->
                                     val dichtbijStation =
                                         _stationNamen.find { it.hiddenValue == locatie.stationCode?.lowercase() }
-                                    dichtbijStation?.distance = locatie?.distance
+                                    dichtbijStation?.distance = locatie.distance
                                 }
                             }
 

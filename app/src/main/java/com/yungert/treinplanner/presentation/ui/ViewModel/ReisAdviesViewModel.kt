@@ -47,43 +47,47 @@ class ReisAdviesViewModel () : ViewModel() {
                             var color = Color.Gray
                             var aantal = 1
 
-                            if (trip.crowdForecast == CrowdForecast.rustig.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Green
-                            } else if (trip.crowdForecast == CrowdForecast.gemiddeld.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Yellow
-                                aantal = 2
-                            } else if (trip.crowdForecast == CrowdForecast.druk.value) {
-                                icon = Icons.Default.Person
-                                color = Color.Red
-                                aantal = 3
+                            when (trip.crowdForecast) {
+                                CrowdForecast.rustig.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Green
+                                }
+                                CrowdForecast.gemiddeld.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Yellow
+                                    aantal = 2
+                                }
+                                CrowdForecast.druk.value -> {
+                                    icon = Icons.Default.Person
+                                    color = Color.Red
+                                    aantal = 3
+                                }
                             }
                             var treinSoort = ""
                             trip.legs.forEachIndexed { index, rit ->
-                                if(index == 0){
-                                    treinSoort = treinSoort + rit.product.shortCategoryName.lowercase()
+                                treinSoort = if(index == 0){
+                                    treinSoort + rit.product.shortCategoryName.lowercase()
                                 } else {
-                                    treinSoort = treinSoort + " + " + rit.product.shortCategoryName.lowercase()
+                                    treinSoort + " + " + rit.product.shortCategoryName.lowercase()
                                 }
                             }
                             reisAdviezen.add(ReisAdvies(
-                                verstrekStation = trip?.legs?.getOrNull(0)?.origin?.name ?: "",
-                                aankomstStation = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
-                                geplandeVertrekTijd = formatTime(trip?.legs?.getOrNull(0)?.origin?.plannedDateTime),
-                                geplandeAankomstTijd = formatTime(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime),
-                                reisTijd = formatTravelTime(trip?.actualDurationInMinutes ?: trip?.plannedDurationInMinutes ?: 0),
-                                aantalTransfers = trip?.transfers ?: 0,
-                                reinadviesId = trip?.ctxRecon ?: "",
-                                vertragingInSecondeAankomst = calculateDelay(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
-                                vertragingInSecondeVertrek = calculateDelay(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
+                                verstrekStation = trip.legs?.getOrNull(0)?.origin?.name ?: "",
+                                aankomstStation = trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
+                                geplandeVertrekTijd = formatTime(trip.legs?.getOrNull(0)?.origin?.plannedDateTime),
+                                geplandeAankomstTijd = formatTime(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime),
+                                reisTijd = formatTravelTime(trip.actualDurationInMinutes ?: trip.plannedDurationInMinutes ?: 0),
+                                aantalTransfers = trip.transfers ?: 0,
+                                reinadviesId = trip.ctxRecon ?: "",
+                                vertragingInSecondeAankomst = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
+                                vertragingInSecondeVertrek = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
                                 bericht = trip.primaryMessage,
                                 drukte = DrukteIndicator(
                                     icon = icon,
                                     aantalIconen = aantal,
                                     color = color
                                 ),
-                                cancelled = trip?.legs?.getOrNull(0)?.cancelled ?: false,
+                                cancelled = trip.legs?.getOrNull(0)?.cancelled ?: false,
                                 treinSoortenOpRit = treinSoort
                             ))
                         }

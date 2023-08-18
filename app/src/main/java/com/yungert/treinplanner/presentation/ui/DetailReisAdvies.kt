@@ -115,9 +115,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             item {
                 ListHeader {
                     Text(
-                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(
-                            rit.size - 1
-                        ).naamAankomstStation,
+                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit[rit.size - 1].naamAankomstStation,
                         textAlign = TextAlign.Center,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis

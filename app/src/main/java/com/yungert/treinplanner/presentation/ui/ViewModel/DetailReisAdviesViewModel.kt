@@ -34,16 +34,16 @@ class DetailReisAdviesViewModel() : ViewModel() {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
                         result.data?.legs?.forEachIndexed { index, rit ->
-                            var ritDetail: RitDetail? = null
+                            var ritDetail: RitDetail?
 
                             var overstap = ""
                             if(index > 0){
                                 var lastStop = result.data?.legs[index - 1].stops.getOrNull(result.data?.legs[index - 1].stops.size?.minus(1) ?: 0)
                                 var aankomstVorigeTrein = lastStop?.actualArrivalDateTime ?: lastStop?.plannedArrivalDateTime
-                                if(rit?.stops?.getOrNull(0)?.actualDepartureDateTime != null){
-                                    overstap = calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.actualDepartureDateTime)
+                                overstap = if(rit?.stops?.getOrNull(0)?.actualDepartureDateTime != null){
+                                    calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.actualDepartureDateTime)
                                 } else {
-                                    overstap = calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.plannedDepartureDateTime)
+                                    calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.plannedDepartureDateTime)
                                 }
                             }
                             if (!rit.alternativeTransport) {

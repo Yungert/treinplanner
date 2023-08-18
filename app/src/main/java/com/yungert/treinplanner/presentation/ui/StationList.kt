@@ -236,9 +236,7 @@ fun StationCard(
 }
 
 suspend fun edit(context: Context, key: String, value: String) {
-    var exist = (get(context, key) != null)
-
-
+    val exist = (get(context, key) != null)
     val dataStoreKey = stringPreferencesKey(key)
     if (!exist) {
         context.dataStore.edit { settings ->

@@ -16,7 +16,7 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewMo
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
-import com.yungert.treinplanner.presentation.ui.showGpsPermisson
+import com.yungert.treinplanner.presentation.ui.ShowGpsPermisson
 
 @Composable
 fun Navigation() {
@@ -26,7 +26,7 @@ fun Navigation() {
             HomeScreen(navController = navController)
         }
         composable(route = Screen.GpsPermission.route){
-            showGpsPermisson(navController = navController)
+            ShowGpsPermisson(navController = navController)
         }
 
         composable(route = Screen.StationVanKiezen.route + "/{metGps}",

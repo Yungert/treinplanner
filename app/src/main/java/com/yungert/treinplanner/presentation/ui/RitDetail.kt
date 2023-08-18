@@ -196,7 +196,7 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                                 text = materieel,
                                 style = fontsizeLabelCard
                             )
-                            if (index < stops.getOrNull(0)?.materieelNummers?.size?.minus(1) ?: 0) {
+                            if (index < (stops.getOrNull(0)?.materieelNummers?.size?.minus(1) ?: 0)) {
                                 Text(
                                     text = ", ",
                                     style = fontsizeLabelCard

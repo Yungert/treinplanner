@@ -1,12 +1,10 @@
 package com.yungert.treinplanner.presentation.ui
 
-import Data.Provider.LocationProvider
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,13 +45,11 @@ import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchContro
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
-private val locationProvider: LocationProvider = LocationProvider()
-
 @Composable
-fun showGpsPermisson(navController: NavController) {
+fun ShowGpsPermisson(navController: NavController) {
     val context = LocalContext.current
     val hasGpsPermission =
-        context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     LaunchedEffect(hasGpsPermission) {
         if (hasGpsPermission) {
             val locationManager =
@@ -186,12 +182,4 @@ fun showGpsPermisson(navController: NavController) {
         }
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
-}
-
-
-fun openAppSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-        data = Uri.fromParts("package", context.packageName, null)
-    }
-    context.startActivity(intent)
 }

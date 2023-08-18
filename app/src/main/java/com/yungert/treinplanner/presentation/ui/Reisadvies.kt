@@ -158,7 +158,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                 .fillMaxSize()
                         ) {
                             Text(
-                                text = reisAdvies?.getOrNull(0)?.verstrekStation ?: "",
+                                text = reisAdvies.getOrNull(0)?.verstrekStation ?: "",
                                 style = fontsizeLabelCard,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -187,7 +187,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                 .fillMaxSize()
                         ) {
                             Text(
-                                text = reisAdvies?.getOrNull(0)?.aankomstStation ?: "",
+                                text = reisAdvies.getOrNull(0)?.aankomstStation ?: "",
                                 style = fontsizeLabelCard,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
