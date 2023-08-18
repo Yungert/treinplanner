@@ -116,206 +116,201 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
             PositionIndicator(scalingLazyListState = listState)
         }
     ) {
-        Box(
-            modifier = Modifier.padding(vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
+        ScalingLazyColumn(
+            anchorType = ScalingLazyListAnchorType.ItemStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onRotaryScrollEvent {
+                    coroutineScope.launch {
+                        listState.scrollBy(it.verticalScrollPixels)
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-                item {
-                    ListHeader {
+                    true
+                }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState)
+        {
+            item {
+                ListHeader {
+                    Text(
+                        text = stringResource(id = R.string.label_rit) + " " + stops.getOrNull(0)?.ritNummer + " " + stringResource(
+                            id = R.string.label_eindbestemming_trein
+                        ) + " " + stops.getOrNull(0)?.eindbestemmingTrein,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            //showExtraInfo.value = !showExtraInfo.value
+                        },
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Text(
-                            text = stringResource(id = R.string.label_rit) + " " + stops.getOrNull(0)?.ritNummer + " " + stringResource(
-                                id = R.string.label_eindbestemming_trein
-                            ) + " " + stops.getOrNull(0)?.eindbestemmingTrein,
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
+                            text = stops.getOrNull(0)?.materieelType + "-" + stops.getOrNull(0)?.aantalTreinDelen + " ",
+                            style = fontsizeLabelCard
+                        )
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(1.dp),
+                            color = Color.White,
+                        )
+                        Icon(
+                            imageVector = Icons.Default.AirlineSeatReclineNormal,
+                            contentDescription = "Icon",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(iconSize)
+                                .padding(vertical = 2.dp)
+                        )
+                        Text(
+                            text = stops.getOrNull(0)?.aantalZitplaatsen
+                                ?: stringResource(id = R.string.label_onbekend),
+                            style = fontsizeLabelCard
                         )
                     }
-                }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Train,
+                            contentDescription = "Icon",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(iconSize)
+                                .padding(vertical = 2.dp)
+                        )
 
+                        stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
+                            Text(
+                                text = materieel,
+                                style = fontsizeLabelCard
+                            )
+                            if (index < stops.getOrNull(0)?.materieelNummers?.size?.minus(1) ?: 0) {
+                                Text(
+                                    text = ", ",
+                                    style = fontsizeLabelCard
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            stops.forEachIndexed { index, stop ->
                 item {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable {
-                                //showExtraInfo.value = !showExtraInfo.value
-                            },
+                            .defaultMinSize(
+                                minWidth = minimaleBreedteTouchControls,
+                                minHeight = minimaleHoogteTouchControls
+                            ),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        Divider(
+                            color = Color.White,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+
+                            Text(
+                                text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd + stop.aankomstVertraging else stop.geplandeVertrektTijd + stop.vertrekVertraging,
+                                style = fontsizeLabelCard
+                            )
+                            if (stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
+                                if (stop.geplandeAankomstTijd != stop.geplandeVertrektTijd) {
+                                    Icon(
+                                        imageVector = Icons.Default.East,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .size(21.dp)
+                                            .padding(vertical = 2.dp)
+                                    )
+                                    Text(
+                                        text = stop.geplandeVertrektTijd + stop.vertrekVertraging,
+                                        style = fontsizeLabelCard
+                                    )
+                                }
+                            }
+                        }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = stops.getOrNull(0)?.materieelType + "-" + stops.getOrNull(0)?.aantalTreinDelen + " ",
+                                text = stop.stationNaam,
+                                style = fontsizeLabelCard
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Tram,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
+                            )
+                            Text(
+                                text = stop.spoor + " ",
                                 style = fontsizeLabelCard
                             )
                             Divider(
                                 modifier = Modifier
-                                    .fillMaxHeight()
+                                    .fillMaxHeight(0.8f)
                                     .width(1.dp),
                                 color = Color.White,
                             )
-                            Icon(
-                                imageVector = Icons.Default.AirlineSeatReclineNormal,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(iconSize)
-                                    .padding(vertical = 2.dp)
-                            )
-                            Text(
-                                text = stops.getOrNull(0)?.aantalZitplaatsen
-                                    ?: stringResource(id = R.string.label_onbekend),
-                                style = fontsizeLabelCard
+                            drukteIndicatorComposable(
+                                aantalIconen = stop.drukte.aantalIconen,
+                                icon = stop.drukte.icon,
+                                color = stop.drukte.color
                             )
                         }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Train,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(iconSize)
-                                    .padding(vertical = 2.dp)
-                            )
 
-                            stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
-                                Text(
-                                    text = materieel,
-                                    style = fontsizeLabelCard
-                                )
-                                if (index < stops.getOrNull(0)?.materieelNummers?.size?.minus(1) ?: 0) {
-                                    Text(
-                                        text = ", ",
-                                        style = fontsizeLabelCard
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-                stops.forEachIndexed { index, stop ->
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                ),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Divider(
-                                color = Color.White,
+
+                        if (index == stops.size - 1) {
+                            Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(1.dp)
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-
-                                Text(
-                                    text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd + stop.aankomstVertraging else stop.geplandeVertrektTijd + stop.vertrekVertraging,
-                                    style = fontsizeLabelCard
-                                )
-                                if (stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
-                                    if (stop.geplandeAankomstTijd != stop.geplandeVertrektTijd) {
-                                        Icon(
-                                            imageVector = Icons.Default.East,
-                                            contentDescription = "Icon",
-                                            tint = Color.White,
-                                            modifier = Modifier
-                                                .size(21.dp)
-                                                .padding(vertical = 2.dp)
-                                        )
-                                        Text(
-                                            text = stop.geplandeVertrektTijd + stop.vertrekVertraging,
-                                            style = fontsizeLabelCard
-                                        )
-                                    }
-                                }
-                            }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                    .padding(bottom = 60.dp),
                                 horizontalArrangement = Arrangement.Center,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = stop.stationNaam,
-                                    style = fontsizeLabelCard
+                                    text = stringResource(id = R.string.text_eindpunt_van_jouw_reis),
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
                                 )
-                            }
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Tram,
-                                    contentDescription = "Icon",
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .size(iconSize)
-                                        .padding(vertical = 2.dp)
-                                )
-                                Text(
-                                    text = stop.spoor + " ",
-                                    style = fontsizeLabelCard
-                                )
-                                Divider(
-                                    modifier = Modifier
-                                        .fillMaxHeight(0.8f)
-                                        .width(1.dp),
-                                    color = Color.White,
-                                )
-                                drukteIndicatorComposable(
-                                    aantalIconen = stop.drukte.aantalIconen,
-                                    icon = stop.drukte.icon,
-                                    color = stop.drukte.color
-                                )
-                            }
-
-
-                            if (index == stops.size - 1) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 60.dp),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.text_eindpunt_van_jouw_reis),
-                                        style = fontsizeLabelCard
-                                    )
-                                }
                             }
                         }
                     }

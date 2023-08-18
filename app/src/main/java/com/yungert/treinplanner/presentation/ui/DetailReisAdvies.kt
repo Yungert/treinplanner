@@ -100,215 +100,209 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             PositionIndicator(scalingLazyListState = listState)
         }
     ) {
-        Box(
-            modifier = Modifier.padding(vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
+        ScalingLazyColumn(
+            anchorType = ScalingLazyListAnchorType.ItemStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onRotaryScrollEvent {
+                    coroutineScope.launch {
+                        listState.scrollBy(it.verticalScrollPixels)
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-                item {
-                    ListHeader {
-                        Text(
-                            text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(
-                                rit.size - 1
-                            ).naamAankomstStation,
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+                    true
                 }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState)
+        {
+            item {
+                ListHeader {
+                    Text(
+                        text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit.get(
+                            rit.size - 1
+                        ).naamAankomstStation,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
 
-                rit.forEachIndexed { index, reis ->
-                    item {
-                        if (index > 0 && reis.overstapTijd != "") {
-                            Card(
-                                onClick = {
-                                },
+            rit.forEachIndexed { index, reis ->
+                item {
+                    if (index > 0 && reis.overstapTijd != "") {
+                        Card(
+                            onClick = {
+                            },
+                            modifier = Modifier
+                                .padding(2.dp)
+                        ) {
+                            Column(
                                 modifier = Modifier
-                                    .padding(2.dp)
+                                    .fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
                                 ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center,
-                                    ) {
-                                        if (reis.alternatiefVervoer) {
-                                            Text(
-                                                text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_alternatief_vervoer),
-                                                style = fontsizeLabelCard,
-                                                textAlign = TextAlign.Center
-                                            )
-                                        } else {
-                                            Text(
-                                                text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
-                                                style = fontsizeLabelCard,
-                                                textAlign = TextAlign.Center
-                                            )
-                                        }
+                                    if (reis.alternatiefVervoer) {
+                                        Text(
+                                            text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_alternatief_vervoer),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    } else {
+                                        Text(
+                                            text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
                                     }
                                 }
                             }
                         }
                     }
-                    item {
-                        Card(
-                            onClick = {
-                                navController.navigate(
-                                    Screen.RitDetail.withArguments(
-                                        reis.vertrekStationUicCode,
-                                        reis.aankomstStationUicCode,
-                                        reis.ritId,
-                                        reis.datum
-                                    )
+                }
+                item {
+                    Card(
+                        onClick = {
+                            navController.navigate(
+                                Screen.RitDetail.withArguments(
+                                    reis.vertrekStationUicCode,
+                                    reis.aankomstStationUicCode,
+                                    reis.ritId,
+                                    reis.datum
                                 )
-                            },
-                            modifier = if (index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
-                                .padding(
-                                    bottom = 0.dp
-                                )
-                                .defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                )
+                            )
+                        },
+                        modifier = if (index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
+                            .padding(
+                                bottom = 0.dp
+                            )
+                            .defaultMinSize(
+                                minWidth = minimaleBreedteTouchControls,
+                                minHeight = minimaleHoogteTouchControls
+                            )
 
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Column(
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
                             ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Text(
-                                        text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(
-                                            id = R.string.label_eindbestemming_trein
-                                        ) + ":",
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                                Row(
+                                Text(
+                                    text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(
+                                        id = R.string.label_eindbestemming_trein
+                                    ) + ":",
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    text = reis.eindbestemmingTrein,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Start,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 4.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Text(
-                                        text = reis.eindbestemmingTrein,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Start,
-                                        contentDescription = "Icon",
-                                        tint = Color.White,
-                                        modifier = Modifier
-                                            .padding(horizontal = 2.dp)
-                                            .size(12.dp)
-                                    )
-                                    Text(
-                                        text = reis.naamVertrekStation,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 4.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Text(
-                                        text = reis.geplandeVertrektijd + reis.vertragingInSecondeVertrekStation + " |",
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
+                                        .padding(horizontal = 2.dp)
+                                        .size(12.dp)
+                                )
+                                Text(
+                                    text = reis.naamVertrekStation,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    text = reis.geplandeVertrektijd + reis.vertragingInSecondeVertrekStation + " |",
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
 
-                                    Icon(
-                                        imageVector = Icons.Default.Tram,
-                                        contentDescription = "Icon",
-                                        tint = Color.White,
-                                        modifier = Modifier
-                                            .padding(horizontal = 2.dp)
-                                            .size(12.dp)
-                                    )
-                                    Text(
-                                        text = reis.vertrekSpoor,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardTab,
-                                        contentDescription = "Icon",
-                                        tint = Color.White,
-                                        modifier = Modifier
-                                            .padding(horizontal = 2.dp)
-                                            .size(12.dp)
-                                    )
-                                    Text(
-                                        text = reis.naamAankomstStation,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Text(
-                                        text = reis.geplandeAankomsttijd + reis.vertragingInSecondeAankomstStation + " |",
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                    Icon(
-                                        imageVector = Icons.Default.Tram,
-                                        contentDescription = "Icon",
-                                        tint = Color.White,
-                                        modifier = Modifier
-                                            .padding(horizontal = 2.dp)
-                                            .size(iconSize)
-                                    )
-                                    Text(
-                                        text = reis.aankomstSpoor,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
+                                Icon(
+                                    imageVector = Icons.Default.Tram,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(12.dp)
+                                )
+                                Text(
+                                    text = reis.vertrekSpoor,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardTab,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(12.dp)
+                                )
+                                Text(
+                                    text = reis.naamAankomstStation,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    text = reis.geplandeAankomsttijd + reis.vertragingInSecondeAankomstStation + " |",
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Tram,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .padding(horizontal = 2.dp)
+                                        .size(iconSize)
+                                )
+                                Text(
+                                    text = reis.aankomstSpoor,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }

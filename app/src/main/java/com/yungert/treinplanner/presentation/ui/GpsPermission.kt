@@ -81,73 +81,48 @@ fun showGpsPermisson(navController: NavController) {
             PositionIndicator(scalingLazyListState = listState)
         }
     ) {
-        Box(
-            modifier = Modifier.padding(vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
+        ScalingLazyColumn(
+            anchorType = ScalingLazyListAnchorType.ItemStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onRotaryScrollEvent {
+                    coroutineScope.launch {
+                        listState.scrollBy(it.verticalScrollPixels)
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-                item {
-                    ListHeader {
+                    true
+                }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState)
+        {
+            item {
+                ListHeader {
+                    Text(
+                        text = stringResource(id = R.string.label_header_gps_toestemming),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Text(
-                            text = stringResource(id = R.string.label_header_gps_toestemming),
+                            text = stringResource(id = R.string.bericht_reden_gps_toestemming),
                             textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
-                }
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.bericht_reden_gps_toestemming),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            )
-                        }
-                        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .defaultMinSize(minHeight = 24.dp),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Card(
-                                    onClick = {
-                                        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                                    },
-                                    modifier = Modifier.defaultMinSize(
-                                        minWidth = minimaleBreedteTouchControls,
-                                        minHeight = minimaleHoogteTouchControls
-                                    )
-                                ) {
-                                    Text(stringResource(id = R.string.label_button_gps_toestaan))
-                                }
-                            }
-                        }
+                    if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -157,36 +132,55 @@ fun showGpsPermisson(navController: NavController) {
                         ) {
                             Card(
                                 onClick = {
-                                    navController.navigate(Screen.StationVanKiezen.withArguments("false"))
+                                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
                                 },
                                 modifier = Modifier.defaultMinSize(
                                     minWidth = minimaleBreedteTouchControls,
                                     minHeight = minimaleHoogteTouchControls
                                 )
                             ) {
-                                Text(stringResource(id = R.string.label_geen_gps_toestemming))
+                                Text(stringResource(id = R.string.label_button_gps_toestaan))
                             }
                         }
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .defaultMinSize(minHeight = 24.dp)
-                                .padding(bottom = 20.dp),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 24.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Card(
+                            onClick = {
+                                navController.navigate(Screen.StationVanKiezen.withArguments("false"))
+                            },
+                            modifier = Modifier.defaultMinSize(
+                                minWidth = minimaleBreedteTouchControls,
+                                minHeight = minimaleHoogteTouchControls
+                            )
                         ) {
-                            Card(
-                                onClick = {
-                                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                                    context.startActivity(intent)
-                                },
-                                modifier = Modifier.defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                )
-                            ) {
-                                Text(stringResource(id = R.string.label_open_location_setting))
-                            }
+                            Text(stringResource(id = R.string.label_geen_gps_toestemming))
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 24.dp)
+                            .padding(bottom = 20.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Card(
+                            onClick = {
+                                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier.defaultMinSize(
+                                minWidth = minimaleBreedteTouchControls,
+                                minHeight = minimaleHoogteTouchControls
+                            )
+                        ) {
+                            Text(stringResource(id = R.string.label_open_location_setting))
                         }
                     }
                 }

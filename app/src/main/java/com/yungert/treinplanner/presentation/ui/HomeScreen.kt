@@ -55,110 +55,104 @@ fun HomeScreen(navController: NavController) {
             PositionIndicator(scalingLazyListState = listState)
         }
     ) {
-        Box(
-            modifier = Modifier.padding(vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
+        ScalingLazyColumn(
+            anchorType = ScalingLazyListAnchorType.ItemStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onRotaryScrollEvent {
+                    coroutineScope.launch {
+                        listState.scrollBy(it.verticalScrollPixels)
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-                item {
-                    ListHeader {
-                        Text(
-                            text = stringResource(id = R.string.label_header_homescreen),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
+                    true
                 }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState)
+        {
+            item {
+                ListHeader {
+                    Text(
+                        text = stringResource(id = R.string.label_header_homescreen),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
 
-                item {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+            item {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
+                        Box(
+                            modifier = Modifier
+                                .weight(1.0f)
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Card(
-                                    onClick = {
-                                        navController.navigate(
-                                            Screen.StationVanKiezen.withArguments(
-                                                "false"
-                                            )
+                            Card(
+                                onClick = {
+                                    navController.navigate(
+                                        Screen.StationVanKiezen.withArguments(
+                                            "false"
                                         )
-                                    },
-                                    modifier = Modifier.defaultMinSize(
-                                        minWidth = minimaleBreedteTouchControls,
-                                        minHeight = minimaleHoogteTouchControls
-                                    ),
+                                    )
+                                },
+                                modifier = Modifier.defaultMinSize(
+                                    minWidth = minimaleBreedteTouchControls,
+                                    minHeight = minimaleHoogteTouchControls
+                                ),
 
-                                    ) {
-                                    Column(
+                                ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Sort,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
                                         modifier = Modifier
-                                            .fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Sort,
-                                            contentDescription = "Icon",
-                                            tint = Color.White,
-                                            modifier = Modifier
-                                                .padding(horizontal = 1.dp)
-                                                .size(iconSize),
-                                        )
-                                    }
+                                            .padding(horizontal = 1.dp)
+                                            .size(iconSize),
+                                    )
                                 }
                             }
-                            Box(
-                                modifier = Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
-                                contentAlignment = Alignment.Center
+                        }
+                        Box(
+                            modifier = Modifier
+                                .weight(1.0f)
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Card(
+                                onClick = {
+                                    navController.navigate(Screen.GpsPermission.route)
+                                },
+                                modifier = Modifier.defaultMinSize(
+                                    minWidth = minimaleBreedteTouchControls,
+                                    minHeight = minimaleHoogteTouchControls
+                                ),
                             ) {
-                                Card(
-                                    onClick = {
-                                        navController.navigate(Screen.GpsPermission.route)
-                                    },
-                                    modifier = Modifier.defaultMinSize(
-                                        minWidth = minimaleBreedteTouchControls,
-                                        minHeight = minimaleHoogteTouchControls
-                                    ),
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Column(
+                                    Icon(
+                                        imageVector = Icons.Default.LocationOn,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
                                         modifier = Modifier
-                                            .fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.LocationOn,
-                                            contentDescription = "Icon",
-                                            tint = Color.White,
-                                            modifier = Modifier
-                                                .padding(horizontal = 1.dp)
-                                                .size(iconSize)
-                                        )
-                                    }
+                                            .padding(horizontal = 1.dp)
+                                            .size(iconSize)
+                                    )
                                 }
                             }
                         }

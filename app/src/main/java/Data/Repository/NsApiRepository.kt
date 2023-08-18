@@ -6,6 +6,7 @@ import Data.models.ReisAdviesModel
 import Data.models.TreinRitDetail
 import Data.models.Trip
 import com.yungert.treinplanner.BuildConfig
+import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.PlaceResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,8 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                 if (apiResult.body() != null) {
                     emit(Resource.Success(apiResult.body()!!))
                 }
+            }else {
+                emit(Resource.Error(ErrorState.UNKNOWN))
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -34,6 +37,8 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                 if (apiResult.body() != null) {
                     emit(Resource.Success(apiResult.body()!!))
                 }
+            } else {
+                emit(Resource.Error(ErrorState.UNKNOWN))
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -46,6 +51,8 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                 if (apiResult.body() != null) {
                     emit(Resource.Success(apiResult.body()!!))
                 }
+            }else {
+                emit(Resource.Error(ErrorState.UNKNOWN))
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -58,6 +65,8 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                 if (apiResult.body() != null) {
                     emit(Resource.Success(apiResult.body()!!))
                 }
+            }else {
+                emit(Resource.Error(ErrorState.UNKNOWN))
             }
         }.flowOn(Dispatchers.IO)
     }

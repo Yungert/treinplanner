@@ -91,11 +91,11 @@ class ReisAdviesViewModel () : ViewModel() {
                     }
 
                     is Resource.Loading -> {
-
+                        _viewState.value = ViewStateReisAdvies.Loading
                     }
 
                     is Resource.Error -> {
-
+                        _viewState.value = ViewStateReisAdvies.Problem(result.state)
                     }
                 }
 

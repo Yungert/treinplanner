@@ -73,7 +73,6 @@ import kotlinx.coroutines.launch
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "favourites")
 
 
-
 @Composable
 fun ComposeStaions(
     vanStation: String?,
@@ -86,7 +85,7 @@ fun ComposeStaions(
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                if(gpsToestemming == "true") {
+                if (gpsToestemming == "true") {
                     viewModel.getStationsMetGps(vanStation = vanStation, context = context)
                 } else {
                     viewModel.getStationsZonderGps(vanStation = vanStation, context = context)
@@ -107,10 +106,15 @@ fun ComposeStaions(
         }
 
         is ViewStateStationPicker.Success -> {
-            ShowStations(stations = response.details, vanStation = vanStation,  navController = navController)
+            ShowStations(
+                stations = response.details,
+                vanStation = vanStation,
+                navController = navController
+            )
         }
     }
 }
+
 @Composable
 fun ShowStations(
     stations: List<StationNamen>,
@@ -126,45 +130,39 @@ fun ShowStations(
             PositionIndicator(scalingLazyListState = listState)
         }
     ) {
-        Box(
-            modifier = Modifier.padding(vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
+        ScalingLazyColumn(
+            anchorType = ScalingLazyListAnchorType.ItemStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onRotaryScrollEvent {
+                    coroutineScope.launch {
+                        listState.scrollBy(it.verticalScrollPixels)
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-
-                item {
-                    ListHeader {
-                        Text(
-                            text = if (vanStation != null) stringResource(id = R.string.kies_aankomst_station) else stringResource(
-                                id = R.string.kies_vertrek_station
-                            ),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
+                    true
                 }
-                stations.forEach { station ->
-                    item {
-                        StationCard(
-                            item = station,
-                            navController = navController,
-                            context = context,
-                            vanStation = vanStation
-                        )
-                    }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState)
+        {
+
+            item {
+                ListHeader {
+                    Text(
+                        text = if (vanStation != null) stringResource(id = R.string.kies_aankomst_station) else stringResource(
+                            id = R.string.kies_vertrek_station
+                        ),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            stations.forEach { station ->
+                item {
+                    StationCard(
+                        item = station,
+                        navController = navController,
+                        context = context,
+                        vanStation = vanStation
+                    )
                 }
             }
         }
@@ -185,7 +183,10 @@ fun StationCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
+            .defaultMinSize(
+                minWidth = minimaleBreedteTouchControls,
+                minHeight = minimaleHoogteTouchControls
+            ),
         onClick = {
             if (vanStation != null) {
                 navController.navigate(
@@ -202,7 +203,10 @@ fun StationCard(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
+                .defaultMinSize(
+                    minWidth = minimaleBreedteTouchControls,
+                    minHeight = minimaleHoogteTouchControls
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
 
