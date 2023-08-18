@@ -30,6 +30,7 @@ import java.time.Duration
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
+
 private var lastFormattedTime : String? = null
 @Composable
 fun LoadingScreen() {

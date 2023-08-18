@@ -7,15 +7,18 @@
     <string name="label_van_reisadvies">Van</string>
     <string name="label_naar_reisadvies">Naar</string>
     <string name="alternatief_vervoer_bericht">Alternatief vervoer</string>
-    <string name="bericht_reden_gps_toestemming">We hebben GPS nodig om het dichtbijzijnde station te kunnen vinden. In de instellingen kun je dit aanzetten als je dat wilt</string>
+    <string name="bericht_reden_gps_toestemming">We hebben GPS nodig om het dichtbijzijnde station te kunnen vinden. Je kunt ook verder zonder GPS, maar dan moet je wel het dichtbijzijnde station zelf zoeken in de A-Z lijst van alle stations</string>
     <string name="label_button_gps_toestaan">GPS toestaan</string>
     <string name="text_tijd_overstap_op_alternatief_vervoer">min. overstap naar alternatief vervoer</string>
     <string name="text_tijd_overstap_op_andere_trein">min. overstap naar spoor</string>
     <string name="label_eindbestemming_trein">naar</string>
     <string name="label_loading">Gegevens ophalen...</string>
     <string name="label_jouw_reis_naar">Jouw reis naar</string>
-    <string name="label_rit">rit</string>
+    <string name="label_rit">Rit</string>
     <string name="label_onbekend">onbekend</string>
     <string name="label_header_homescreen">Welkom bij de reisplanner</string>
     <string name="text_eindpunt_van_jouw_reis">Eindpunt van deze reis</string>
+    <string name="label_geen_gps_toestemming">Geen GPS gebruiken</string>
+    <string name="label_header_gps_toestemming">GPS toestemming</string>
+    <string name="label_open_location_setting">Toestemming via systeeminstellingen geven</string>
 </resources>

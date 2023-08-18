@@ -70,7 +70,6 @@ fun ComposeStaions(
     gpsToestemming: String?,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-
     val context = LocalContext.current
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->

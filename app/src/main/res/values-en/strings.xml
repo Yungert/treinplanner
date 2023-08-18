@@ -6,15 +6,18 @@
     <string name="label_van_reisadvies">From</string>
     <string name="label_naar_reisadvies">To</string>
     <string name="alternatief_vervoer_bericht">Alternative transportation</string>
-    <string name="bericht_reden_gps_toestemming">We need GPS to locate the nearest station. You can enable this in the settings.</string>
+    <string name="bericht_reden_gps_toestemming">We need GPS to locate the nearest station. You can also proceed without GPS, but then you will need to manually find the nearest station in the A-Z list of all stations</string>
     <string name="label_button_gps_toestaan">Allow GPS</string>
     <string name="text_tijd_overstap_op_alternatief_vervoer">min. transfer time for alternative transportation</string>
     <string name="text_tijd_overstap_op_andere_trein">min. transfer time to platform</string>
     <string name="label_eindbestemming_trein">towards</string>
     <string name="label_loading">Loading...</string>
     <string name="label_jouw_reis_naar">Your journey to</string>
-    <string name="label_rit">trip</string>
+    <string name="label_rit">Trip</string>
     <string name="label_onbekend">unknown</string>
     <string name="label_header_homescreen">Welcome to the journey planner</string>
     <string name="text_eindpunt_van_jouw_reis">Final destination of this journey</string>
+    <string name="label_geen_gps_toestemming">Do not use GPS</string>
+    <string name="label_header_gps_toestemming">GPS permission</string>
+    <string name="label_open_location_setting">Grant permission through system settings</string>
 </resources>
