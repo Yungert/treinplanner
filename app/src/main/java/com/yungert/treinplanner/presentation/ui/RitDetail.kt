@@ -4,11 +4,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
@@ -50,6 +52,8 @@ import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.drukteIndicatorComposable
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 
 @Composable
 fun ShowRitDetail(
@@ -64,7 +68,12 @@ fun ShowRitDetail(
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getReisadviezen(depatureUicCode = depatureUicCode, arrivalUicCode = arrivalUicCode, reisId = reisId, dateTime = dateTime)
+                viewModel.getReisadviezen(
+                    depatureUicCode = depatureUicCode,
+                    arrivalUicCode = arrivalUicCode,
+                    reisId = reisId,
+                    dateTime = dateTime
+                )
             }
         }
         lifeCycleOwner.lifecycle.addObserver(observer)
@@ -97,7 +106,9 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
         item {
             ListHeader {
                 Text(
-                    text = stringResource(id = R.string.label_rit) + " " + stops.getOrNull(0)?.ritNummer + " " + stringResource(id = R.string.label_eindbestemming_trein) + " " + stops.getOrNull(0)?.eindbestemmingTrein ,
+                    text = stringResource(id = R.string.label_rit) + " " + stops.getOrNull(0)?.ritNummer + " " + stringResource(
+                        id = R.string.label_eindbestemming_trein
+                    ) + " " + stops.getOrNull(0)?.eindbestemmingTrein,
                     textAlign = TextAlign.Center,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -139,7 +150,8 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                             .padding(vertical = 2.dp)
                     )
                     Text(
-                        text = stops.getOrNull(0)?.aantalZitplaatsen ?: stringResource(id = R.string.label_onbekend),
+                        text = stops.getOrNull(0)?.aantalZitplaatsen
+                            ?: stringResource(id = R.string.label_onbekend),
                         style = fontsizeLabelCard
                     )
                 }
@@ -174,13 +186,13 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
         }
         stops.forEachIndexed { index, stop ->
             item {
-                var showExtraInfo by remember { mutableStateOf(false) }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clickable {
-                            showExtraInfo = !showExtraInfo
-                        },
+                        .defaultMinSize(
+                            minWidth = minimaleBreedteTouchControls,
+                            minHeight = minimaleHoogteTouchControls
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -197,10 +209,10 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                     ) {
 
                         Text(
-                            text = if(stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd + stop.aankomstVertraging else stop.geplandeVertrektTijd + stop.vertrekVertraging,
+                            text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd + stop.aankomstVertraging else stop.geplandeVertrektTijd + stop.vertrekVertraging,
                             style = fontsizeLabelCard
                         )
-                        if(stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
+                        if (stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
                             if (stop.geplandeAankomstTijd != stop.geplandeVertrektTijd) {
                                 Icon(
                                     imageVector = Icons.Default.East,
@@ -228,37 +240,42 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                         )
                     }
 
-                    if(showExtraInfo){
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Tram,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(iconSize)
-                                    .padding(vertical = 2.dp)
-                            )
-                            Text(
-                                text = stop.spoor + " ",
-                                style = fontsizeLabelCard
-                            )
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxHeight(0.8f)
-                                    .width(1.dp),
-                                color = Color.White,
-                            )
-                            drukteIndicatorComposable(aantalIconen = stop.drukte.aantalIconen, icon = stop.drukte.icon, color = stop.drukte.color)
-                        }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Tram,
+                            contentDescription = "Icon",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(iconSize)
+                                .padding(vertical = 2.dp)
+                        )
+                        Text(
+                            text = stop.spoor + " ",
+                            style = fontsizeLabelCard
+                        )
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxHeight(0.8f)
+                                .width(1.dp),
+                            color = Color.White,
+                        )
+                        drukteIndicatorComposable(
+                            aantalIconen = stop.drukte.aantalIconen,
+                            icon = stop.drukte.icon,
+                            color = stop.drukte.color
+                        )
                     }
 
-                    if(index == stops.size - 1){
+
+                    if (index == stops.size - 1) {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(bottom = 60.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 60.dp),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -33,6 +34,8 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 
 private val locationProvider: LocationProvider = LocationProvider()
 
@@ -101,7 +104,9 @@ fun showGpsPermisson(navController: NavController) {
                     ) {
                         Card(onClick = {
                             permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                        }) {
+                        },
+                            modifier = Modifier.defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls)
+                        ) {
                             Text(stringResource(id = R.string.label_button_gps_toestaan))
                         }
                     }
@@ -115,7 +120,9 @@ fun showGpsPermisson(navController: NavController) {
                 ) {
                     Card(onClick = {
                         navController.navigate(Screen.StationVanKiezen.withArguments("false"))
-                    }) {
+                    },
+                        modifier = Modifier.defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls)
+                    ) {
                         Text(stringResource(id = R.string.label_geen_gps_toestemming))
                     }
                 }
@@ -130,7 +137,9 @@ fun showGpsPermisson(navController: NavController) {
                     Card(onClick = {
                         val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                         context.startActivity(intent)
-                    }) {
+                    },
+                        modifier = Modifier.defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls)
+                    ) {
                         Text(stringResource(id = R.string.label_open_location_setting))
                     }
                 }

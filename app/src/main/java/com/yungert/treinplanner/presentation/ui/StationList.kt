@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -52,6 +53,8 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateStationPicker
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -151,7 +154,8 @@ fun StationCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(2.dp),
+            .padding(2.dp)
+            .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
         onClick = {
             if (vanStation != null) {
                 navController.navigate(
@@ -168,7 +172,7 @@ fun StationCard(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .defaultMinSize(minHeight = 24.dp),
+                .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
 

@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -29,6 +31,8 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -66,7 +70,7 @@ fun HomeScreen(navController: NavController) {
                             onClick = {
                                 navController.navigate(Screen.StationVanKiezen.withArguments("false"))
                             },
-                            modifier = Modifier.size(50.dp),
+                            modifier = Modifier.defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
 
                         ) {
                             Column(
@@ -96,7 +100,7 @@ fun HomeScreen(navController: NavController) {
                             onClick = {
                                 navController.navigate(Screen.GpsPermission.route)
                             },
-                            modifier = Modifier.size(50.dp)
+                            modifier = Modifier.defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
                         ) {
                             Column(
                                 modifier = Modifier

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
@@ -51,6 +52,8 @@ import com.yungert.treinplanner.presentation.ui.utils.deviderHeight
 import com.yungert.treinplanner.presentation.ui.utils.drukteIndicatorComposable
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 
 @Composable
 fun ShowReisAdvies(
@@ -182,7 +185,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(2.dp)
-                        .defaultMinSize(minHeight = 24.dp),
+                        .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls),
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),

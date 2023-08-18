@@ -3,8 +3,10 @@ package com.yungert.treinplanner.presentation.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardTab
@@ -40,6 +42,8 @@ import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
+import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 
 @Composable
 fun ShowDetailReisAdvies(
@@ -146,9 +150,11 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                             )
                         )
                     },
-                    modifier = if (index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier.padding(
-                        bottom = 0.dp
-                    )
+                    modifier = if (index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
+                        .padding(
+                            bottom = 0.dp
+                        )
+                        .defaultMinSize(minWidth = minimaleBreedteTouchControls, minHeight = minimaleHoogteTouchControls)
 
                 ) {
                     Column(
@@ -274,7 +280,6 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
             }
         }
     }
-
 }
 
 
