@@ -65,7 +65,6 @@ class RitDetailViewModel() : ViewModel() {
                             }
                             val materieelNummer = mutableListOf<String>()
                             var materieel = if(stop.actualStock == null) stop.plannedStock else stop.plannedStock
-                            val kortereTrein = false
                             if(materieel != null) {
                                 materieel.trainParts.forEach { part ->
                                     materieelNummer.add(part?.stockIdentifier ?: "-")
@@ -76,7 +75,7 @@ class RitDetailViewModel() : ViewModel() {
                                 eindbestemmingTrein = stop.destination,
                                 ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
                                 stationNaam = stop.stop.name,
-                                spoor = departure?.actualTrack ?: departure?.plannedTrack ?: "",
+                                spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack ?:"",
                                 ingekort = stop?.actualStock?.hasSignificantChange ?: stop?.plannedStock?.hasSignificantChange ?: false,
                                 aantalZitplaatsen = stop?.actualStock?.numberOfSeats?.toString() ?: stop?.plannedStock?.numberOfSeats?.toString() ?: "",
                                 aantalTreinDelen = stop?.actualStock?.numberOfParts?.toString() ?: stop?.plannedStock?.numberOfParts?.toString() ?: "",

@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Card
-import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 import com.yungert.treinplanner.R
@@ -39,10 +38,6 @@ fun LoadingScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        CircularProgressIndicator(
-            modifier = Modifier.size(40.dp),
-        )
         Text(stringResource(id = R.string.label_loading))
     }
 }
@@ -66,12 +61,20 @@ fun formatTime(time: String?): String {
     return formattedTime
 }
 
-fun calculateTravalTime(duratinInMinutes: Int): String {
+fun formatTravelTime(duratinInMinutes: Int): String {
     val uur = duratinInMinutes / 60
+    var stringReistijd = ""
     if (uur > 0) {
-        return uur.toString() + "H:" + (duratinInMinutes % 60).toString() + "M"
+        stringReistijd = uur.toString() + ":"
+    } else{
+        stringReistijd = "0:"
     }
-    return duratinInMinutes.toString() + "M"
+    if(duratinInMinutes % 60 < 10){
+        stringReistijd = stringReistijd + "0" + (duratinInMinutes % 60).toString()
+    } else {
+        stringReistijd += (duratinInMinutes % 60).toString()
+    }
+    return stringReistijd
 }
 
 fun calculateDelay(delayInSeconds: Long?): String {

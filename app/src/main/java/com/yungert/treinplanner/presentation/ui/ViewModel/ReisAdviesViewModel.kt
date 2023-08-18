@@ -14,7 +14,7 @@ import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
-import com.yungert.treinplanner.presentation.ui.utils.calculateTravalTime
+import com.yungert.treinplanner.presentation.ui.utils.formatTravelTime
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,7 +42,7 @@ class ReisAdviesViewModel () : ViewModel() {
                     is Resource.Success -> {
                         var reisAdviezen = mutableListOf<ReisAdvies>()
 
-                        result.data?.trips?.forEach {trip ->
+                        result.data?.trips?.forEachIndexed { index, trip ->
                             var icon = Icons.Default.GroupOff
                             var color = Color.Gray
                             var aantal = 1
@@ -59,13 +59,20 @@ class ReisAdviesViewModel () : ViewModel() {
                                 color = Color.Red
                                 aantal = 3
                             }
+                            var treinSoort = ""
+                            trip.legs.forEachIndexed { index, rit ->
+                                if(index == 0){
+                                    treinSoort = treinSoort + rit.product.shortCategoryName.lowercase()
+                                } else {
+                                    treinSoort = treinSoort + " + " + rit.product.shortCategoryName.lowercase()
+                                }
+                            }
                             reisAdviezen.add(ReisAdvies(
-
                                 verstrekStation = trip?.legs?.getOrNull(0)?.origin?.name ?: "",
                                 aankomstStation = trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.name ?: "",
                                 geplandeVertrekTijd = formatTime(trip?.legs?.getOrNull(0)?.origin?.plannedDateTime),
                                 geplandeAankomstTijd = formatTime(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.destination?.plannedDateTime),
-                                reisTijd = calculateTravalTime(trip?.actualDurationInMinutes ?: trip?.plannedDurationInMinutes ?: 0),
+                                reisTijd = formatTravelTime(trip?.actualDurationInMinutes ?: trip?.plannedDurationInMinutes ?: 0),
                                 aantalTransfers = trip?.transfers ?: 0,
                                 reinadviesId = trip?.ctxRecon ?: "",
                                 vertragingInSecondeAankomst = calculateDelay(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip?.legs?.getOrNull(trip?.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
@@ -76,7 +83,8 @@ class ReisAdviesViewModel () : ViewModel() {
                                     aantalIconen = aantal,
                                     color = color
                                 ),
-                                cancelled = trip?.legs?.getOrNull(0)?.cancelled ?: false
+                                cancelled = trip?.legs?.getOrNull(0)?.cancelled ?: false,
+                                treinSoortenOpRit = treinSoort
                             ))
                         }
                         _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)

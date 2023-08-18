@@ -13,4 +13,5 @@ data class ReisAdvies(
     val bericht : Message?,
     val drukte : DrukteIndicator,
     val cancelled : Boolean,
+    val treinSoortenOpRit : String,
 )

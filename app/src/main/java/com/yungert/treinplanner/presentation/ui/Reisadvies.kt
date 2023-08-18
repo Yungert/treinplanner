@@ -112,7 +112,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
 
-                ) {
+                    ) {
                     Box(
                         modifier = Modifier
                             .weight(0.25f)
@@ -150,8 +150,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Text(
                             text = stringResource(id = R.string.label_naar_reisadvies) + ": ",
                             style = fontsizeLabelCard,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            maxLines = 1
                         )
                     }
                     Box(
@@ -162,7 +161,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Text(
                             text = reisAdvies?.getOrNull(0)?.aankomstStation ?: "",
                             style = fontsizeLabelCard,
-                            maxLines = 1
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -191,83 +191,95 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
+                            horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
-                            Text(
-                                text = advies.geplandeVertrekTijd + advies.vertragingInSecondeVertrek,
-                                style = fontsizeLabelCard,
-                                textAlign = TextAlign.Center
-                            )
-                            Icon(
-                                imageVector = Icons.Default.East,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(horizontal = 1.dp)
-                                    .size(iconSize)
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                            ) {
+                                Text(
+                                    text = advies.geplandeVertrekTijd + advies.vertragingInSecondeVertrek,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.East,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .padding(horizontal = 1.dp)
+                                        .size(iconSize)
+                                )
+                                Text(
+                                    text = advies.geplandeAankomstTijd + advies.vertragingInSecondeAankomst,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
 
-                            Text(
-                                text = advies.geplandeAankomstTijd + advies.vertragingInSecondeAankomst,
-                                style = fontsizeLabelCard,
-                                textAlign = TextAlign.Center
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Schedule,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .size(iconSize)
+                                )
+                                Text(
+                                    text = advies.reisTijd,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 2.dp)
+                                )
+                            }
                         }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
+                            horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.CompareArrows,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(horizontal = 2.dp)
-                                    .size(iconSize)
-                            )
-                            Text(
-                                text = (advies.aantalTransfers.toString() + "x "),
-                                style = fontsizeLabelCard,
-                                textAlign = TextAlign.Center
-                            )
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxHeight(deviderHeight)
-                                    .width(1.dp),
-                                color = Color.White,
-                            )
-                            Icon(
-                                imageVector = Icons.Default.Schedule,
-                                contentDescription = "Icon",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(horizontal = 2.dp)
-                                    .size(iconSize)
-                            )
-                            Text(
-                                text = advies.reisTijd + " ",
-                                style = fontsizeLabelCard,
-                                textAlign = TextAlign.Center
-                            )
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxHeight(deviderHeight)
-                                    .width(1.dp),
-                                color = Color.White,
-                            )
-                            drukteIndicatorComposable(
-                                aantalIconen = advies.drukte.aantalIconen,
-                                icon = advies.drukte.icon,
-                                color = advies.drukte.color
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.CompareArrows,
+                                    contentDescription = "Icon",
+                                    tint = Color.White,
+                                    modifier = Modifier
+                                        .size(iconSize)
+                                )
+                                Text(
+                                    text = (advies.aantalTransfers.toString() + "x"),
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 2.dp)
+                                )
+                                Text(
+                                    text = advies.treinSoortenOpRit,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 2.dp)
+                                )
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                drukteIndicatorComposable(
+                                    aantalIconen = advies.drukte.aantalIconen,
+                                    icon = advies.drukte.icon,
+                                    color = advies.drukte.color
+                                )
+                            }
                         }
                         if (advies.bericht?.type == WarningType.ALTERNATIVE_TRANSPORT.value) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
+                                horizontalArrangement = Arrangement.Start,
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Warning,
@@ -286,7 +298,6 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                             }
                         }
                     }
-
                 }
             }
         }
