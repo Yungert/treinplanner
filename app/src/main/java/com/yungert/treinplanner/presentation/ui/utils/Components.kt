@@ -59,7 +59,7 @@ fun LoadingScreen() {
 }
 
 fun formatTime(time: String?): String {
-    if (time == null) {
+    if (time == null || time == "") {
         return ""
     }
     val offsetIndex = time.indexOf('+')
