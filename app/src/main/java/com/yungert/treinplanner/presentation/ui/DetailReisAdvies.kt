@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardTab
 import androidx.compose.material.icons.filled.Start
@@ -238,24 +241,32 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = reis.geplandeVertrektijd + reis.vertragingInSecondeVertrekStation + " |",
+                                    text = reis.geplandeVertrektijd,
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
-                                )
-
-                                Icon(
-                                    imageVector = Icons.Default.Tram,
-                                    contentDescription = "Icon",
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .padding(horizontal = 2.dp)
-                                        .size(12.dp)
                                 )
                                 Text(
-                                    text = reis.vertrekSpoor,
+                                    text = reis.vertragingInSecondeVertrekStation,
                                     style = fontsizeLabelCard,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    color = Color.Red,
+                                    modifier = Modifier.padding(horizontal = 1.dp)
                                 )
+                                if(reis.vertrekSpoor != null) {
+                                    Icon(
+                                        imageVector = Icons.Default.Tram,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(12.dp)
+                                    )
+                                    Text(
+                                        text = reis.vertrekSpoor,
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -282,23 +293,32 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                 horizontalArrangement = Arrangement.Center,
                             ) {
                                 Text(
-                                    text = reis.geplandeAankomsttijd + reis.vertragingInSecondeAankomstStation + " |",
+                                    text = reis.geplandeAankomsttijd,
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.Tram,
-                                    contentDescription = "Icon",
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .padding(horizontal = 2.dp)
-                                        .size(iconSize)
                                 )
                                 Text(
-                                    text = reis.aankomstSpoor,
+                                    text = reis.vertragingInSecondeAankomstStation,
                                     style = fontsizeLabelCard,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    color = Color.Red,
+                                    modifier = Modifier.padding(horizontal = 1.dp)
                                 )
+                                if(reis.aankomstSpoor != null) {
+                                    Icon(
+                                        imageVector = Icons.Default.Tram,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = reis.aankomstSpoor,
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         }
                     }

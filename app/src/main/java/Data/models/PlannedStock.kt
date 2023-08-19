@@ -1,6 +1,6 @@
 package Data.models
 
-data class PlannedStock(
+data class Stock(
     val hasSignificantChange: Boolean,
     val numberOfParts: Int,
     val numberOfSeats: Int,

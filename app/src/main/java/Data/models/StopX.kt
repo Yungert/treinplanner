@@ -1,7 +1,7 @@
 package Data.models
 
 data class StopX(
-    val actualStock: ActualStock,
+    val actualStock: Stock,
     val arrivals: List<Arrival>,
     val coachCrowdForecast: List<Any>,
     val departures: List<Departure>,
@@ -9,7 +9,7 @@ data class StopX(
     val id: String,
     val kind: String,
     val nextStopId: List<String>,
-    val plannedStock: PlannedStock,
+    val plannedStock: Stock,
     val platformFeatures: List<Any>,
     val previousStopId: List<String>,
     val status: String,

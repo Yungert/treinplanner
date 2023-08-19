@@ -8,7 +8,7 @@
     <string name="alternatief_vervoer_bericht">Alternative transportation</string>
     <string name="bericht_reden_gps_toestemming">We need GPS to locate the nearest station. You can also proceed without GPS, but then you will need to manually find the nearest station in the A-Z list of all stations</string>
     <string name="label_button_gps_toestaan">Allow GPS</string>
-    <string name="text_tijd_overstap_op_alternatief_vervoer">min. transfer time for alternative transportation</string>
+    <string name="text_tijd_overstap_op_alternatief_vervoer">min. transfer time to alternative transportation</string>
     <string name="text_tijd_overstap_op_andere_trein">min. transfer time to platform</string>
     <string name="label_eindbestemming_trein">towards</string>
     <string name="label_loading">Loading...</string>

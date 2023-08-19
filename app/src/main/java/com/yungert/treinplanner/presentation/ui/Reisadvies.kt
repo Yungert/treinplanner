@@ -61,6 +61,7 @@ import com.yungert.treinplanner.presentation.ui.utils.iconSize
 import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
+import java.time.format.TextStyle
 
 @Composable
 fun ShowReisAdvies(
@@ -226,12 +227,17 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(2.dp),
                                 ) {
                                     Text(
-                                        text = advies.geplandeVertrekTijd + advies.vertragingInSecondeVertrek,
+                                        text = advies.geplandeVertrekTijd,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        text = advies.vertragingInSecondeVertrek,
+                                        style = fontsizeLabelCard,
+                                        color = Color.Red,
+                                        textAlign = TextAlign.Center,
                                     )
                                     Icon(
                                         imageVector = Icons.Default.East,
@@ -242,9 +248,16 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                             .size(iconSize)
                                     )
                                     Text(
-                                        text = advies.geplandeAankomstTijd + advies.vertragingInSecondeAankomst,
+                                        text = advies.geplandeAankomstTijd ,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        text = advies.vertragingInSecondeAankomst,
+                                        style = fontsizeLabelCard,
+                                        color = Color.Red,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(horizontal = 1.dp)
                                     )
                                 }
 
@@ -259,8 +272,9 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                             .size(iconSize)
                                     )
                                     Text(
-                                        text = advies.reisTijd,
+                                        text = advies.actueleReistijd,
                                         style = fontsizeLabelCard,
+                                        color = if(advies.actueleReistijd != advies.geplandeReistijd) Color.Red else Color.White,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier.padding(horizontal = 2.dp)
                                     )
@@ -274,7 +288,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.CompareArrows,
@@ -323,7 +337,8 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     Text(
                                         text = stringResource(id = R.string.alternatief_vervoer_bericht),
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Center,
+                                        maxLines = 2,
                                     )
 
                                 }

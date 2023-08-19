@@ -4,7 +4,7 @@ data class TreinRitDetail(
     val eindbestemmingTrein: String,
     val ritNummer: String,
     val stationNaam: String,
-    val spoor: String,
+    val spoor: String?,
     val materieelType : String,
     val aantalZitplaatsen: String,
     val aantalTreinDelen: String,

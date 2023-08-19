@@ -153,54 +153,56 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(
-                            text = stops.getOrNull(0)?.materieelType + "-" + stops.getOrNull(0)?.aantalTreinDelen + " ",
-                            style = fontsizeLabelCard
-                        )
-                        Divider(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(1.dp),
-                            color = Color.White,
-                        )
-                        Icon(
-                            imageVector = Icons.Default.AirlineSeatReclineNormal,
-                            contentDescription = "Icon",
-                            tint = Color.White,
-                            modifier = Modifier
-                                .size(iconSize)
-                                .padding(vertical = 2.dp)
-                        )
-                        Text(
-                            text = stops.getOrNull(0)?.aantalZitplaatsen
-                                ?: stringResource(id = R.string.label_onbekend),
-                            style = fontsizeLabelCard
-                        )
+                        if(stops.getOrNull(0)?.materieelType != "" && stops.getOrNull(0)?.aantalTreinDelen != "") {
+                            Text(
+                                text = stops.getOrNull(0)?.materieelType + "-" + stops.getOrNull(0)?.aantalTreinDelen + " ",
+                                style = fontsizeLabelCard
+                            )
+                        }
+                        if(stops.getOrNull(0)?.aantalZitplaatsen != "") {
+                            Icon(
+                                imageVector = Icons.Default.AirlineSeatReclineNormal,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
+                            )
+                            Text(
+                                text = stops.getOrNull(0)?.aantalZitplaatsen
+                                    ?: stringResource(id = R.string.label_onbekend),
+                                style = fontsizeLabelCard
+                            )
+                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Train,
-                            contentDescription = "Icon",
-                            tint = Color.White,
-                            modifier = Modifier
-                                .size(iconSize)
-                                .padding(vertical = 2.dp)
-                        )
-
-                        stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
-                            Text(
-                                text = materieel,
-                                style = fontsizeLabelCard
+                        if(stops.get(0).materieelNummers.isNotEmpty()) {
+                            Icon(
+                                imageVector = Icons.Default.Train,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
                             )
-                            if (index < (stops.getOrNull(0)?.materieelNummers?.size?.minus(1) ?: 0)) {
+
+                            stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
                                 Text(
-                                    text = ", ",
+                                    text = materieel,
                                     style = fontsizeLabelCard
                                 )
+                                if (index < (stops.getOrNull(0)?.materieelNummers?.size?.minus(1)
+                                        ?: 0)
+                                ) {
+                                    Text(
+                                        text = ", ",
+                                        style = fontsizeLabelCard
+                                    )
+                                }
                             }
                         }
                     }
@@ -231,8 +233,15 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                         ) {
 
                             Text(
-                                text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd + stop.aankomstVertraging else stop.geplandeVertrektTijd + stop.vertrekVertraging,
+                                text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd  else stop.geplandeVertrektTijd,
                                 style = fontsizeLabelCard
+                            )
+                            Text(
+                                text =  if (stop.geplandeAankomstTijd != "") stop.aankomstVertraging  else stop.vertrekVertraging,
+                                style = fontsizeLabelCard,
+                                color = Color.Red,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(horizontal = 1.dp)
                             )
                             if (stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
                                 if (stop.geplandeAankomstTijd != stop.geplandeVertrektTijd) {
@@ -245,8 +254,15 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                                             .padding(vertical = 2.dp)
                                     )
                                     Text(
-                                        text = stop.geplandeVertrektTijd + stop.vertrekVertraging,
+                                        text = stop.geplandeVertrektTijd,
                                         style = fontsizeLabelCard
+                                    )
+                                    Text(
+                                        text = stop.vertrekVertraging,
+                                        style = fontsizeLabelCard,
+                                        color = Color.Red,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(horizontal = 1.dp)
                                     )
                                 }
                             }
@@ -267,6 +283,7 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
+                            if (stop.spoor != null) {
                             Icon(
                                 imageVector = Icons.Default.Tram,
                                 contentDescription = "Icon",
@@ -275,16 +292,11 @@ fun DisplayRitDetail(stops: List<TreinRitDetail>, navController: NavController) 
                                     .size(iconSize)
                                     .padding(vertical = 2.dp)
                             )
-                            Text(
-                                text = stop.spoor + " ",
-                                style = fontsizeLabelCard
-                            )
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxHeight(0.8f)
-                                    .width(1.dp),
-                                color = Color.White,
-                            )
+                                Text(
+                                    text = stop.spoor + " ",
+                                    style = fontsizeLabelCard
+                                )
+                            }
                             drukteIndicatorComposable(
                                 aantalIconen = stop.drukte.aantalIconen,
                                 icon = stop.drukte.icon,

@@ -96,7 +96,7 @@ fun formatTravelTime(duratinInMinutes: Int): String {
 fun calculateDelay(delayInSeconds: Long?): String {
 
     if (delayInSeconds == null) {
-        return " (-) "
+        return "(-)"
     }
 
     if (delayInSeconds == 0.toLong()) {
@@ -111,11 +111,11 @@ fun calculateDelay(delayInSeconds: Long?): String {
     }
 
     if (minuten > 0) {
-        return " +" + minuten.toString()
+        return "+" + minuten.toString()
     }
 
     if (seconden > 30 && seconden < 60) {
-        return " +1"
+        return "+1"
     }
     return ""
 }

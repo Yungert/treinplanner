@@ -68,16 +68,18 @@ class RitDetailViewModel() : ViewModel() {
                                 }
                             }
                             val materieelNummer = mutableListOf<String>()
-                            var materieel = if(stop.actualStock == null) stop.plannedStock else stop.plannedStock
-                            materieel.trainParts.forEach { part ->
-                                materieelNummer.add(part.stockIdentifier ?: "-")
+                            if (stop.actualStock != null || stop.plannedStock != null) {
+                                var materieel = if (stop.actualStock != null) stop.actualStock else stop.plannedStock
+                                materieel.trainParts.forEach { part ->
+                                    materieelNummer.add(part.stockIdentifier ?: "-")
+                                }
                             }
 
                             treinStops.add(TreinRitDetail(
                                 eindbestemmingTrein = stop.destination,
                                 ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
                                 stationNaam = stop.stop.name,
-                                spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack ?:"",
+                                spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack,
                                 ingekort = stop.actualStock?.hasSignificantChange ?: stop.plannedStock?.hasSignificantChange ?: false,
                                 aantalZitplaatsen = stop.actualStock?.numberOfSeats?.toString() ?: stop.plannedStock?.numberOfSeats?.toString() ?: "",
                                 aantalTreinDelen = stop.actualStock?.numberOfParts?.toString() ?: stop.plannedStock?.numberOfParts?.toString() ?: "",
