@@ -80,8 +80,8 @@ class ReisAdviesViewModel () : ViewModel() {
                                 geplandeReistijd = formatTravelTime(trip.plannedDurationInMinutes ?: trip.plannedDurationInMinutes ?: 0),
                                 aantalTransfers = trip.transfers ?: 0,
                                 reinadviesId = trip.ctxRecon ?: "",
-                                vertragingInSecondeAankomst = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
-                                vertragingInSecondeVertrek = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
+                                aankomstVertraging = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
+                                vertrekVertraging = calculateDelay(trip.legs?.getOrNull(trip.legs?.size?.minus(1) ?: 0)?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
                                 bericht = trip.primaryMessage,
                                 drukte = DrukteIndicator(
                                     icon = icon,

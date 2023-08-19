@@ -14,13 +14,13 @@ data class RitDetail(
     val geplandeVertrektijd: String,
     val actueleVertrektijd: String,
     val vertrekSpoor: String?,
-    val vertragingInSecondeVertrekStation: String,
+    val vertrekVertraging: String,
     val vertrekStationUicCode : String,
 
     val naamAankomstStation: String,
     val geplandeAankomsttijd: String,
     val aankomstSpoor: String?,
-    val vertragingInSecondeAankomstStation: String,
+    val aankomstVertraging: String,
     val actueleAankomstTijd: String,
     val aankomstStationUicCode : String,
 

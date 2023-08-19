@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardTab
 import androidx.compose.material.icons.filled.Start
@@ -246,7 +243,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
-                                    text = reis.vertragingInSecondeVertrekStation,
+                                    text = reis.vertrekVertraging,
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center,
                                     color = Color.Red,
@@ -298,7 +295,7 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
-                                    text = reis.vertragingInSecondeAankomstStation,
+                                    text = reis.aankomstVertraging,
                                     style = fontsizeLabelCard,
                                     textAlign = TextAlign.Center,
                                     color = Color.Red,

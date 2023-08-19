@@ -104,6 +104,7 @@ class StationPickerViewModel() : ViewModel() {
                 ).collect { result ->
                     when (result) {
                         is Resource.Success -> {
+                            var dichtbijZijndeStations = mutableListOf<StationNamen>()
                             result.data?.payload?.forEach { station ->
                                 station.locations?.forEach { locatie ->
                                     val dichtbijStation =
@@ -131,11 +132,11 @@ class StationPickerViewModel() : ViewModel() {
                         }
 
                         is Resource.Loading -> {
-
+                            _viewState.value = ViewStateStationPicker.Loading
                         }
 
                         is Resource.Error -> {
-
+                            _viewState.value = ViewStateStationPicker.Problem(result.state)
                         }
                     }
 

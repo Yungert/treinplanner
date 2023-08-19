@@ -107,11 +107,11 @@ class RitDetailViewModel() : ViewModel() {
                     }
 
                     is Resource.Loading -> {
-
+                        _viewState.value = ViewStateRitDetail.Loading
                     }
 
                     is Resource.Error -> {
-
+                        _viewState.value = ViewStateRitDetail.Problem(result.state)
                     }
                 }
 

@@ -61,7 +61,6 @@ import com.yungert.treinplanner.presentation.ui.utils.iconSize
 import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
-import java.time.format.TextStyle
 
 @Composable
 fun ShowReisAdvies(
@@ -234,7 +233,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                         textAlign = TextAlign.Center
                                     )
                                     Text(
-                                        text = advies.vertragingInSecondeVertrek,
+                                        text = advies.vertrekVertraging,
                                         style = fontsizeLabelCard,
                                         color = Color.Red,
                                         textAlign = TextAlign.Center,
@@ -253,7 +252,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                         textAlign = TextAlign.Center
                                     )
                                     Text(
-                                        text = advies.vertragingInSecondeAankomst,
+                                        text = advies.aankomstVertraging,
                                         style = fontsizeLabelCard,
                                         color = Color.Red,
                                         textAlign = TextAlign.Center,
