@@ -36,7 +36,7 @@ interface NSApiService {
     suspend fun getDichtbijzijndeStation(
         @Query("lat") lat: String,
         @Query("lng") lng: String,
-        @Query("limit") limit: Int = 3,
+        @Query("limit") limit: Int = 5,
         @Query("radius") radius: Int = 10000,
         @Query("details") details: Boolean = false,
         @Query("name") name: String = "Stations",

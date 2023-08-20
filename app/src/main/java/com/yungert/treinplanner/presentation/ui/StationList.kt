@@ -5,12 +5,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
@@ -32,9 +36,12 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -142,7 +149,6 @@ fun ShowStations(
                 .focusable(),
             state = listState)
         {
-
             item {
                 ListHeader {
                     Text(
@@ -200,15 +206,10 @@ fun StationCard(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .defaultMinSize(
-                    minWidth = minimaleBreedteTouchControls,
-                    minHeight = minimaleHoogteTouchControls
-                ),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-
-            ) {
+        ) {
             Text(
                 text = item.displayValue,
                 style = fontsizeLabelCard, fontWeight = FontWeight.Bold,
@@ -231,6 +232,20 @@ fun StationCard(
                         }
                     }
             )
+        }
+        if(item.distance > 0.0) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = item.afstandTotGebruiker,
+                    style = fontsizeLabelCard, fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }

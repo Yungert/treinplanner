@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-
+import com.yungert.treinplanner.presentation.ui.utils.convertMeterNaarKilometer
 
 sealed class ViewStateStationPicker {
     object Loading : ViewStateStationPicker()
@@ -75,6 +75,7 @@ class StationPickerViewModel() : ViewModel() {
                 val latCoordinates = location?.latitude ?: 0.0
                 val lngCoordinates = location?.longitude ?: 0.0
                 if (latCoordinates != 0.0 && lngCoordinates != 0.0) {
+                    fusedLocationClient.removeLocationUpdates(this)
                     getClosedStation(latCoordinates, lngCoordinates, context, vanStation)
                 }
             }
@@ -107,16 +108,20 @@ class StationPickerViewModel() : ViewModel() {
                             var dichtbijZijndeStations = mutableListOf<StationNamen>()
                             result.data?.payload?.forEach { station ->
                                 station.locations?.forEach { locatie ->
-                                    val dichtbijStation =
-                                        _stationNamen.find { it.hiddenValue == locatie.stationCode?.lowercase() }
-                                    dichtbijStation?.distance = locatie.distance
+                                    if(locatie.distance != null && locatie.name != null && locatie.stationCode != null && locatie.naderenRadius != null) {
+                                        dichtbijZijndeStations.add(
+                                            StationNamen(
+                                            displayValue = locatie.name,
+                                            hiddenValue = locatie.stationCode,
+                                            distance = locatie.distance,
+                                            favorite = get(context = context, key = locatie.stationCode) != null,
+                                                afstandTotGebruiker = convertMeterNaarKilometer(locatie.distance)
+                                        )
+                                        )
+                                    }
                                 }
                             }
-
-                            _stationNamen.forEach { station ->
-                                if (get(context = context, key = station.hiddenValue) != null) {
-                                    station.favorite = true
-                                }
+                            dichtbijZijndeStations.forEach { station ->
                                 if (vanStation == null) {
                                     stations.add(station)
                                 } else if (station.hiddenValue != vanStation) {
@@ -124,9 +129,8 @@ class StationPickerViewModel() : ViewModel() {
                                 }
                             }
                             val sortedStations = stations.sortedWith(
-                                compareByDescending<StationNamen> { it.distance }
+                                compareBy<StationNamen> { it.distance }
                                     .thenByDescending { it.favorite }
-                                    .thenBy { it.distance == null }
                             )
                             _viewState.value = ViewStateStationPicker.Success(sortedStations)
                         }
