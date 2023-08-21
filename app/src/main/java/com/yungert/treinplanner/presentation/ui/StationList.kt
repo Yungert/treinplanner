@@ -114,7 +114,8 @@ fun ComposeStaions(
             ShowStations(
                 stations = response.details,
                 vanStation = vanStation,
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
     }
@@ -125,6 +126,7 @@ fun ShowStations(
     stations: List<StationNamen>,
     vanStation: String?,
     navController: NavController,
+    viewModel: StationPickerViewModel
 ) {
     val context = LocalContext.current
     val focusRequester = remember { FocusRequester() }
@@ -165,7 +167,8 @@ fun ShowStations(
                         item = station,
                         navController = navController,
                         context = context,
-                        vanStation = vanStation
+                        vanStation = vanStation,
+                        viewmodel = viewModel
                     )
                 }
             }
@@ -180,7 +183,8 @@ fun StationCard(
     item: StationNamen,
     navController: NavController,
     context: Context,
-    vanStation: String?
+    vanStation: String?,
+    viewmodel: StationPickerViewModel
 ) {
     var isFavorite by remember { mutableStateOf(item.favorite) }
     Card(
@@ -224,10 +228,9 @@ fun StationCard(
                     .clickable {
                         isFavorite = !isFavorite
                         CoroutineScope(Dispatchers.IO).launch {
-                            edit(
+                            viewmodel.toggleFavouriteStation(
                                 context = context,
-                                key = item.hiddenValue,
-                                value = item.displayValue
+                                item = item
                             )
                         }
                     }
@@ -250,22 +253,4 @@ fun StationCard(
     }
 }
 
-suspend fun edit(context: Context, key: String, value: String) {
-    val exist = (get(context, key) != null)
-    val dataStoreKey = stringPreferencesKey(key)
-    if (!exist) {
-        context.dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    } else {
-        context.dataStore.edit { settings ->
-            settings.remove(dataStoreKey)
-        }
-    }
-}
 
-suspend fun get(context: Context, key: String): String? {
-    val dataStoreKey = stringPreferencesKey(key)
-    val preference = context.dataStore.data.first()
-    return preference[dataStoreKey]
-}

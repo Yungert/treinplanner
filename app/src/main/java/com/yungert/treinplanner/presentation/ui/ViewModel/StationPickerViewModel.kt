@@ -1,6 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import Data.Repository.NsApiRepository
+import Data.Repository.SharedPreferencesRepository
 import Data.api.NSApiClient
 import Data.api.Resource
 import android.annotation.SuppressLint
@@ -16,7 +17,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.dataStore
-import com.yungert.treinplanner.presentation.ui.get
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,12 +37,13 @@ class StationPickerViewModel() : ViewModel() {
         MutableStateFlow<ViewStateStationPicker>(ViewStateStationPicker.Loading)
     val stations = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
+    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
 
     fun getStationsZonderGps(vanStation: String?, context: Context){
         val stations = mutableListOf<StationNamen>()
         viewModelScope.launch {
             stationNamen.forEach { station ->
-                if (get(context = context, key = station.hiddenValue) != null) {
+                if (sharedPreferencesRepository.get(context = context, key = station.hiddenValue) != null) {
                     station.favorite = true
                 }
                 if (vanStation == null) {
@@ -114,7 +115,7 @@ class StationPickerViewModel() : ViewModel() {
                                             displayValue = locatie.name,
                                             hiddenValue = locatie.stationCode,
                                             distance = locatie.distance,
-                                            favorite = get(context = context, key = locatie.stationCode) != null,
+                                            favorite = sharedPreferencesRepository.get(context = context, key = locatie.stationCode) != null,
                                                 afstandTotGebruiker = convertMeterNaarKilometer(locatie.distance)
                                         )
                                         )
@@ -147,13 +148,15 @@ class StationPickerViewModel() : ViewModel() {
                 }
             }
         }
-
-
-        suspend fun get(context: Context, key: String): String? {
-            val dataStoreKey = stringPreferencesKey(key)
-            val preference = context.dataStore.data.first()
-            return preference[dataStoreKey]
-        }
     }
+
+    suspend fun toggleFavouriteStation(context: Context, item: StationNamen){
+        sharedPreferencesRepository.edit(
+            context = context,
+            key = item.hiddenValue,
+            value = item.displayValue
+        )
+    }
+
 }
 
