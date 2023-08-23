@@ -23,4 +23,6 @@
     <string name="text_onbekende_fout">An unknown error occurred</string>
     <string name="label_opnieuw_proberen">Try again</string>
     <string name="header_error_screen">Something went wrong</string>
+    <string name="text_search_bar_station_picker">Enter station name</string>
+    <string name="text_zoek_station">Search station</string>
 </resources>

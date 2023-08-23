@@ -7,14 +7,14 @@ import com.yungert.treinplanner.presentation.ui.dataStore
 import kotlinx.coroutines.flow.first
 
 class SharedPreferencesRepository {
-    suspend fun get(context: Context, key: String): String? {
+    suspend fun getFavouriteStation(context: Context, key: String): String? {
         val dataStoreKey = stringPreferencesKey(key)
         val preference = context.dataStore.data.first()
         return preference[dataStoreKey]
     }
 
-    suspend fun edit(context: Context, key: String, value: String) {
-        val exist = (get(context, key) != null)
+    suspend fun editFavouriteStation(context: Context, key: String, value: String) {
+        val exist = (getFavouriteStation(context, key) != null)
         val dataStoreKey = stringPreferencesKey(key)
         if (!exist) {
             context.dataStore.edit { settings ->

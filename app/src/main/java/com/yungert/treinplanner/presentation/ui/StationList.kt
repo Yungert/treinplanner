@@ -5,16 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
@@ -36,16 +34,13 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -71,12 +66,11 @@ import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchContro
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "favourites")
-
+private var stationZoekenOPdracht = ""
 
 @Composable
 fun ComposeStaions(
@@ -86,6 +80,7 @@ fun ComposeStaions(
     gpsToestemming: String?,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
+    stationZoekenOPdracht = ""
     val context = LocalContext.current
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -132,6 +127,16 @@ fun ShowStations(
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    var searchText by remember { mutableStateOf(TextFieldValue()) }
+    if(searchText.text != ""){
+        stationZoekenOPdracht = searchText.text
+    }
+    val filteredItems = if (stationZoekenOPdracht.isEmpty()) {
+        stations
+    } else {
+        stations.filter {it.displayValue.lowercase().contains(stationZoekenOPdracht.lowercase())}
+    }
+
     Scaffold(
         positionIndicator = {
             PositionIndicator(scalingLazyListState = listState)
@@ -161,7 +166,26 @@ fun ShowStations(
                     )
                 }
             }
-            stations.forEach { station ->
+            item {
+                TextField(
+                    value = searchText,
+                    onValueChange = { searchText = it },
+                    label = { Text(
+                        text = stringResource(id = R.string.text_zoek_station),
+                        color = Color.White) },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    ),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.White,
+                        cursorColor = Color.White
+                    )
+                )
+            }
+
+            filteredItems.forEach { station ->
                 item {
                     StationCard(
                         item = station,
@@ -176,6 +200,7 @@ fun ShowStations(
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }
+
 
 
 @Composable
