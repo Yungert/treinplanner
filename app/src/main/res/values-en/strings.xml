@@ -25,4 +25,7 @@
     <string name="header_error_screen">Something went wrong</string>
     <string name="text_search_bar_station_picker">Enter station name</string>
     <string name="text_zoek_station">Search station</string>
+    <string name="laadt_text_station_ophalen">Retrieve stations</string>
+    <string name="laadt_text_rit_gegevens">Retrieve trip information</string>
+    <string name="laadt_resiadviezen">Retrieve travel options</string>
 </resources>

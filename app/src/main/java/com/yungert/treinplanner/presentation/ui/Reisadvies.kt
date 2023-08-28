@@ -85,7 +85,7 @@ fun ShowReisAdvies(
     }
 
     when (val response = viewModel.reisavies.collectAsState().value) {
-        is ViewStateReisAdvies.Loading -> LoadingScreen()
+        is ViewStateReisAdvies.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_resiadviezen))
         is ViewStateReisAdvies.Problem -> {
             Foutmelding(onClick = {
                 viewModel.getReisadviezen(startStation = vertrekStation, eindStation = eindStation)

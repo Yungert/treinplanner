@@ -56,13 +56,13 @@ import java.time.format.DateTimeFormatter
 private var lastFormattedTime: String? = null
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(loadingText: String?) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(stringResource(id = R.string.label_loading))
+        Text(loadingText ?: stringResource(id = R.string.label_loading))
     }
 }
 

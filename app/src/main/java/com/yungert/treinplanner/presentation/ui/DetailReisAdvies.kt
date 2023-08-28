@@ -77,7 +77,7 @@ fun ShowDetailReisAdvies(
     }
 
     when (val response = viewModel.reisavies.collectAsState().value) {
-        is ViewStateDetailReisAdvies.Loading -> LoadingScreen()
+        is ViewStateDetailReisAdvies.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_rit_gegevens))
         is ViewStateDetailReisAdvies.Problem -> {
 
         }
@@ -120,6 +120,29 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController) 
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
+                }
+            }
+            item {
+                if(rit[0].hoofdBericht != null){
+                    Card(
+                        onClick = {},
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    text = rit[0].hoofdBericht!!,
+                                    style = fontsizeLabelCard,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
                 }
             }
 

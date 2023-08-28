@@ -14,7 +14,7 @@ data class Leg(
     val idx: String,
     val journeyDetail: List<JourneyDetail>,
     val journeyDetailRef: String,
-    val messages: List<Message>,
+    val messages: List<Message>?,
     val name: String,
     val nesProperties: NesProperties,
     val origin: OriginXX,

@@ -28,6 +28,6 @@ data class Trip(
     val transfers: Int,
     val type: String,
     val uid: String,
-    val primaryMessage: Message,
+    val primaryMessage: Message?,
     val alternativeTransport : Boolean,
 )

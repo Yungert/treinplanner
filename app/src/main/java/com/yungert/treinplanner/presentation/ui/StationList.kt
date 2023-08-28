@@ -100,7 +100,7 @@ fun ComposeStaions(
     }
 
     when (val response = viewModel.stations.collectAsState().value) {
-        is ViewStateStationPicker.Loading -> LoadingScreen()
+        is ViewStateStationPicker.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_station_ophalen))
         is ViewStateStationPicker.Problem -> {
 
         }

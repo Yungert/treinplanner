@@ -90,7 +90,7 @@ fun ShowRitDetail(
     }
 
     when (val response = viewModel.stops.collectAsState().value) {
-        is ViewStateRitDetail.Loading -> LoadingScreen()
+        is ViewStateRitDetail.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_rit_gegevens))
         is ViewStateRitDetail.Problem -> {
 
         }

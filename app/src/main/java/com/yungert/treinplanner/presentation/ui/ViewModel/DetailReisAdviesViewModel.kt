@@ -60,7 +60,8 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     geplandeAankomsttijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
                                     aankomstSpoor = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalTrack ?: rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalTrack,
                                     aankomstVertraging = calculateDelay(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
-                                    berichten = rit?.messages,
+                                    berichten = rit.messages,
+                                    hoofdBericht = result.data.primaryMessage?.message?.text,
                                     transferBericht = rit.transferMessages,
                                     alternatiefVervoer = rit.alternativeTransport,
                                     actueleAankomstTijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime),
@@ -95,6 +96,7 @@ class DetailReisAdviesViewModel() : ViewModel() {
                                     aankomstStationUicCode = rit.destination.uicCode,
                                     datum = rit.origin.plannedDateTime,
                                     overstapTijd = overstap,
+                                    hoofdBericht = result.data.primaryMessage?.message?.text,
                                 )
                             }
                             ritten.add(ritDetail)

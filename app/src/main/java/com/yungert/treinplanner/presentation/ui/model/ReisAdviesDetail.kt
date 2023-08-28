@@ -25,6 +25,7 @@ data class RitDetail(
     val aankomstStationUicCode : String,
 
     val berichten: List<Message>?,
+    val hoofdBericht: String?,
     val transferBericht : List<TransferMessage>?,
     val alternatiefVervoer : Boolean,
     val ritId : String,

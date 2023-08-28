@@ -26,4 +26,7 @@
     <string name="header_error_screen">Er is iets fout gegaan</string>
     <string name="text_search_bar_station_picker">Voer station naam</string>
     <string name="text_zoek_station">Zoek station</string>
+    <string name="laadt_text_station_ophalen">Stations ophalen</string>
+    <string name="laadt_text_rit_gegevens">Rit gegevens ophalen</string>
+    <string name="laadt_resiadviezen">Reisadviezen ophalen</string>
 </resources>
