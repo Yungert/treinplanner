@@ -17,10 +17,10 @@ import com.google.android.gms.location.LocationServices
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
+import com.yungert.treinplanner.presentation.ui.utils.convertMeterNaarKilometer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import com.yungert.treinplanner.presentation.ui.utils.convertMeterNaarKilometer
 
 sealed class ViewStateStationPicker {
     object Loading : ViewStateStationPicker()

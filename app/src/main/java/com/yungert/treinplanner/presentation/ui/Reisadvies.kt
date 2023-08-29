@@ -58,7 +58,7 @@ import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.Foutmelding
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.WarningType
-import com.yungert.treinplanner.presentation.ui.utils.drukteIndicatorComposable
+import com.yungert.treinplanner.presentation.ui.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
 import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
@@ -335,7 +335,7 @@ fun DisplayReisAdvies(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    drukteIndicatorComposable(
+                                    DrukteIndicatorComposable(
                                         aantalIconen = advies.drukte.aantalIconen,
                                         icon = advies.drukte.icon,
                                         color = advies.drukte.color

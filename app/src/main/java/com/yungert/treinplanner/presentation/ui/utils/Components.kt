@@ -10,19 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.RailwayAlert
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -31,11 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.ListHeader
@@ -139,13 +131,13 @@ fun ShowMessage(msg: List<Message?>) {
         if (bericht == null) {
             return
         }
-        val color = when (WarningType.fromValue(bericht!!.type)) {
+        val color = when (WarningType.fromValue(bericht.type)) {
             WarningType.WARNING -> Color.Yellow
             WarningType.ERROR -> Color.Red
             WarningType.MAINTENANCE -> Color.Yellow
             else -> Color.White
         }
-        val icon = when (WarningType.fromValue(bericht!!.type)) {
+        val icon = when (WarningType.fromValue(bericht.type)) {
             WarningType.WARNING -> Icons.Default.Warning
             WarningType.ERROR -> Icons.Default.Info
             WarningType.DISRUPTION -> Icons.Default.RailwayAlert
@@ -174,7 +166,7 @@ fun ShowMessage(msg: List<Message?>) {
                             .size(iconSize)
                     )
                     Text(
-                        text = bericht!!.message.text,
+                        text = bericht.message.text,
                         style = fontsizeLabelCard,
                         textAlign = TextAlign.Center
                     )
@@ -202,7 +194,7 @@ fun calculateTimeDiff(startTime: String?, endTime: String?): String {
 }
 
 @Composable
-fun drukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color) {
+fun DrukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color) {
     repeat(aantalIconen) {
         Icon(
             imageVector = icon,

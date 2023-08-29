@@ -10,13 +10,13 @@ import androidx.navigation.navArgument
 import com.yungert.treinplanner.presentation.ui.ComposeStaions
 import com.yungert.treinplanner.presentation.ui.HomeScreen
 import com.yungert.treinplanner.presentation.ui.ShowDetailReisAdvies
+import com.yungert.treinplanner.presentation.ui.ShowGpsPermisson
 import com.yungert.treinplanner.presentation.ui.ShowReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowRitDetail
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
-import com.yungert.treinplanner.presentation.ui.ShowGpsPermisson
 
 @Composable
 fun Navigation() {

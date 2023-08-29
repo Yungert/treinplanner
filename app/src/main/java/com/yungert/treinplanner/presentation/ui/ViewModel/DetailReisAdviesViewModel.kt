@@ -38,7 +38,7 @@ class DetailReisAdviesViewModel() : ViewModel() {
 
                             var overstap = ""
                             if(index > 0){
-                                var lastStop = result.data?.legs[index - 1].stops.getOrNull(result.data?.legs[index - 1].stops.size?.minus(1) ?: 0)
+                                var lastStop = result.data.legs[index - 1].stops.getOrNull(result.data.legs[index - 1].stops.size.minus(1) ?: 0)
                                 var aankomstVorigeTrein = lastStop?.actualArrivalDateTime ?: lastStop?.plannedArrivalDateTime
                                 overstap = if(rit?.stops?.getOrNull(0)?.actualDepartureDateTime != null){
                                     calculateTimeDiff(aankomstVorigeTrein, rit?.stops?.getOrNull(0)?.actualDepartureDateTime)
@@ -48,24 +48,24 @@ class DetailReisAdviesViewModel() : ViewModel() {
                             }
                             if (!rit.alternativeTransport) {
                                 ritDetail = RitDetail(
-                                    treinOperator = rit?.product?.operatorName ?: "",
-                                    treinOperatorType = rit?.product?.categoryCode ?: "",
-                                    ritNummer = rit?.product?.number ?: "",
-                                    eindbestemmingTrein = rit?.direction ?: "",
-                                    naamVertrekStation = rit?.origin?.name ?: "",
+                                    treinOperator = rit.product.operatorName ?: "",
+                                    treinOperatorType = rit.product.categoryCode ?: "",
+                                    ritNummer = rit.product.number ?: "",
+                                    eindbestemmingTrein = rit.direction ?: "",
+                                    naamVertrekStation = rit.origin.name ?: "",
                                     geplandeVertrektijd = formatTime(rit?.stops?.getOrNull(0)?.plannedDepartureDateTime),
-                                    vertrekSpoor = rit?.stops?.getOrNull(0)?.actualDepartureTrack ?: rit?.stops?.getOrNull(0)?.plannedDepartureTrack,
-                                    vertrekVertraging = calculateDelay(rit?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
-                                    naamAankomstStation = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.name ?: "",
-                                    geplandeAankomsttijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
-                                    aankomstSpoor = rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalTrack ?: rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalTrack,
-                                    aankomstVertraging = calculateDelay(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
+                                    vertrekSpoor = rit.stops.getOrNull(0)?.actualDepartureTrack ?: rit?.stops?.getOrNull(0)?.plannedDepartureTrack,
+                                    vertrekVertraging = calculateDelay(rit.stops.getOrNull(0)?.departureDelayInSeconds?.toLong() ?: 0),
+                                    naamAankomstStation = rit.stops.getOrNull(rit.stops.size.minus(1) ?: 0)?.name ?: "",
+                                    geplandeAankomsttijd = formatTime(rit.stops.getOrNull(rit.stops?.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
+                                    aankomstSpoor = rit.stops.getOrNull(rit.stops.size.minus(1) ?: 0)?.actualArrivalTrack ?: rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.plannedArrivalTrack,
+                                    aankomstVertraging = calculateDelay(rit.stops.getOrNull(rit.stops.size.minus(1) ?: 0)?.arrivalDelayInSeconds?.toLong() ?: 0),
                                     berichten = rit.messages,
                                     hoofdBericht = result.data.primaryMessage?.message?.text,
                                     transferBericht = rit.transferMessages,
-                                    alternatiefVervoer = rit.alternativeTransport,
-                                    actueleAankomstTijd = formatTime(rit.stops.getOrNull(rit?.stops?.size?.minus(1) ?: 0)?.actualArrivalDateTime),
-                                    actueleVertrektijd = formatTime(rit?.stops?.getOrNull(0)?.actualDepartureDateTime),
+                                    alternatiefVervoer = false,
+                                    actueleAankomstTijd = formatTime(rit.stops.getOrNull(rit.stops.size.minus(1) ?: 0)?.actualArrivalDateTime),
+                                    actueleVertrektijd = formatTime(rit.stops.getOrNull(0)?.actualDepartureDateTime),
                                     ritId = rit.journeyDetailRef,
                                     vertrekStationUicCode = rit.origin.uicCode,
                                     aankomstStationUicCode = rit.destination.uicCode,
