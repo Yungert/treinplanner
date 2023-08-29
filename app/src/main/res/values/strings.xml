@@ -12,7 +12,7 @@
     <string name="text_tijd_overstap_op_alternatief_vervoer">min. overstap naar alternatief vervoer</string>
     <string name="text_tijd_overstap_op_andere_trein">min. overstap naar spoor</string>
     <string name="label_eindbestemming_trein">naar</string>
-    <string name="label_loading">Gegevens ophalen...</string>
+    <string name="label_loading">Gegevens ophalen</string>
     <string name="label_jouw_reis_naar">Jouw reis naar</string>
     <string name="label_rit">Rit</string>
     <string name="label_onbekend">onbekend</string>
@@ -29,4 +29,5 @@
     <string name="laadt_text_station_ophalen">Stations ophalen</string>
     <string name="laadt_text_rit_gegevens">Rit gegevens ophalen</string>
     <string name="laadt_resiadviezen">Reisadviezen ophalen</string>
+    <string name="label_vervallen_reisadvies">Reisadvies vervalt</string>
 </resources>

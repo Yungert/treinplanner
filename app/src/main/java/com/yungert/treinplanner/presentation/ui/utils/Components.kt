@@ -62,7 +62,8 @@ fun LoadingScreen(loadingText: String?) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(loadingText ?: stringResource(id = R.string.label_loading))
+
+        Text((loadingText ?: stringResource(id = R.string.label_loading)) + "...")
     }
 }
 

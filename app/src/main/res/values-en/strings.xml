@@ -11,7 +11,7 @@
     <string name="text_tijd_overstap_op_alternatief_vervoer">min. transfer time to alternative transportation</string>
     <string name="text_tijd_overstap_op_andere_trein">min. transfer time to platform</string>
     <string name="label_eindbestemming_trein">towards</string>
-    <string name="label_loading">Loading...</string>
+    <string name="label_loading">Loading</string>
     <string name="label_jouw_reis_naar">Your journey to</string>
     <string name="label_rit">Trip</string>
     <string name="label_onbekend">unknown</string>
@@ -28,4 +28,5 @@
     <string name="laadt_text_station_ophalen">Retrieve stations</string>
     <string name="laadt_text_rit_gegevens">Retrieve trip information</string>
     <string name="laadt_resiadviezen">Retrieve travel options</string>
+    <string name="label_vervallen_reisadvies">Journey not possible</string>
 </resources>

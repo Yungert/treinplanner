@@ -19,8 +19,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val defaultLocale = Locale.getDefault()
         if (defaultLocale != Locale("nl")) {
-            setLocale(Locale("en")) // Dutch
+            setLocale(Locale("en"))
         }
+
         setContent {
             Navigation()
         }

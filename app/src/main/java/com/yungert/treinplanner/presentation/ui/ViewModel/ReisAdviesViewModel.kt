@@ -88,7 +88,7 @@ class ReisAdviesViewModel () : ViewModel() {
                                     aantalIconen = aantal,
                                     color = color
                                 ),
-                                cancelled = trip.legs?.getOrNull(0)?.cancelled ?: false,
+                                cancelled = trip.status == "CANCELLED",
                                 treinSoortenOpRit = treinSoort
                             ))
                         }

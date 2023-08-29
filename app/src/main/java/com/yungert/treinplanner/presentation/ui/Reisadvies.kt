@@ -1,6 +1,8 @@
 package com.yungert.treinplanner.presentation.ui
 
 
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +31,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -93,16 +96,28 @@ fun ShowReisAdvies(
         }
 
         is ViewStateReisAdvies.Success -> {
-            DisplayReisAdvies(reisAdvies = response.details, navController = navController)
+            DisplayReisAdvies(
+                reisAdvies = response.details,
+                navController = navController,
+                vanStation = vertrekStation,
+                naarStation = eindStation
+            )
         }
     }
 }
 
 @Composable
-fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController) {
+fun DisplayReisAdvies(
+    reisAdvies: List<ReisAdvies>,
+    navController: NavController,
+    vanStation: String,
+    naarStation: String
+) {
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val vervallenReisadviexText = stringResource(id = R.string.label_vervallen_reisadvies)
     Scaffold(
         positionIndicator = {
             PositionIndicator(scalingLazyListState = listState)
@@ -133,14 +148,22 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
 
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(
+                                Screen.Reisadvies.withArguments(
+                                    naarStation,
+                                    vanStation
+                                )
+                            )
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-
-                        ) {
+                    ) {
                         Box(
                             modifier = Modifier
                                 .weight(0.25f)
@@ -198,14 +221,15 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
             }
 
             reisAdvies.forEach { advies ->
-                if (advies.cancelled) {
-                    return@forEach
-                }
-
                 item {
+
                     Card(
                         onClick = {
-                            navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
+                            if (!advies.cancelled) {
+                                navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
+                            } else {
+                                Toast.makeText(context, vervallenReisadviexText, Toast.LENGTH_SHORT).show()
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -217,7 +241,6 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                     ) {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -237,17 +260,17 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                         style = fontsizeLabelCard,
                                         color = Color.Red,
                                         textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(horizontal = 1.dp)
                                     )
                                     Icon(
                                         imageVector = Icons.Default.East,
                                         contentDescription = "Icon",
                                         tint = Color.White,
                                         modifier = Modifier
-                                            .padding(horizontal = 1.dp)
                                             .size(iconSize)
                                     )
                                     Text(
-                                        text = advies.geplandeAankomstTijd ,
+                                        text = advies.geplandeAankomstTijd,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
@@ -273,7 +296,7 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     Text(
                                         text = advies.actueleReistijd,
                                         style = fontsizeLabelCard,
-                                        color = if(advies.actueleReistijd != advies.geplandeReistijd) Color.Red else Color.White,
+                                        color = if (advies.actueleReistijd != advies.geplandeReistijd) Color.Red else Color.White,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier.padding(horizontal = 2.dp)
                                     )
@@ -335,6 +358,29 @@ fun DisplayReisAdvies(reisAdvies: List<ReisAdvies>, navController: NavController
                                     )
                                     Text(
                                         text = stringResource(id = R.string.alternatief_vervoer_bericht),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center,
+                                        maxLines = 2,
+                                    )
+
+                                }
+                            }
+                            if (advies.cancelled) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Warning,
+                                        contentDescription = "Icon",
+                                        tint = Color.Red,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.label_vervallen_reisadvies),
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
                                         maxLines = 2,
