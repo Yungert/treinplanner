@@ -27,4 +27,22 @@ class SharedPreferencesRepository {
         }
     }
 
+    suspend fun getLastRoute(context: Context, key: String): String? {
+        val dataStoreKey = stringPreferencesKey(key)
+        val preference = context.dataStore.data.first()
+        return preference[dataStoreKey]
+    }
+    suspend fun editLastRoute(context: Context, key: String, value: String) {
+        val exist = (getFavouriteStation(context, key) != null)
+        val dataStoreKey = stringPreferencesKey(key)
+        if (!exist) {
+            context.dataStore.edit { settings ->
+                settings[dataStoreKey] = value
+            }
+        } else {
+            context.dataStore.edit { settings ->
+                settings.remove(dataStoreKey)
+            }
+        }
+    }
 }

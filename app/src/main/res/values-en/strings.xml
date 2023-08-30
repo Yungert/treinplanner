@@ -29,4 +29,5 @@
     <string name="laadt_text_rit_gegevens">Retrieve trip information</string>
     <string name="laadt_resiadviezen">Retrieve travel options</string>
     <string name="label_vervallen_reisadvies">Journey not possible</string>
+    <string name="label_laatst_geplande_reis">Last planned</string>
 </resources>

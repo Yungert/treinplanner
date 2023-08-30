@@ -155,5 +155,12 @@ class StationPickerViewModel() : ViewModel() {
         )
     }
 
+    suspend fun setLastPlannedRoute(context: Context, key: String, value: String){
+        sharedPreferencesRepository.editFavouriteStation(
+            context = context,
+            key = key,
+            value = value
+        )
+    }
 }
 

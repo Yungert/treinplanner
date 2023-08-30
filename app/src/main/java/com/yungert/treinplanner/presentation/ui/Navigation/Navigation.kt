@@ -14,6 +14,7 @@ import com.yungert.treinplanner.presentation.ui.ShowGpsPermisson
 import com.yungert.treinplanner.presentation.ui.ShowReisAdvies
 import com.yungert.treinplanner.presentation.ui.ShowRitDetail
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
+import com.yungert.treinplanner.presentation.ui.ViewModel.HomeScreenViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
@@ -23,7 +24,8 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
         composable(route = Screen.HomeScreen.route){
-            HomeScreen(navController = navController)
+            var viewmodel : HomeScreenViewModel = viewModel()
+            HomeScreen(navController = navController, viewModel = viewmodel)
         }
         composable(route = Screen.GpsPermission.route){
             ShowGpsPermisson(navController = navController)

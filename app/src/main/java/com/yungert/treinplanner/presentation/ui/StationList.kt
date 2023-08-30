@@ -222,6 +222,18 @@ fun StationCard(
             ),
         onClick = {
             if (vanStation != null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewmodel.setLastPlannedRoute(
+                        context = context,
+                        key = "vertrekStation",
+                        value = vanStation
+                    )
+                    viewmodel.setLastPlannedRoute(
+                        context = context,
+                        key = "aankomstStation",
+                        value = item.displayValue
+                    )
+                }
                 navController.navigate(
                     Screen.Reisadvies.withArguments(
                         vanStation,
@@ -229,7 +241,7 @@ fun StationCard(
                     )
                 )
             } else {
-                navController.navigate(Screen.StationNaarKiezen.withArguments(item.hiddenValue))
+                navController.navigate(Screen.StationNaarKiezen.withArguments(item.displayValue))
             }
         }
     ) {

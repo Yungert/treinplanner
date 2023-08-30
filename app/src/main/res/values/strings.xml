@@ -30,4 +30,5 @@
     <string name="laadt_text_rit_gegevens">Rit gegevens ophalen</string>
     <string name="laadt_resiadviezen">Reisadviezen ophalen</string>
     <string name="label_vervallen_reisadvies">Reisadvies vervalt</string>
+    <string name="label_laatst_geplande_reis">Laatst gepland</string>
 </resources>
