@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui.utils
 
+import Data.models.Message
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,6 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
-import com.yungert.treinplanner.presentation.ui.model.Message
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalTime
@@ -48,7 +48,7 @@ import java.time.format.DateTimeFormatter
 private var lastFormattedTime: String? = null
 
 @Composable
-fun LoadingScreen(loadingText: String?) {
+fun LoadingScreen(loadingText: String? = null) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -166,7 +166,7 @@ fun ShowMessage(msg: List<Message?>) {
                             .size(iconSize)
                     )
                     Text(
-                        text = bericht.message.text,
+                        text = bericht.text,
                         style = fontsizeLabelCard,
                         textAlign = TextAlign.Center
                     )

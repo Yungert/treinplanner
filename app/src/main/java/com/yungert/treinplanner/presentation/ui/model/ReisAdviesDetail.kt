@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import Data.models.Message
 import Data.models.NesProperties
 import Data.models.TransferMessage
 
@@ -24,7 +25,7 @@ data class RitDetail(
     val actueleAankomstTijd: String,
     val aankomstStationUicCode : String,
 
-    val berichten: List<Message>?,
+    val berichten: List<Message>,
     val hoofdBericht: String?,
     val transferBericht : List<TransferMessage>?,
     val alternatiefVervoer : Boolean,
@@ -32,14 +33,6 @@ data class RitDetail(
 
     val overstapTijd : String?,
     )
-
-data class Message(
-    val title: String,
-
-    val nesProperties: NesProperties,
-    val message: MessageData,
-    val type: String
-)
 
 data class MessageData(
     val id: String,

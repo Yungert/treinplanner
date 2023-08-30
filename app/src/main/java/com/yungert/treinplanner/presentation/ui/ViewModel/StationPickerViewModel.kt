@@ -45,8 +45,10 @@ class StationPickerViewModel() : ViewModel() {
                 }
                 if (vanStation == null) {
                     stations.add(station)
-                } else if (station.hiddenValue != vanStation) {
-                    stations.add(station)
+                } else if (station.hiddenValue.lowercase() != vanStation.lowercase()) {
+                    if(station.displayValue.lowercase() != vanStation.lowercase()) {
+                        stations.add(station)
+                    }
                 }
             }
             val sortedStations = stations.sortedWith(

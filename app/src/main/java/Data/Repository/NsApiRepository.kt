@@ -2,12 +2,12 @@ package Data.Repository
 
 import Data.api.NSApiClient
 import Data.api.Resource
-import Data.models.ReisAdviesModel
-import Data.models.TreinRitDetail
-import Data.models.Trip
+import Data.models.ReisAdviesApiResponse
 import com.yungert.treinplanner.BuildConfig
 import com.yungert.treinplanner.presentation.ui.ErrorState
-import com.yungert.treinplanner.presentation.ui.model.PlaceResponse
+import Data.models.PlaceResponse
+import Data.models.RitDetailApiResponse
+import Data.models.TripDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class NsApiRepository(private val nsApiClient: NSApiClient) {
     val apiKey = BuildConfig.API_KEY_NS
-    suspend fun fetchReisAdviezen(vetrekStation: String, aankomstStation: String): Flow<Resource<ReisAdviesModel>> {
+    suspend fun fetchReisAdviezen(vetrekStation: String, aankomstStation: String): Flow<Resource<ReisAdviesApiResponse>> {
         return flow {
             emit(Resource.Loading())
             val apiResult = nsApiClient.apiService.getReisadviezen(startStation = vetrekStation, eindStation = aankomstStation, authToken = apiKey)
@@ -29,7 +29,7 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun fetchSingleTripById(reisadviesId: String): Flow<Resource<Trip>> {
+    suspend fun fetchSingleTripById(reisadviesId: String): Flow<Resource<TripDetail>> {
         return flow {
             emit(Resource.Loading())
             val apiResult = nsApiClient.apiService.getSingleReisById(id = reisadviesId, authToken = apiKey)
@@ -57,7 +57,7 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun fetchRitById(depatureUicCode: String, arrivalUicCode: String, reisId: String, dateTime: String): Flow<Resource<TreinRitDetail>> {
+    suspend fun fetchRitById(depatureUicCode: String, arrivalUicCode: String, reisId: String, dateTime: String): Flow<Resource<RitDetailApiResponse>> {
         return flow {
             emit(Resource.Loading())
             val apiResult = nsApiClient.apiService.getReis(departureUicCode = depatureUicCode, arrivalUicCode = arrivalUicCode, dateTime = dateTime, id = reisId, authToken = apiKey)

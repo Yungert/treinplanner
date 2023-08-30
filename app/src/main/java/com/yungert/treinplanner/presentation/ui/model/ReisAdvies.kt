@@ -1,5 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import Data.models.Message
+
 data class ReisAdvies(
     val verstrekStation: String,
     val aankomstStation: String,
@@ -15,4 +17,5 @@ data class ReisAdvies(
     val drukte : DrukteIndicator,
     val cancelled : Boolean,
     val treinSoortenOpRit : String,
+    val alternatiefVervoer : Boolean,
 )

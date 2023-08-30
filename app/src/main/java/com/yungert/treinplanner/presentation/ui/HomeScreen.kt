@@ -80,7 +80,7 @@ fun HomeScreen(
     }
 
     when (val response = viewModel.route.collectAsState().value) {
-        is ViewStateHomeScreen.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_resiadviezen))
+        is ViewStateHomeScreen.Loading -> LoadingScreen()
         is ViewStateHomeScreen.Problem -> {
             Foutmelding(onClick = {
                 viewModel.getLaatstGeplandeReis(context = context)
@@ -131,7 +131,12 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
 
             item {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .defaultMinSize(
+                            minWidth = minimaleBreedteTouchControls,
+                            minHeight = minimaleHoogteTouchControls
+                        )
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -152,10 +157,6 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
                                         )
                                     )
                                 },
-                                modifier = Modifier.defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                ),
 
                                 ) {
                                 Column(
@@ -185,10 +186,6 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
                                 onClick = {
                                     navController.navigate(Screen.GpsPermission.route)
                                 },
-                                modifier = Modifier.defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                ),
                             ) {
                                 Column(
                                     modifier = Modifier
@@ -210,19 +207,26 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
                     }
                 }
             }
-            item {
-                Text(
-                    text = stringResource(id = R.string.label_laatst_geplande_reis),
-                    textAlign = TextAlign.Center,
-                )
-            }
-            item {
-                if (route != null) {
-                    Card(
-                        onClick = {},
+            if (route?.vertrekStation != "" && route?.aankomstStation != "") {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.label_laatst_geplande_reis),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                item {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        //horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    Screen.Reisadvies.withArguments(
+                                        route!!.vertrekStation,
+                                        route.aankomstStation
+                                    )
+                                )
+                            },
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -245,7 +249,7 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
                                     .fillMaxSize()
                             ) {
                                 Text(
-                                    text = route.vertrekStation,
+                                    text = route!!.vertrekStation,
                                     style = fontsizeLabelCard,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -274,7 +278,7 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
                                     .fillMaxSize()
                             ) {
                                 Text(
-                                    text = route.aankomstStation,
+                                    text = route!!.aankomstStation,
                                     style = fontsizeLabelCard,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -285,6 +289,7 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
 
                 }
             }
+
         }
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }

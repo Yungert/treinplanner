@@ -1,6 +1,9 @@
 package com.yungert.treinplanner.presentation.ui
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.telephony.CarrierConfigManager.Gps
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -77,16 +81,18 @@ fun ComposeStaions(
     vanStation: String?,
     navController: NavController,
     viewModel: StationPickerViewModel,
-    gpsToestemming: String?,
+    metGps: String?,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     stationZoekenOPdracht = ""
+
     val context = LocalContext.current
     DisposableEffect(lifeCycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                if (gpsToestemming == "true") {
+                if (metGps == "true") {
                     viewModel.getStationsMetGps(vanStation = vanStation, context = context)
+
                 } else {
                     viewModel.getStationsZonderGps(vanStation = vanStation, context = context)
                 }
@@ -128,13 +134,13 @@ fun ShowStations(
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
     var searchText by remember { mutableStateOf(TextFieldValue()) }
-    if(searchText.text != ""){
+    if (searchText.text != "") {
         stationZoekenOPdracht = searchText.text
     }
     val filteredItems = if (stationZoekenOPdracht.isEmpty()) {
         stations
     } else {
-        stations.filter {it.displayValue.lowercase().contains(stationZoekenOPdracht.lowercase())}
+        stations.filter { it.displayValue.lowercase().contains(stationZoekenOPdracht.lowercase()) }
     }
 
     Scaffold(
@@ -170,9 +176,12 @@ fun ShowStations(
                 TextField(
                     value = searchText,
                     onValueChange = { searchText = it },
-                    label = { Text(
-                        text = stringResource(id = R.string.text_zoek_station),
-                        color = Color.White) },
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.text_zoek_station),
+                            color = Color.White
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
@@ -180,7 +189,9 @@ fun ShowStations(
                     ),
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = Color.White,
-                        cursorColor = Color.White
+                        cursorColor = Color.White,
+                        unfocusedIndicatorColor = Color.White,
+                        focusedIndicatorColor = Color.White
                     )
                 )
             }
@@ -200,7 +211,6 @@ fun ShowStations(
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }
-
 
 
 @Composable
@@ -273,7 +283,7 @@ fun StationCard(
                     }
             )
         }
-        if(item.distance > 0.0) {
+        if (item.distance > 0.0) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),

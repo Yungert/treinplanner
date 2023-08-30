@@ -40,7 +40,7 @@ fun Navigation() {
             )
         ) { entry ->
             var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(null, navController= navController, viewModel = viewmodel, gpsToestemming = entry.arguments?.getString("metGps") ?: "")
+            ComposeStaions(null, navController= navController, viewModel = viewmodel, metGps = entry.arguments?.getString("metGps") ?: "")
         }
 
         composable(route = Screen.StationNaarKiezen.route + "/{vanstation}",
@@ -52,7 +52,7 @@ fun Navigation() {
             )
         ) { entry ->
             var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel, gpsToestemming = null)
+            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel, metGps = null)
         }
         composable(route = Screen.Reisadvies.route + "/{vanstation}/{naarstation}",
             arguments = listOf(

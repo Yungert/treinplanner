@@ -1,12 +1,10 @@
-package com.yungert.treinplanner.presentation.ui.model
+package Data.models
 
 import com.google.gson.annotations.SerializedName
 
 data class PlaceResponse(
     @SerializedName("payload")
-    val payload: List<Data>?,
-
-    )
+    val payload: List<Data>?)
 
 
 data class Data(
