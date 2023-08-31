@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardTab
 import androidx.compose.material.icons.filled.Start
 import androidx.compose.material.icons.filled.Tram
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -419,6 +420,28 @@ fun DisplayDetailReisAdvies(
                                             text = reis.aankomstSpoor,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Center
+                                        )
+                                    }
+                                }
+                                if(reis.kortereTreinDanGepland) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Icon",
+                                            tint = Color.Red,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = stringResource(id = R.string.label_kortere_trein_waarschuwing),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center,
+                                            maxLines = 2,
                                         )
                                     }
                                 }

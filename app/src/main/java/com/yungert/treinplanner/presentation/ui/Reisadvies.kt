@@ -309,7 +309,7 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
-                if(reisAdvies.primaryMessage != null){
+                if(reisAdvies.primaryMessage?.message != null){
                     item {
                         Card(
                             onClick = {},
@@ -526,7 +526,6 @@ fun DisplayReisAdvies(
                                             textAlign = TextAlign.Center,
                                             maxLines = 2,
                                         )
-
                                     }
                                 }
                             }

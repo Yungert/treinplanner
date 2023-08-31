@@ -82,6 +82,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 aankomstStationUicCode = advies.destination.uicCode,
                                 datum = advies.origin.plannedDateTime,
                                 overstapTijd = overstap,
+                                kortereTreinDanGepland = advies.shorterStock
                             )
 
                             ritDetail.let { ritten.add(it) }

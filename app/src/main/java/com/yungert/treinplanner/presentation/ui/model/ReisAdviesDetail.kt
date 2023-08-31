@@ -10,6 +10,7 @@ data class RitDetail(
     val ritNummer: String,
     val eindbestemmingTrein: String,
     val datum: String,
+    val kortereTreinDanGepland: Boolean,
 
     val naamVertrekStation: String,
     val geplandeVertrektijd: String,

@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +33,7 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -57,6 +61,8 @@ import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.iconSize
 import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -289,7 +295,6 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
 
                 }
             }
-
         }
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }

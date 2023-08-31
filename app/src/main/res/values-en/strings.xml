@@ -33,4 +33,6 @@
     <string name="label_opniew_plannen">Plan another journey</string>
     <string name="error_geen_internet">No internet connection, data could not be retrieved</string>
     <string name="label_dichtbijzijnde_stations_ophalen">Retrieve nearest stations</string>
+    <string name="label_kortere_trein_waarschuwing">"Shorter train than planned, takes extra crowds into account  "</string>
+    <string name="label_instellingen">Settings</string>
 </resources>

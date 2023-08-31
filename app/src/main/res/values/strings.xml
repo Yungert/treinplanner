@@ -34,4 +34,6 @@
     <string name="label_opniew_plannen">Andere reis plannen</string>
     <string name="error_geen_internet">Geen internet verbinding, gegevens konden niet worden opgehaald</string>
     <string name="label_dichtbijzijnde_stations_ophalen">Dichtstbijzijnde  stations ophalen</string>
+    <string name="label_kortere_trein_waarschuwing">Kortere trein dan gepland, houdt rekening met extra drukte</string>
+    <string name="label_instellingen">Instellingen</string>
 </resources>

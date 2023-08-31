@@ -1,6 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import Data.Repository.NsApiRepository
+import Data.Repository.SharedPreferencesRepository
 import Data.api.NSApiClient
 import Data.api.Resource
 import Data.models.PrimaryMessage
@@ -36,13 +37,17 @@ class ReisAdviesViewModel : ViewModel() {
     private val _viewState = MutableStateFlow<ViewStateReisAdvies>(ViewStateReisAdvies.Loading)
     val reisavies = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
+    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
 
     fun getReisadviezen(startStation: String, eindStation: String, context: Context) {
         if (!hasInternetConnection(context)) {
             _viewState.value = ViewStateReisAdvies.Problem(ErrorState.NO_CONNECTION)
             return
         }
+
         viewModelScope.launch {
+            setLaatstGeplandeReis(context = context, key = "vertrekStation", value = startStation)
+            setLaatstGeplandeReis(context = context, key = "aankomstStation", value = eindStation)
             nsApiRepository.fetchReisAdviezen(
                 vetrekStation = startStation,
                 aankomstStation = eindStation
@@ -75,9 +80,9 @@ class ReisAdviesViewModel : ViewModel() {
                                     vertrekVertraging = calculateTimeDiff(advies.legs.getOrNull(0)?.origin?.plannedDateTime, advies.legs.getOrNull(0)?.origin?.actualDateTime),
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
-                                    cancelled = advies.status == "CANCELED",
+                                    cancelled = advies.status == "CANCELLED",
                                     treinSoortenOpRit = treinSoort,
-                                    alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT"
+                                    alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT",
                                 )
                             )
                         }
@@ -101,6 +106,10 @@ class ReisAdviesViewModel : ViewModel() {
 
             }
         }
+    }
+
+    suspend fun setLaatstGeplandeReis(context: Context, key:String, value:String){
+        sharedPreferencesRepository.editLastRoute(context = context, key = key, value = value)
     }
 }
 

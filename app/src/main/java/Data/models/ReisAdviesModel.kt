@@ -352,8 +352,8 @@ data class StationReference(
 )
 
 data class PrimaryMessage(
-    val title: String?,
+    val title: String,
     val nesProperties: NesProperties?,
-    val message: Message,
+    val message: Message?,
     val type: String?
 )
