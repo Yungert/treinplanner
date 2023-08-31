@@ -3,9 +3,6 @@ package com.yungert.treinplanner.presentation.ui.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import java.time.Duration
 import java.time.LocalTime
 import java.time.OffsetDateTime

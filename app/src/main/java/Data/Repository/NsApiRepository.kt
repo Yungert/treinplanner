@@ -2,12 +2,12 @@ package Data.Repository
 
 import Data.api.NSApiClient
 import Data.api.Resource
-import Data.models.ReisAdviesApiResponse
-import com.yungert.treinplanner.BuildConfig
-import com.yungert.treinplanner.presentation.ui.ErrorState
 import Data.models.PlaceResponse
+import Data.models.ReisAdviesApiResponse
 import Data.models.RitDetailApiResponse
 import Data.models.TripDetail
+import com.yungert.treinplanner.BuildConfig
+import com.yungert.treinplanner.presentation.ui.ErrorState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

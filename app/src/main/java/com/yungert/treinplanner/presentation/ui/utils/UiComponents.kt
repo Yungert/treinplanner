@@ -41,11 +41,6 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import kotlinx.coroutines.launch
-import java.time.Duration
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-
 
 
 @Composable

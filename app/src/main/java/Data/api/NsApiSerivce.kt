@@ -1,7 +1,7 @@
 package Data.api
 
-import Data.models.ReisAdviesApiResponse
 import Data.models.PlaceResponse
+import Data.models.ReisAdviesApiResponse
 import Data.models.RitDetailApiResponse
 import Data.models.TripDetail
 import retrofit2.Response
