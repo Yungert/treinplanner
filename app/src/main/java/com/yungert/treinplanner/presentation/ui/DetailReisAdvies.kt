@@ -25,6 +25,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -47,6 +48,7 @@ import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
+import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
@@ -62,28 +64,44 @@ fun ShowDetailReisAdvies(
     navController: NavController,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-
-    DisposableEffect(lifeCycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getReisadviesDetail(reisAdviesId = reisADviesId)
-            }
-        }
-        lifeCycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifeCycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    when (val response = viewModel.reisavies.collectAsState().value) {
-        is ViewStateDetailReisAdvies.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_rit_gegevens))
-        is ViewStateDetailReisAdvies.Problem -> {
-
-        }
-
+    val ritDetailViewModel = viewModel
+    when (val result = ritDetailViewModel.reisavies.collectAsState().value) {
         is ViewStateDetailReisAdvies.Success -> {
-            DisplayDetailReisAdvies(rit = response.details, navController = navController)
+            DisplayDetailReisAdvies(rit = result.details, navController = navController)
+        }
+        else -> {
+            val context = LocalContext.current
+            DisposableEffect(lifeCycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        viewModel.getReisadviesDetail(
+                            reisAdviesId = reisADviesId,
+                            context = context
+                        )
+                    }
+                }
+                lifeCycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifeCycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
+            when (val response = viewModel.reisavies.collectAsState().value) {
+                is ViewStateDetailReisAdvies.Loading -> LoadingScreen(
+                    loadingText = stringResource(
+                        id = R.string.laadt_text_rit_gegevens
+                    )
+                )
+
+                is ViewStateDetailReisAdvies.Problem -> {
+
+                }
+
+                is ViewStateDetailReisAdvies.Success -> {
+                    DisplayDetailReisAdvies(rit = response.details, navController = navController)
+                }
+            }
         }
     }
 }

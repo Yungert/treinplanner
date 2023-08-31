@@ -3,6 +3,7 @@ package com.yungert.treinplanner.presentation.ui.ViewModel
 import Data.Repository.NsApiRepository
 import Data.api.NSApiClient
 import Data.api.Resource
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
@@ -10,6 +11,7 @@ import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
+import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -27,7 +29,11 @@ class DetailReisAdviesViewModel() : ViewModel() {
     val reisavies = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
 
-    fun getReisadviesDetail(reisAdviesId: String) {
+    fun getReisadviesDetail(reisAdviesId: String, context: Context) {
+        if(!hasInternetConnection(context)){
+            _viewState.value = ViewStateDetailReisAdvies.Problem(ErrorState.NO_CONNECTION)
+            return
+        }
         viewModelScope.launch {
             nsApiRepository.fetchSingleTripById(reisadviesId = reisAdviesId).collect { result ->
                 when (result) {

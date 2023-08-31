@@ -18,6 +18,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
 import com.yungert.treinplanner.presentation.ui.utils.convertMeterNaarKilometer
+import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -61,6 +62,10 @@ class StationPickerViewModel() : ViewModel() {
 
     @SuppressLint("MissingPermission")
     fun getStationsMetGps(vanStation: String?, context: Context) {
+        if(!hasInternetConnection(context)){
+            _viewState.value = ViewStateStationPicker.Problem(ErrorState.NO_CONNECTION)
+            return
+        }
         val fusedLocationClient: FusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(context)
 

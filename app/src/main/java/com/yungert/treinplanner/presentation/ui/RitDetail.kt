@@ -30,6 +30,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +50,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
+import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateReisAdvies
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
@@ -69,32 +71,45 @@ fun ShowRitDetail(
     navController: NavController,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-    DisposableEffect(lifeCycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getReisadviezen(
-                    depatureUicCode = depatureUicCode,
-                    arrivalUicCode = arrivalUicCode,
-                    reisId = reisId,
-                    dateTime = dateTime
-                )
-            }
-        }
-        lifeCycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifeCycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    when (val response = viewModel.stops.collectAsState().value) {
-        is ViewStateRitDetail.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_rit_gegevens))
-        is ViewStateRitDetail.Problem -> {
-
-        }
-
+    val ritDetailViewModel = viewModel
+    when (val result = ritDetailViewModel.stops.collectAsState().value) {
         is ViewStateRitDetail.Success -> {
-            DisplayRitDetail(stops = response.details, navController = navController)
+            DisplayRitDetail(
+                stops = result.details,
+                navController = navController,
+            )
+        }
+        else -> {
+            val context = LocalContext.current
+            DisposableEffect(lifeCycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        viewModel.getReisadviezen(
+                            depatureUicCode = depatureUicCode,
+                            arrivalUicCode = arrivalUicCode,
+                            reisId = reisId,
+                            dateTime = dateTime,
+                            context = context
+                        )
+                    }
+                }
+                lifeCycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifeCycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
+            when (val response = viewModel.stops.collectAsState().value) {
+                is ViewStateRitDetail.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_rit_gegevens))
+                is ViewStateRitDetail.Problem -> {
+
+                }
+
+                is ViewStateRitDetail.Success -> {
+                    DisplayRitDetail(stops = response.details, navController = navController)
+                }
+            }
         }
     }
 }

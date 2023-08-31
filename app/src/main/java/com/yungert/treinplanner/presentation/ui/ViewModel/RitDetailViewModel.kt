@@ -3,6 +3,7 @@ package com.yungert.treinplanner.presentation.ui.ViewModel
 import Data.Repository.NsApiRepository
 import Data.api.NSApiClient
 import Data.api.Resource
+import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GroupOff
 import androidx.compose.material.icons.filled.Person
@@ -15,6 +16,7 @@ import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
+import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -28,7 +30,11 @@ class RitDetailViewModel() : ViewModel() {
     private val _viewState = MutableStateFlow<ViewStateRitDetail>(ViewStateRitDetail.Loading)
     val stops = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
-    fun getReisadviezen(depatureUicCode: String, arrivalUicCode: String, reisId: String, dateTime: String) {
+    fun getReisadviezen(depatureUicCode: String, arrivalUicCode: String, reisId: String, dateTime: String, context: Context) {
+        if(!hasInternetConnection(context)){
+            _viewState.value = ViewStateRitDetail.Problem(ErrorState.NO_CONNECTION)
+            return
+        }
         viewModelScope.launch {
             nsApiRepository.fetchRitById(depatureUicCode = depatureUicCode, arrivalUicCode = arrivalUicCode, dateTime = dateTime, reisId = reisId).collect { result ->
                 when (result) {

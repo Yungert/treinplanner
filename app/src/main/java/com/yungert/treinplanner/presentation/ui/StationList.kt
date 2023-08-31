@@ -62,6 +62,7 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
+import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateStationPicker
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
@@ -85,39 +86,55 @@ fun ComposeStaions(
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     stationZoekenOPdracht = ""
-
-    val context = LocalContext.current
-    DisposableEffect(lifeCycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                if (metGps == "true") {
-                    viewModel.getStationsMetGps(vanStation = vanStation, context = context)
-
-                } else {
-                    viewModel.getStationsZonderGps(vanStation = vanStation, context = context)
-                }
-            }
-        }
-        lifeCycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifeCycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    when (val response = viewModel.stations.collectAsState().value) {
-        is ViewStateStationPicker.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_station_ophalen))
-        is ViewStateStationPicker.Problem -> {
-
-        }
-
+    val stationViewModel = viewModel
+    when (val result = stationViewModel.stations.collectAsState().value) {
         is ViewStateStationPicker.Success -> {
             ShowStations(
-                stations = response.details,
+                stations = result.details,
                 vanStation = vanStation,
                 navController = navController,
                 viewModel = viewModel
             )
+        }
+
+        else -> {
+            val context = LocalContext.current
+            DisposableEffect(lifeCycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        if (metGps == "true") {
+                            viewModel.getStationsMetGps(vanStation = vanStation, context = context)
+
+                        } else {
+                            viewModel.getStationsZonderGps(
+                                vanStation = vanStation,
+                                context = context
+                            )
+                        }
+                    }
+                }
+                lifeCycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifeCycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
+            when (val response = viewModel.stations.collectAsState().value) {
+                is ViewStateStationPicker.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_station_ophalen))
+                is ViewStateStationPicker.Problem -> {
+
+                }
+
+                is ViewStateStationPicker.Success -> {
+                    ShowStations(
+                        stations = response.details,
+                        vanStation = vanStation,
+                        navController = navController,
+                        viewModel = viewModel
+                    )
+                }
+            }
         }
     }
 }

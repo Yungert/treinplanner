@@ -39,13 +39,14 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
+import com.yungert.treinplanner.presentation.ui.ErrorState
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
-private var lastFormattedTime: String? = null
+
 
 @Composable
 fun LoadingScreen(loadingText: String? = null) {
@@ -59,67 +60,7 @@ fun LoadingScreen(loadingText: String? = null) {
     }
 }
 
-fun formatTime(time: String?): String {
-    if (time == null || time == "") {
-        return ""
-    }
-    val offsetIndex = time.indexOf('+')
 
-    val modifiedTimestamp = StringBuilder(time).insert(offsetIndex + 3, ':').toString()
-
-    val offsetDateTime =
-        OffsetDateTime.parse(modifiedTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-
-
-    val localTime = offsetDateTime.toLocalTime()
-
-    val formattedTime = localTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    lastFormattedTime = formattedTime
-    return formattedTime
-}
-
-fun formatTravelTime(duratinInMinutes: Int): String {
-    val uur = duratinInMinutes / 60
-    var stringReistijd = ""
-    if (uur > 0) {
-        stringReistijd = uur.toString() + ":"
-    } else {
-        stringReistijd = "0:"
-    }
-    if (duratinInMinutes % 60 < 10) {
-        stringReistijd = stringReistijd + "0" + (duratinInMinutes % 60).toString()
-    } else {
-        stringReistijd += (duratinInMinutes % 60).toString()
-    }
-    return stringReistijd
-}
-
-fun calculateDelay(delayInSeconds: Long?): String {
-
-    if (delayInSeconds == null) {
-        return "(-)"
-    }
-
-    if (delayInSeconds == 0.toLong()) {
-        return ""
-    }
-
-    var minuten = delayInSeconds / 60
-    var seconden = delayInSeconds % 60
-
-    if (seconden > 30) {
-        minuten++
-    }
-
-    if (minuten > 0) {
-        return "+" + minuten.toString()
-    }
-
-    if (seconden > 30 && seconden < 60) {
-        return "+1"
-    }
-    return ""
-}
 
 @Composable
 fun ShowMessage(msg: List<Message?>) {
@@ -176,22 +117,7 @@ fun ShowMessage(msg: List<Message?>) {
     }
 }
 
-fun calculateTimeDiff(startTime: String?, endTime: String?): String {
-    if (startTime == null || endTime == null) {
-        return ""
-    }
 
-    var start = formatTime(startTime)
-    var end = formatTime(endTime)
-
-    val formatter = DateTimeFormatter.ofPattern("HH:mm")
-    val startLocalTime = LocalTime.parse(start, formatter)
-    val endLocalTime = LocalTime.parse(end, formatter)
-
-    val duration = Duration.between(startLocalTime, endLocalTime)
-
-    return duration.toMinutes().toString()
-}
 
 @Composable
 fun DrukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color) {
@@ -207,7 +133,7 @@ fun DrukteIndicatorComposable(aantalIconen: Int, icon: ImageVector, color: Color
 }
 
 @Composable
-fun Foutmelding(onClick: () -> Unit) {
+fun Foutmelding(errorState: ErrorState? = ErrorState.UNKNOWN, onClick: () -> Unit) {
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -250,7 +176,7 @@ fun Foutmelding(onClick: () -> Unit) {
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Warning,
+                            imageVector = errorState?.icon ?: Icons.Default.Warning,
                             contentDescription = "Icon",
                             tint = Color.White,
                             modifier = Modifier
@@ -264,7 +190,7 @@ fun Foutmelding(onClick: () -> Unit) {
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = stringResource(id = R.string.text_onbekende_fout),
+                            text = stringResource(id = errorState?.txt ?: R.string.text_onbekende_fout),
                             style = fontsizeLabelCard,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(bottom = 4.dp)
@@ -277,10 +203,12 @@ fun Foutmelding(onClick: () -> Unit) {
                     ) {
                         Card(
                             onClick = onClick,
-                            modifier = Modifier.defaultMinSize(
-                                minWidth = minimaleBreedteTouchControls,
-                                minHeight = minimaleHoogteTouchControls
-                            ).padding(bottom = 30.dp)
+                            modifier = Modifier
+                                .defaultMinSize(
+                                    minWidth = minimaleBreedteTouchControls,
+                                    minHeight = minimaleHoogteTouchControls
+                                )
+                                .padding(bottom = 30.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.label_opnieuw_proberen),
@@ -296,10 +224,3 @@ fun Foutmelding(onClick: () -> Unit) {
     }
 }
 
-fun convertMeterNaarKilometer(afstandInMeters: Double): String{
-    if (afstandInMeters > 1000){
-        val kilometers = afstandInMeters / 1000
-        return "${"%.1f".format(kilometers)} km"
-    }
-    return "${"%.1f".format(afstandInMeters)} m"
-}

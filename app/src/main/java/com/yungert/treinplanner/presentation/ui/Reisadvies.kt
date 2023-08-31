@@ -68,6 +68,7 @@ import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchContro
 import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ShowReisAdvies(
     vertrekStation: String,
@@ -76,35 +77,58 @@ fun ShowReisAdvies(
     navController: NavController,
     lifeCycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-
-    DisposableEffect(lifeCycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getReisadviezen(startStation = vertrekStation, eindStation = eindStation)
-            }
-        }
-        lifeCycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifeCycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
-
-    when (val response = viewModel.reisavies.collectAsState().value) {
-        is ViewStateReisAdvies.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_resiadviezen))
-        is ViewStateReisAdvies.Problem -> {
-            Foutmelding(onClick = {
-                viewModel.getReisadviezen(startStation = vertrekStation, eindStation = eindStation)
-            })
-        }
-
+    val reisAdviesViewModel = viewModel
+    when (val result = reisAdviesViewModel.reisavies.collectAsState().value) {
         is ViewStateReisAdvies.Success -> {
             DisplayReisAdvies(
-                reisAdvies = response.details,
+                reisAdvies = result.details,
                 navController = navController,
                 vanStation = vertrekStation,
                 naarStation = eindStation
             )
+        }
+        else -> {
+            val context = LocalContext.current
+            DisposableEffect(lifeCycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME) {
+                        reisAdviesViewModel.getReisadviezen(
+                            startStation = vertrekStation,
+                            eindStation = eindStation,
+                            context = context,
+                        )
+                    }
+                }
+                lifeCycleOwner.lifecycle.addObserver(observer)
+
+                onDispose {
+                    lifeCycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+
+            when (val response = reisAdviesViewModel.reisavies.collectAsState().value) {
+                is ViewStateReisAdvies.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_resiadviezen))
+                is ViewStateReisAdvies.Problem -> {
+                    Foutmelding(
+                        errorState = response.exception,
+                        onClick = {
+                        viewModel.getReisadviezen(
+                            startStation = vertrekStation,
+                            eindStation = eindStation,
+                            context = context,
+                        )
+                    })
+                }
+
+                is ViewStateReisAdvies.Success -> {
+                    DisplayReisAdvies(
+                        reisAdvies = response.details,
+                        navController = navController,
+                        vanStation = vertrekStation,
+                        naarStation = eindStation
+                    )
+                }
+            }
         }
     }
 }
@@ -259,7 +283,8 @@ fun DisplayReisAdvies(
                             if (!advies.cancelled) {
                                 navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
                             } else {
-                                Toast.makeText(context, vervallenReisadviexText, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, vervallenReisadviexText, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         },
                         modifier = Modifier
@@ -286,7 +311,7 @@ fun DisplayReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
-                                    if(advies.vertrekVertraging != "") {
+                                    if (advies.vertrekVertraging != "") {
                                         Text(
                                             text = advies.vertrekVertraging,
                                             style = fontsizeLabelCard,
