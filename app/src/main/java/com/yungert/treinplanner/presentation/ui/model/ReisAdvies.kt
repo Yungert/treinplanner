@@ -1,8 +1,16 @@
 package com.yungert.treinplanner.presentation.ui.model
 
 import Data.models.Message
+import Data.models.PrimaryMessage
 
 data class ReisAdvies(
+    val primaryMessage: PrimaryMessage?,
+    val advies: List<Adviezen>,
+    val verstrekStation: String,
+    val aankomstStation: String,
+)
+
+data class Adviezen(
     val verstrekStation: String,
     val aankomstStation: String,
     val geplandeVertrekTijd: String,

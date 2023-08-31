@@ -145,7 +145,7 @@ fun ShowReisAdvies(
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DisplayReisAdvies(
-    reisAdvies: List<ReisAdvies>,
+    reisAdvies:ReisAdvies,
     navController: NavController,
     vanStation: String,
     naarStation: String,
@@ -271,7 +271,7 @@ fun DisplayReisAdvies(
                                     .fillMaxSize()
                             ) {
                                 Text(
-                                    text = reisAdvies.getOrNull(0)?.verstrekStation ?: "",
+                                    text = reisAdvies.verstrekStation,
                                     style = fontsizeLabelCard,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -300,7 +300,7 @@ fun DisplayReisAdvies(
                                     .fillMaxSize()
                             ) {
                                 Text(
-                                    text = reisAdvies.getOrNull(0)?.aankomstStation ?: "",
+                                    text = reisAdvies.aankomstStation,
                                     style = fontsizeLabelCard,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -309,8 +309,31 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
+                if(reisAdvies.primaryMessage != null){
+                    item {
+                        Card(
+                            onClick = {},
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Text(
+                                        text = reisAdvies.primaryMessage.message.text,
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
 
-                reisAdviezen.forEach { advies ->
+                reisAdviezen.advies.forEach { advies ->
                     item {
                         Card(
                             onClick = {

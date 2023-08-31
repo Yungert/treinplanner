@@ -266,7 +266,7 @@ fun StationCard(
                 navController.navigate(
                     Screen.Reisadvies.withArguments(
                         vanStation,
-                        item.hiddenValue
+                        item.displayValue
                     )
                 )
             } else {
