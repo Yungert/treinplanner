@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -123,6 +124,7 @@ fun ShowDetailReisAdvies(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController, viewModel: DetailReisAdviesViewModel, reisAdviesId: String) {
@@ -133,6 +135,9 @@ fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController, 
     var refreshing by remember { mutableStateOf(false) }
     var trips = rit
     val context = LocalContext.current
+    coroutineScope.launch {
+        listState.scrollToItem(index = 1)
+    }
     fun refresh() = refreshScope.launch {
         viewModel.getReisadviesDetail(
             reisAdviesId = reisAdviesId,

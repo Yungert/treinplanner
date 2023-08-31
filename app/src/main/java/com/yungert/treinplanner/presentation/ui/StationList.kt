@@ -105,7 +105,6 @@ fun ComposeStaions(
                     if (event == Lifecycle.Event.ON_RESUME) {
                         if (metGps == "true") {
                             viewModel.getStationsMetGps(vanStation = vanStation, context = context)
-
                         } else {
                             viewModel.getStationsZonderGps(
                                 vanStation = vanStation,
@@ -120,9 +119,9 @@ fun ComposeStaions(
                     lifeCycleOwner.lifecycle.removeObserver(observer)
                 }
             }
-
+            val loadingText = if(metGps == "true" && vanStation == null) stringResource(id = R.string.label_dichtbijzijnde_stations_ophalen) else  stringResource(id = R.string.laadt_text_station_ophalen)
             when (val response = viewModel.stations.collectAsState().value) {
-                is ViewStateStationPicker.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_station_ophalen))
+                is ViewStateStationPicker.Loading -> LoadingScreen(loadingText)
                 is ViewStateStationPicker.Problem -> {
                     Foutmelding(
                         errorState = response.exception,

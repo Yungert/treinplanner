@@ -32,4 +32,5 @@
     <string name="label_laatst_geplande_reis">Last planned</string>
     <string name="label_opniew_plannen">Plan another journey</string>
     <string name="error_geen_internet">No internet connection, data could not be retrieved</string>
+    <string name="label_dichtbijzijnde_stations_ophalen">Retrieve nearest stations</string>
 </resources>
