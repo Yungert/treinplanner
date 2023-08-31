@@ -14,6 +14,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
+import com.yungert.treinplanner.presentation.ui.utils.DrukteIndicatorFormatter
 import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
@@ -65,28 +66,7 @@ class RitDetailViewModel : ViewModel() {
                             }
                             val departure = stop.departures.getOrNull(0)
                             val arrival = stop.arrivals.getOrNull(0)
-                            var icon = Icons.Default.GroupOff
-                            var color = Color.Gray
-                            var aantal = 1
 
-                            when (stop.departures.getOrNull(0)?.crowdForecast) {
-                                CrowdForecast.rustig.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Green
-                                }
-
-                                CrowdForecast.gemiddeld.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Yellow
-                                    aantal = 2
-                                }
-
-                                CrowdForecast.druk.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Red
-                                    aantal = 3
-                                }
-                            }
                             val materieelNummer = mutableListOf<String>()
                             if (stop.actualStock != null || stop.plannedStock != null) {
                                 var materieel =
@@ -119,11 +99,7 @@ class RitDetailViewModel : ViewModel() {
                                         departure?.delayInSeconds?.toLong() ?: 0
                                     ),
                                     materieelType = stop.actualStock.trainType ?: "",
-                                    drukte = DrukteIndicator(
-                                        icon = icon,
-                                        color = color,
-                                        aantalIconen = aantal
-                                    ),
+                                    drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
                                     materieelNummers = materieelNummer,
 

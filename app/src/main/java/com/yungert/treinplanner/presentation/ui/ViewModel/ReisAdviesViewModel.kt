@@ -14,6 +14,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
+import com.yungert.treinplanner.presentation.ui.utils.DrukteIndicatorFormatter
 import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.formatTravelTime
@@ -49,27 +50,7 @@ class ReisAdviesViewModel : ViewModel() {
                         var reisAdviezen = mutableListOf<ReisAdvies>()
 
                         result.data?.trips?.forEachIndexed { index, advies ->
-                            var icon = Icons.Default.GroupOff
-                            var color = Color.Gray
-                            var aantal = 1
-                            when (advies.crowdForecast) {
-                                CrowdForecast.rustig.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Green
-                                }
 
-                                CrowdForecast.gemiddeld.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Yellow
-                                    aantal = 2
-                                }
-
-                                CrowdForecast.druk.value -> {
-                                    icon = Icons.Default.Person
-                                    color = Color.Red
-                                    aantal = 3
-                                }
-                            }
                             var treinSoort = ""
                             advies.legs.forEachIndexed { index, rit ->
                                 treinSoort = if (index == 0) {
@@ -90,11 +71,7 @@ class ReisAdviesViewModel : ViewModel() {
                                         aankomstVertraging = calculateTimeDiff(rit.destination.plannedDateTime, rit.destination.actualDateTime),
                                         vertrekVertraging = calculateTimeDiff(rit.origin.plannedDateTime, rit.origin.actualDateTime),
                                         bericht = rit.messages,
-                                        drukte = DrukteIndicator(
-                                            icon = icon,
-                                            aantalIconen = aantal,
-                                            color = color
-                                        ),
+                                        drukte = DrukteIndicatorFormatter(advies.crowdForecast),
                                         cancelled = rit.cancelled,
                                         treinSoortenOpRit = treinSoort,
                                         alternatiefVervoer = rit.alternativeTransport

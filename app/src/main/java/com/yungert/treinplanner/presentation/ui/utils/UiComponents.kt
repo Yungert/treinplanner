@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.GroupOff
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RailwayAlert
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
@@ -40,6 +42,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import kotlinx.coroutines.launch
 
 
@@ -217,5 +220,33 @@ fun Foutmelding(errorState: ErrorState? = ErrorState.UNKNOWN, onClick: () -> Uni
         }
 
     }
+}
+
+fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator{
+    var icon = Icons.Default.GroupOff
+    var color = Color.Gray
+    var aantal = 1
+    when (forecast) {
+        CrowdForecast.rustig.value -> {
+            icon = Icons.Default.Person
+            color = Color.Green
+        }
+
+        CrowdForecast.gemiddeld.value -> {
+            icon = Icons.Default.Person
+            color = Color.Yellow
+            aantal = 2
+        }
+        CrowdForecast.druk.value -> {
+            icon = Icons.Default.Person
+            color = Color.Red
+            aantal = 3
+        }
+    }
+    return DrukteIndicator(
+        icon = icon,
+        color = color,
+        aantalIconen = aantal,
+    )
 }
 
