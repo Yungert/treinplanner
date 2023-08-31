@@ -49,10 +49,15 @@ class ReisAdviesViewModel : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var adviezen = mutableListOf<Adviezen>()
-                        var primaryMessage : PrimaryMessage? = null
+                        var primaryMessage = mutableListOf<PrimaryMessage>()
                         result.data?.trips?.forEachIndexed { index, advies ->
                             var treinSoort = ""
-                            primaryMessage = advies.primaryMessage
+                            val uniek = primaryMessage.any { message ->
+                                message.message?.id == advies.primaryMessage?.message?.id
+                            }
+                            if(!uniek) {
+                                advies.primaryMessage?.let { primaryMessage.add(it) }
+                            }
                             advies.legs.forEachIndexed { index, rit ->
                                 treinSoort = if (index == 0) {
                                     treinSoort + rit.product.shortCategoryName.lowercase()

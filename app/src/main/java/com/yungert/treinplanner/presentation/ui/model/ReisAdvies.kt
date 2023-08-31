@@ -4,7 +4,7 @@ import Data.models.Message
 import Data.models.PrimaryMessage
 
 data class ReisAdvies(
-    val primaryMessage: PrimaryMessage?,
+    val primaryMessage: List<PrimaryMessage>,
     val advies: List<Adviezen>,
     val verstrekStation: String,
     val aankomstStation: String,

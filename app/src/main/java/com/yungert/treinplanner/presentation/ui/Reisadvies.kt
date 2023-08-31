@@ -309,24 +309,26 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
-                if(reisAdvies.primaryMessage?.message != null){
-                    item {
-                        Card(
-                            onClick = {},
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
+                if(reisAdvies.primaryMessage.isNotEmpty()){
+                    reisAdvies.primaryMessage.forEach { bericht ->
+                        item {
+                            Card(
+                                onClick = {},
                             ) {
-                                Row(
+                                Column(
                                     modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
                                 ) {
-                                    Text(
-                                        text = reisAdvies.primaryMessage.message.text,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
-                                    )
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Text(
+                                            text = bericht.message?.text ?: bericht.title,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
                                 }
                             }
                         }
