@@ -73,15 +73,16 @@ class RitDetailViewModel : ViewModel() {
                             treinStops.add(
                                 TreinRitDetail(
                                     eindbestemmingTrein = stop.destination,
-                                    ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
+                                    ritNummer = result.data.payload.productNumbers.getOrNull(0)
+                                        ?: "0",
                                     stationNaam = stop.stop.name,
                                     spoor = departure?.actualTrack ?: departure?.plannedTrack
                                     ?: arrival?.actualTrack ?: arrival?.plannedTrack,
                                     ingekort = stop.actualStock?.hasSignificantChange ?: false,
                                     aantalZitplaatsen = stop.actualStock?.numberOfSeats?.toString()
-                                        ?: stop.plannedStock?.numberOfSeats.toString() ?: "",
+                                        ?: stop.plannedStock?.numberOfSeats.toString(),
                                     aantalTreinDelen = stop.actualStock?.numberOfParts?.toString()
-                                        ?: stop.plannedStock?.numberOfParts.toString() ?: "",
+                                        ?: stop.plannedStock?.numberOfParts.toString(),
                                     actueleAankomstTijd = formatTime(arrival?.actualTime),
                                     geplandeAankomstTijd = formatTime(arrival?.plannedTime),
                                     aankomstVertraging = calculateDelay(

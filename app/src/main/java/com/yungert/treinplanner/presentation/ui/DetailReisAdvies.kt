@@ -344,7 +344,7 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
-                                    if(reis.vertrekVertraging != "0" && reis.vertrekVertraging != "") {
+                                    if (reis.vertrekVertraging != "0" && reis.vertrekVertraging != "") {
                                         Text(
                                             text = "+" + reis.vertrekVertraging,
                                             style = fontsizeLabelCard,
@@ -398,7 +398,7 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
-                                    if(reis.aankomstVertraging != "0" && reis.aankomstVertraging != "") {
+                                    if (reis.aankomstVertraging != "0" && reis.aankomstVertraging != "") {
                                         Text(
                                             text = "+" + reis.aankomstVertraging,
                                             style = fontsizeLabelCard,
@@ -423,7 +423,7 @@ fun DisplayDetailReisAdvies(
                                         )
                                     }
                                 }
-                                if(reis.kortereTreinDanGepland) {
+                                if (reis.kortereTreinDanGepland) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,

@@ -145,7 +145,7 @@ fun ShowReisAdvies(
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DisplayReisAdvies(
-    reisAdvies:ReisAdvies,
+    reisAdvies: ReisAdvies,
     navController: NavController,
     vanStation: String,
     naarStation: String,
@@ -309,7 +309,7 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
-                if(reisAdvies.primaryMessage.isNotEmpty()){
+                if (reisAdvies.primaryMessage.isNotEmpty()) {
                     reisAdvies.primaryMessage.forEach { bericht ->
                         item {
                             Card(
@@ -426,11 +426,11 @@ fun DisplayReisAdvies(
                                             modifier = Modifier
                                                 .size(iconSize)
                                         )
-                                        if(advies.actueleReistijd == "0:00"){
+                                        if (advies.actueleReistijd == "0:00") {
                                             Text(
                                                 text = advies.geplandeReistijd,
                                                 style = fontsizeLabelCard,
-                                                color =  Color.White,
+                                                color = Color.White,
                                                 textAlign = TextAlign.Center,
                                                 modifier = Modifier.padding(horizontal = 2.dp)
                                             )

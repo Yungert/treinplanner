@@ -31,7 +31,8 @@ class ReisAdviesViewModel : ViewModel() {
     private val _viewState = MutableStateFlow<ViewStateReisAdvies>(ViewStateReisAdvies.Loading)
     val reisavies = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
-    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
+    private val sharedPreferencesRepository: SharedPreferencesRepository =
+        SharedPreferencesRepository()
 
     fun getReisadviezen(startStation: String, eindStation: String, context: Context) {
         if (!hasInternetConnection(context)) {
@@ -55,7 +56,7 @@ class ReisAdviesViewModel : ViewModel() {
                             val uniek = primaryMessage.any { message ->
                                 message.message?.id == advies.primaryMessage?.message?.id
                             }
-                            if(!uniek) {
+                            if (!uniek) {
                                 advies.primaryMessage?.let { primaryMessage.add(it) }
                             }
                             advies.legs.forEachIndexed { index, rit ->
@@ -71,12 +72,22 @@ class ReisAdviesViewModel : ViewModel() {
                                     aankomstStation = eindStation,
                                     geplandeVertrekTijd = formatTime(advies.legs.getOrNull(0)?.origin?.plannedDateTime),
                                     geplandeAankomstTijd = formatTime(advies.legs.getOrNull(advies.legs.size - 1)?.destination?.plannedDateTime),
-                                    actueleReistijd = formatTravelTime(advies.actualDurationInMinutes ?: 0),
+                                    actueleReistijd = formatTravelTime(
+                                        advies.actualDurationInMinutes
+                                    ),
                                     geplandeReistijd = formatTravelTime(advies.plannedDurationInMinutes),
                                     aantalTransfers = advies.transfers,
                                     reinadviesId = advies.ctxRecon,
-                                    aankomstVertraging = calculateTimeDiff(advies.legs.getOrNull(advies.legs.size - 1)?.destination?.plannedDateTime, advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime),
-                                    vertrekVertraging = calculateTimeDiff(advies.legs.getOrNull(0)?.origin?.plannedDateTime, advies.legs.getOrNull(0)?.origin?.actualDateTime),
+                                    aankomstVertraging = calculateTimeDiff(
+                                        advies.legs.getOrNull(
+                                            advies.legs.size - 1
+                                        )?.destination?.plannedDateTime,
+                                        advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime
+                                    ),
+                                    vertrekVertraging = calculateTimeDiff(
+                                        advies.legs.getOrNull(0)?.origin?.plannedDateTime,
+                                        advies.legs.getOrNull(0)?.origin?.actualDateTime
+                                    ),
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
                                     cancelled = advies.status == "CANCELLED",
@@ -86,12 +97,14 @@ class ReisAdviesViewModel : ViewModel() {
                             )
                         }
 
-                        _viewState.value = ViewStateReisAdvies.Success(ReisAdvies(
-                            primaryMessage = primaryMessage,
-                            advies = adviezen,
-                            verstrekStation = startStation,
-                            aankomstStation = eindStation
-                        ))
+                        _viewState.value = ViewStateReisAdvies.Success(
+                            ReisAdvies(
+                                primaryMessage = primaryMessage,
+                                advies = adviezen,
+                                verstrekStation = startStation,
+                                aankomstStation = eindStation
+                            )
+                        )
                     }
 
                     is Resource.Loading -> {
@@ -107,7 +120,7 @@ class ReisAdviesViewModel : ViewModel() {
         }
     }
 
-    suspend fun setLaatstGeplandeReis(context: Context, key:String, value:String){
+    suspend fun setLaatstGeplandeReis(context: Context, key: String, value: String) {
         sharedPreferencesRepository.editLastRoute(context = context, key = key, value = value)
     }
 }

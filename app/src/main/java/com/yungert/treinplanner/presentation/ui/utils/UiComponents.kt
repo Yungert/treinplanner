@@ -222,7 +222,7 @@ fun Foutmelding(errorState: ErrorState? = ErrorState.UNKNOWN, onClick: () -> Uni
     }
 }
 
-fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator{
+fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator {
     var icon = Icons.Default.GroupOff
     var color = Color.Gray
     var aantal = 1
@@ -237,6 +237,7 @@ fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator{
             color = Color.Yellow
             aantal = 2
         }
+
         CrowdForecast.druk.value -> {
             icon = Icons.Default.Person
             color = Color.Red

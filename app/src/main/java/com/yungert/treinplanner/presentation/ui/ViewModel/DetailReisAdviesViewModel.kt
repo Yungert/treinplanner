@@ -46,17 +46,18 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 var lastStop = result.data.legs[index - 1].stops.getOrNull(
                                     result.data.legs[index - 1].stops.size.minus(1)
                                 )
-                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime ?: lastStop?.plannedArrivalDateTime
+                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime
+                                    ?: lastStop?.plannedArrivalDateTime
                                 overstap =
                                     if (result.data.legs.getOrNull(0)?.stops?.getOrNull(0)?.actualDepartureDateTime != null) {
                                         calculateTimeDiff(
                                             aankomstVorigeTrein,
-                                            advies.stops?.getOrNull(0)?.actualDepartureDateTime
+                                            advies.stops.getOrNull(0)?.actualDepartureDateTime
                                         )
                                     } else {
                                         calculateTimeDiff(
                                             aankomstVorigeTrein,
-                                            advies.stops?.getOrNull(0)?.plannedDepartureDateTime
+                                            advies.stops.getOrNull(0)?.plannedDepartureDateTime
                                         )
                                     }
                             }
@@ -67,12 +68,30 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 eindbestemmingTrein = advies.direction,
                                 naamVertrekStation = advies.origin.name,
                                 geplandeVertrektijd = formatTime(advies.origin.plannedDateTime),
-                                vertrekSpoor = if(alternatievVervoerInzet) "" else advies.origin?.actualTrack ?: advies.origin.plannedTrack,
-                                naamAankomstStation = advies.stops.getOrNull(advies.stops.size.minus(1))?.name ?: "",
-                                geplandeAankomsttijd = formatTime(advies.stops.getOrNull(advies.stops.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
-                                aankomstSpoor = if(alternatievVervoerInzet) "" else advies.destination?.actualTrack ?: advies.destination.plannedTrack,
-                                vertrekVertraging = calculateTimeDiff(advies.origin.plannedDateTime, advies.origin.actualDateTime),
-                                aankomstVertraging = calculateTimeDiff(advies.destination.plannedDateTime, advies.destination.actualDateTime),
+                                vertrekSpoor = if (alternatievVervoerInzet) "" else advies.origin.actualTrack
+                                    ?: advies.origin.plannedTrack,
+                                naamAankomstStation = advies.stops.getOrNull(
+                                    advies.stops.size.minus(
+                                        1
+                                    )
+                                )?.name ?: "",
+                                geplandeAankomsttijd = formatTime(
+                                    advies.stops.getOrNull(
+                                        advies.stops.size.minus(
+                                            1
+                                        )
+                                    )?.plannedArrivalDateTime
+                                ),
+                                aankomstSpoor = if (alternatievVervoerInzet) "" else advies.destination.actualTrack
+                                    ?: advies.destination.plannedTrack,
+                                vertrekVertraging = calculateTimeDiff(
+                                    advies.origin.plannedDateTime,
+                                    advies.origin.actualDateTime
+                                ),
+                                aankomstVertraging = calculateTimeDiff(
+                                    advies.destination.plannedDateTime,
+                                    advies.destination.actualDateTime
+                                ),
                                 berichten = advies.messages,
                                 hoofdBericht = result.data.primaryMessage?.message?.text,
                                 transferBericht = advies.transferMessages,
