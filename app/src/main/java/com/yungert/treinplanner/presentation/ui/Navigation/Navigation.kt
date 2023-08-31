@@ -84,7 +84,7 @@ fun Navigation() {
             )
         ) { entry ->
             var viewmodel : DetailReisAdviesViewModel = viewModel()
-            ShowDetailReisAdvies(reisADviesId = entry.arguments?.getString("reisadviesId") ?: "", viewModel = viewmodel, navController = navController)
+            ShowDetailReisAdvies(reisAdviesId = entry.arguments?.getString("reisadviesId") ?: "", viewModel = viewmodel, navController = navController)
         }
         composable(route = Screen.RitDetail.route + "/{uicCodeVertrek}/{uicCodeAankomst}/{ritId}/{datum}",
             arguments = listOf(

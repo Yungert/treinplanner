@@ -65,6 +65,7 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateStationPicker
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
+import com.yungert.treinplanner.presentation.ui.utils.Foutmelding
 import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
@@ -123,7 +124,11 @@ fun ComposeStaions(
             when (val response = viewModel.stations.collectAsState().value) {
                 is ViewStateStationPicker.Loading -> LoadingScreen(loadingText = stringResource(id = R.string.laadt_text_station_ophalen))
                 is ViewStateStationPicker.Problem -> {
-
+                    Foutmelding(
+                        errorState = response.exception,
+                        onClick = {
+                            viewModel.getStationsMetGps(vanStation = vanStation, context = context)
+                        })
                 }
 
                 is ViewStateStationPicker.Success -> {
