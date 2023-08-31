@@ -97,7 +97,6 @@ class RitDetailViewModel : ViewModel() {
                                     drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
                                     materieelNummers = materieelNummer,
-
                                     )
                             )
                             if (stop.kind == "ARRIVAL") {

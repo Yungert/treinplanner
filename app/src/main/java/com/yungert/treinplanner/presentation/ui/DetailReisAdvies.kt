@@ -252,7 +252,7 @@ fun DisplayDetailReisAdvies(
                                             )
                                         } else {
                                             Text(
-                                                text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
+                                                text = reis.overstapTijd + " "+ stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
                                                 style = fontsizeLabelCard,
                                                 textAlign = TextAlign.Center
                                             )
