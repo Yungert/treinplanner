@@ -35,8 +35,8 @@ data class JourneyStop(
     val kind: String,
     val arrivals: List<Arrival>,
     val departures: List<Departure>,
-    val actualStock: TrainStock,
-    val plannedStock: TrainStock,
+    val actualStock: TrainStock?,
+    val plannedStock: TrainStock?,
     val platformFeatures: List<PlatformFeature>,
     val coachCrowdForecast: List<CoachCrowdForecast>
 )
@@ -78,7 +78,7 @@ data class TrainStock(
     val numberOfSeats: Int,
     val numberOfParts: Int,
     val trainParts: List<TrainPart>,
-    val hasSignificantChange: Boolean
+    val hasSignificantChange: Boolean?
 )
 
 data class TrainPart(

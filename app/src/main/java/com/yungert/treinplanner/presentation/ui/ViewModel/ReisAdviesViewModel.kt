@@ -6,17 +6,11 @@ import Data.api.NSApiClient
 import Data.api.Resource
 import Data.models.PrimaryMessage
 import android.content.Context
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GroupOff
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
-import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
-import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
 import com.yungert.treinplanner.presentation.ui.utils.DrukteIndicatorFormatter
 import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
