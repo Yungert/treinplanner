@@ -16,23 +16,23 @@ data class RitDetail(
     val actueleVertrektijd: String,
     val vertrekSpoor: String?,
     val vertrekVertraging: String,
-    val vertrekStationUicCode : String,
+    val vertrekStationUicCode: String,
 
     val naamAankomstStation: String,
     val geplandeAankomsttijd: String,
     val aankomstSpoor: String?,
     val aankomstVertraging: String,
     val actueleAankomstTijd: String,
-    val aankomstStationUicCode : String,
+    val aankomstStationUicCode: String,
 
     val berichten: List<Message>,
     val hoofdBericht: String?,
-    val transferBericht : List<TransferMessage>?,
-    val alternatiefVervoer : Boolean,
-    val ritId : String,
+    val transferBericht: List<TransferMessage>?,
+    val alternatiefVervoer: Boolean,
+    val ritId: String,
 
-    val overstapTijd : String?,
-    )
+    val overstapTijd: String?,
+)
 
 data class MessageData(
     val id: String,

@@ -93,6 +93,7 @@ fun ShowReisAdvies(
                 viewModel = viewModel
             )
         }
+
         else -> {
             val context = LocalContext.current
             DisposableEffect(lifeCycleOwner) {
@@ -118,12 +119,12 @@ fun ShowReisAdvies(
                     Foutmelding(
                         errorState = response.exception,
                         onClick = {
-                        viewModel.getReisadviezen(
-                            startStation = vertrekStation,
-                            eindStation = eindStation,
-                            context = context,
-                        )
-                    })
+                            viewModel.getReisadviezen(
+                                startStation = vertrekStation,
+                                eindStation = eindStation,
+                                context = context,
+                            )
+                        })
                 }
 
                 is ViewStateReisAdvies.Success -> {
@@ -162,13 +163,18 @@ fun DisplayReisAdvies(
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
-        viewModel.getReisadviezen(startStation = vanStation, eindStation = naarStation, context = context)
+        viewModel.getReisadviezen(
+            startStation = vanStation,
+            eindStation = naarStation,
+            context = context
+        )
         refreshing = true
         when (val response = viewModel.reisavies.value) {
             is ViewStateReisAdvies.Success -> {
                 reisAdviezen = response.details
                 refreshing = false
             }
+
             else -> {}
         }
 

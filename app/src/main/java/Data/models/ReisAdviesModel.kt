@@ -90,6 +90,7 @@ data class Leg(
     val overviewPolyLine: List<Coordinate>,
     val nesProperties: NesProperties
 )
+
 data class Coordinate(
     val lat: Double,
     val lng: Double
@@ -260,6 +261,7 @@ data class Link(
     val title: String?,
     val href: String?
 )
+
 data class TravelAssistanceInfo(
     val termsAndConditionsLink: String?,
     val tripRequestId: Int,
@@ -269,6 +271,7 @@ data class TravelAssistanceInfo(
 data class Eco(
     val co2kg: Double
 )
+
 data class TransferMessage(
     val message: String,
     val accessibilityMessage: String,
@@ -279,6 +282,7 @@ data class TransferMessage(
 data class MessageNesProperties(
     val color: String
 )
+
 data class Detail(
     val type: String,
     val link: JourneyLink
@@ -327,6 +331,7 @@ data class Stop(
     val passing: Boolean?,
     val quayCode: String?
 )
+
 data class Step(
     val distanceInMeters: Int,
     val durationInSeconds: Int,

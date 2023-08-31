@@ -22,51 +22,61 @@ import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
-        composable(route = Screen.HomeScreen.route){
-            var viewmodel : HomeScreenViewModel = viewModel()
+    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+        composable(route = Screen.HomeScreen.route) {
+            var viewmodel: HomeScreenViewModel = viewModel()
             HomeScreen(navController = navController, viewModel = viewmodel)
         }
-        composable(route = Screen.GpsPermission.route){
+        composable(route = Screen.GpsPermission.route) {
             ShowGpsPermisson(navController = navController)
         }
 
         composable(route = Screen.StationVanKiezen.route + "/{metGps}",
             arguments = listOf(
-                navArgument("metGps"){
+                navArgument("metGps") {
                     type = NavType.StringType
                     nullable = true
                 }
             )
         ) { entry ->
-            var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(null, navController= navController, viewModel = viewmodel, metGps = entry.arguments?.getString("metGps") ?: "")
+            var viewmodel: StationPickerViewModel = viewModel()
+            ComposeStaions(
+                null,
+                navController = navController,
+                viewModel = viewmodel,
+                metGps = entry.arguments?.getString("metGps") ?: ""
+            )
         }
 
         composable(route = Screen.StationNaarKiezen.route + "/{vanstation}",
             arguments = listOf(
-                navArgument("vanstation"){
+                navArgument("vanstation") {
                     type = NavType.StringType
                     nullable = false
                 }
             )
         ) { entry ->
-            var viewmodel : StationPickerViewModel = viewModel()
-            ComposeStaions(vanStation = entry.arguments?.getString("vanstation") ?: "", navController= navController, viewModel = viewmodel, metGps = null)
+            var viewmodel: StationPickerViewModel = viewModel()
+            ComposeStaions(
+                vanStation = entry.arguments?.getString("vanstation") ?: "",
+                navController = navController,
+                viewModel = viewmodel,
+                metGps = null
+            )
         }
         composable(route = Screen.Reisadvies.route + "/{vanstation}/{naarstation}",
             arguments = listOf(
-                navArgument("vanstation"){
+                navArgument("vanstation") {
                     type = NavType.StringType
                     nullable = false
                 },
-                navArgument("naarstation"){
+                navArgument("naarstation") {
                     type = NavType.StringType
                     nullable = false
                 }
             )
         ) { entry ->
-            var viewmodel : ReisAdviesViewModel = viewModel()
+            var viewmodel: ReisAdviesViewModel = viewModel()
             ShowReisAdvies(
                 vertrekStation = entry.arguments?.getString("vanstation") ?: "",
                 eindStation = entry.arguments?.getString("naarstation") ?: "",
@@ -76,37 +86,41 @@ fun Navigation() {
         }
         composable(route = Screen.Reisadvies.route + "/{reisadviesId}",
             arguments = listOf(
-                navArgument("reisadviesId"){
+                navArgument("reisadviesId") {
                     type = NavType.StringType
                     nullable = false
                 }
 
             )
         ) { entry ->
-            var viewmodel : DetailReisAdviesViewModel = viewModel()
-            ShowDetailReisAdvies(reisAdviesId = entry.arguments?.getString("reisadviesId") ?: "", viewModel = viewmodel, navController = navController)
+            var viewmodel: DetailReisAdviesViewModel = viewModel()
+            ShowDetailReisAdvies(
+                reisAdviesId = entry.arguments?.getString("reisadviesId") ?: "",
+                viewModel = viewmodel,
+                navController = navController
+            )
         }
         composable(route = Screen.RitDetail.route + "/{uicCodeVertrek}/{uicCodeAankomst}/{ritId}/{datum}",
             arguments = listOf(
-                navArgument("uicCodeVertrek"){
+                navArgument("uicCodeVertrek") {
                     type = NavType.StringType
                     nullable = false
                 },
-                navArgument("uicCodeAankomst"){
+                navArgument("uicCodeAankomst") {
                     type = NavType.StringType
                     nullable = false
                 },
-                navArgument("ritId"){
-                type = androidx.navigation.NavType.StringType
-                nullable = false
+                navArgument("ritId") {
+                    type = NavType.StringType
+                    nullable = false
                 },
-                navArgument("datum"){
+                navArgument("datum") {
                     type = NavType.StringType
                     nullable = false
                 }
             )
         ) { entry ->
-            var viewmodel : RitDetailViewModel = viewModel()
+            var viewmodel: RitDetailViewModel = viewModel()
             ShowRitDetail(
                 depatureUicCode = entry.arguments?.getString("uicCodeVertrek") ?: "",
                 arrivalUicCode = entry.arguments?.getString("uicCodeAankomst") ?: "",

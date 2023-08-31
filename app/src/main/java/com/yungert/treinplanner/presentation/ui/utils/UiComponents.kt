@@ -56,7 +56,6 @@ fun LoadingScreen(loadingText: String? = null) {
 }
 
 
-
 @Composable
 fun ShowMessage(msg: List<Message?>) {
     if (msg == null) {
@@ -111,7 +110,6 @@ fun ShowMessage(msg: List<Message?>) {
         }
     }
 }
-
 
 
 @Composable
@@ -185,7 +183,9 @@ fun Foutmelding(errorState: ErrorState? = ErrorState.UNKNOWN, onClick: () -> Uni
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = stringResource(id = errorState?.txt ?: R.string.text_onbekende_fout),
+                            text = stringResource(
+                                id = errorState?.txt ?: R.string.text_onbekende_fout
+                            ),
                             style = fontsizeLabelCard,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(bottom = 4.dp)

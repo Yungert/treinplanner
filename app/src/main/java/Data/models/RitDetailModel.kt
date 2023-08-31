@@ -102,6 +102,7 @@ data class Arrival(
     val crowdForecast: String,
     val stockIdentifiers: List<String>
 )
+
 data class Image(
     val uri: String
 )
@@ -143,12 +144,14 @@ data class NearbyMeLocationId(
     val type: String?,
     val value: String?
 )
+
 data class PlatformFeature(
     val paddingLeft: Int?,
     val width: Int?,
     val type: String?,
     val description: String?
 )
+
 data class CoachCrowdForecast(
     val paddingLeft: Int?,
     val width: Int?,

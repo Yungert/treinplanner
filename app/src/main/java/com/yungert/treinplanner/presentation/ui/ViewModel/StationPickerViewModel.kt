@@ -30,24 +30,29 @@ sealed class ViewStateStationPicker {
 }
 
 
-class StationPickerViewModel() : ViewModel() {
+class StationPickerViewModel : ViewModel() {
     private val _viewState =
         MutableStateFlow<ViewStateStationPicker>(ViewStateStationPicker.Loading)
     val stations = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
-    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
+    private val sharedPreferencesRepository: SharedPreferencesRepository =
+        SharedPreferencesRepository()
 
-    fun getStationsZonderGps(vanStation: String?, context: Context){
+    fun getStationsZonderGps(vanStation: String?, context: Context) {
         val stations = mutableListOf<StationNamen>()
         viewModelScope.launch {
             stationNamen.forEach { station ->
-                if (sharedPreferencesRepository.getFavouriteStation(context = context, key = station.hiddenValue) != null) {
+                if (sharedPreferencesRepository.getFavouriteStation(
+                        context = context,
+                        key = station.hiddenValue
+                    ) != null
+                ) {
                     station.favorite = true
                 }
                 if (vanStation == null) {
                     stations.add(station)
                 } else if (station.hiddenValue.lowercase() != vanStation.lowercase()) {
-                    if(station.displayValue.lowercase() != vanStation.lowercase()) {
+                    if (station.displayValue.lowercase() != vanStation.lowercase()) {
                         stations.add(station)
                     }
                 }
@@ -62,7 +67,7 @@ class StationPickerViewModel() : ViewModel() {
 
     @SuppressLint("MissingPermission")
     fun getStationsMetGps(vanStation: String?, context: Context) {
-        if(!hasInternetConnection(context)){
+        if (!hasInternetConnection(context)) {
             _viewState.value = ViewStateStationPicker.Problem(ErrorState.NO_CONNECTION)
             return
         }
@@ -113,15 +118,20 @@ class StationPickerViewModel() : ViewModel() {
                             var dichtbijZijndeStations = mutableListOf<StationNamen>()
                             result.data?.payload?.forEach { station ->
                                 station.locations?.forEach { locatie ->
-                                    if(locatie.distance != null && locatie.name != null && locatie.stationCode != null && locatie.naderenRadius != null) {
+                                    if (locatie.distance != null && locatie.name != null && locatie.stationCode != null && locatie.naderenRadius != null) {
                                         dichtbijZijndeStations.add(
                                             StationNamen(
-                                            displayValue = locatie.name,
-                                            hiddenValue = locatie.stationCode,
-                                            distance = locatie.distance,
-                                            favorite = sharedPreferencesRepository.getFavouriteStation(context = context, key = locatie.stationCode) != null,
-                                                afstandTotGebruiker = convertMeterNaarKilometer(locatie.distance)
-                                        )
+                                                displayValue = locatie.name,
+                                                hiddenValue = locatie.stationCode,
+                                                distance = locatie.distance,
+                                                favorite = sharedPreferencesRepository.getFavouriteStation(
+                                                    context = context,
+                                                    key = locatie.stationCode
+                                                ) != null,
+                                                afstandTotGebruiker = convertMeterNaarKilometer(
+                                                    locatie.distance
+                                                )
+                                            )
                                         )
                                     }
                                 }
@@ -154,7 +164,7 @@ class StationPickerViewModel() : ViewModel() {
         }
     }
 
-    suspend fun toggleFavouriteStation(context: Context, item: StationNamen){
+    suspend fun toggleFavouriteStation(context: Context, item: StationNamen) {
         sharedPreferencesRepository.editFavouriteStation(
             context = context,
             key = item.hiddenValue,
@@ -162,7 +172,7 @@ class StationPickerViewModel() : ViewModel() {
         )
     }
 
-    suspend fun setLastPlannedRoute(context: Context, key: String, value: String){
+    suspend fun setLastPlannedRoute(context: Context, key: String, value: String) {
         sharedPreferencesRepository.editFavouriteStation(
             context = context,
             key = key,

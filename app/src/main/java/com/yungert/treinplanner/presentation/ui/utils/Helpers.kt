@@ -88,17 +88,18 @@ fun calculateTimeDiff(startTime: String?, endTime: String?): String {
     return duration.toMinutes().toString()
 }
 
-fun convertMeterNaarKilometer(afstandInMeters: Double): String{
-    if (afstandInMeters > 1000){
+fun convertMeterNaarKilometer(afstandInMeters: Double): String {
+    if (afstandInMeters > 1000) {
         val kilometers = afstandInMeters / 1000
         return "${"%.1f".format(kilometers)} km"
     }
     return "${"%.1f".format(afstandInMeters)} m"
 }
 
-fun hasInternetConnection(context: Context): Boolean{
-    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+fun hasInternetConnection(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val currentNetwork = connectivityManager.activeNetwork
     val capabilities = connectivityManager.getNetworkCapabilities(currentNetwork)
-    return  capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+    return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
 }

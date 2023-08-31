@@ -87,12 +87,13 @@ fun ShowRitDetail(
                 stops = result.details,
                 navController = navController,
                 viewModel = viewModel,
-                depatureUicCode= depatureUicCode,
+                depatureUicCode = depatureUicCode,
                 arrivalUicCode = arrivalUicCode,
                 reisId = reisId,
                 dateTime = dateTime
             )
         }
+
         else -> {
             val context = LocalContext.current
             DisposableEffect(lifeCycleOwner) {
@@ -131,10 +132,11 @@ fun ShowRitDetail(
                 }
 
                 is ViewStateRitDetail.Success -> {
-                    DisplayRitDetail(stops = response.details,
+                    DisplayRitDetail(
+                        stops = response.details,
                         navController = navController,
                         viewModel = viewModel,
-                        depatureUicCode= depatureUicCode,
+                        depatureUicCode = depatureUicCode,
                         arrivalUicCode = arrivalUicCode,
                         reisId = reisId,
                         dateTime = dateTime
@@ -156,7 +158,7 @@ fun DisplayRitDetail(
     arrivalUicCode: String,
     reisId: String,
     dateTime: String,
-    ) {
+) {
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -181,6 +183,7 @@ fun DisplayRitDetail(
                 treinStops = response.details
                 refreshing = false
             }
+
             else -> {}
         }
 

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class DrukteIndicator(
-    var icon : ImageVector,
-    val color : Color,
-    val aantalIconen : Int,
+    var icon: ImageVector,
+    val color: Color,
+    val aantalIconen: Int,
 )

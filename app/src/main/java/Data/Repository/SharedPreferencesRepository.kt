@@ -32,6 +32,7 @@ class SharedPreferencesRepository {
         val preference = context.dataStore.data.first()
         return preference[dataStoreKey]
     }
+
     suspend fun editLastRoute(context: Context, key: String, value: String) {
         val exist = (getFavouriteStation(context, key) != null)
         val dataStoreKey = stringPreferencesKey(key)

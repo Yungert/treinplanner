@@ -8,5 +8,5 @@ import com.yungert.treinplanner.R
 
 enum class ErrorState(val txt: Int, val icon: ImageVector) {
     NO_CONNECTION(R.string.error_geen_internet, Icons.Rounded.WifiOff),
-    UNKNOWN( R.string.header_error_screen, Icons.Rounded.Warning),
+    UNKNOWN(R.string.header_error_screen, Icons.Rounded.Warning),
 }

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 
-class LocationProvider() {
+class LocationProvider {
 
     @Composable
     fun isGPSAvailable(): Boolean {
@@ -21,6 +21,9 @@ class LocationProvider() {
     fun isGPSEnabled(): Boolean {
         val context = LocalContext.current
         val permission = Manifest.permission.ACCESS_FINE_LOCATION
-        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

@@ -26,29 +26,41 @@ sealed class ViewStateRitDetail {
     data class Success(val details: List<TreinRitDetail>) : ViewStateRitDetail()
     data class Problem(val exception: ErrorState?) : ViewStateRitDetail()
 }
-class RitDetailViewModel() : ViewModel() {
+
+class RitDetailViewModel : ViewModel() {
     private val _viewState = MutableStateFlow<ViewStateRitDetail>(ViewStateRitDetail.Loading)
     val stops = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
-    fun getReisadviezen(depatureUicCode: String, arrivalUicCode: String, reisId: String, dateTime: String, context: Context) {
-        if(!hasInternetConnection(context)){
+    fun getReisadviezen(
+        depatureUicCode: String,
+        arrivalUicCode: String,
+        reisId: String,
+        dateTime: String,
+        context: Context
+    ) {
+        if (!hasInternetConnection(context)) {
             _viewState.value = ViewStateRitDetail.Problem(ErrorState.NO_CONNECTION)
             return
         }
         viewModelScope.launch {
-            nsApiRepository.fetchRitById(depatureUicCode = depatureUicCode, arrivalUicCode = arrivalUicCode, dateTime = dateTime, reisId = reisId).collect { result ->
+            nsApiRepository.fetchRitById(
+                depatureUicCode = depatureUicCode,
+                arrivalUicCode = arrivalUicCode,
+                dateTime = dateTime,
+                reisId = reisId
+            ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         var treinStops = mutableListOf<TreinRitDetail>()
                         var stopOpRoute = false
                         result.data?.payload?.stops?.forEach { stop ->
-                            if(stop.kind == "DEPARTURE"){
+                            if (stop.kind == "DEPARTURE") {
                                 stopOpRoute = true
                             }
-                            if(stop.status == "PASSING"){
+                            if (stop.status == "PASSING") {
                                 return@forEach
                             }
-                            if(!stopOpRoute){
+                            if (!stopOpRoute) {
                                 return@forEach
                             }
                             val departure = stop.departures.getOrNull(0)
@@ -62,11 +74,13 @@ class RitDetailViewModel() : ViewModel() {
                                     icon = Icons.Default.Person
                                     color = Color.Green
                                 }
+
                                 CrowdForecast.gemiddeld.value -> {
                                     icon = Icons.Default.Person
                                     color = Color.Yellow
                                     aantal = 2
                                 }
+
                                 CrowdForecast.druk.value -> {
                                     icon = Icons.Default.Person
                                     color = Color.Red
@@ -75,37 +89,48 @@ class RitDetailViewModel() : ViewModel() {
                             }
                             val materieelNummer = mutableListOf<String>()
                             if (stop.actualStock != null || stop.plannedStock != null) {
-                                var materieel = if (stop.actualStock != null) stop.actualStock else stop.plannedStock
+                                var materieel =
+                                    if (stop.actualStock != null) stop.actualStock else stop.plannedStock
                                 materieel.trainParts.forEach { part ->
-                                    materieelNummer.add(part.stockIdentifier ?: "-")
+                                    materieelNummer.add(part.stockIdentifier)
                                 }
                             }
 
-                            treinStops.add(TreinRitDetail(
-                                eindbestemmingTrein = stop.destination,
-                                ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
-                                stationNaam = stop.stop.name,
-                                spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack,
-                                ingekort = stop.actualStock?.hasSignificantChange ?: stop.plannedStock?.hasSignificantChange ?: false,
-                                aantalZitplaatsen = stop.actualStock?.numberOfSeats?.toString() ?: stop.plannedStock?.numberOfSeats?.toString() ?: "",
-                                aantalTreinDelen = stop.actualStock?.numberOfParts?.toString() ?: stop.plannedStock?.numberOfParts?.toString() ?: "",
-                                actueleAankomstTijd = formatTime(arrival?.actualTime),
-                                geplandeAankomstTijd = formatTime(arrival?.plannedTime),
-                                aankomstVertraging = calculateDelay(arrival?.delayInSeconds?.toLong() ?: 0),
-                                actueleVertrekTijd = formatTime(departure?.actualTime),
-                                geplandeVertrektTijd = formatTime(departure?.plannedTime),
-                                vertrekVertraging = calculateDelay(departure?.delayInSeconds?.toLong() ?: 0),
-                                materieelType = stop.actualStock?.trainType ?: stop.plannedStock?.trainType ?: "",
-                                drukte = DrukteIndicator(
-                                    icon = icon,
-                                    color = color,
-                                    aantalIconen = aantal
-                                ),
-                                punctualiteit = arrival?.punctuality?.toString() ?: "0",
-                                materieelNummers = materieelNummer,
+                            treinStops.add(
+                                TreinRitDetail(
+                                    eindbestemmingTrein = stop.destination,
+                                    ritNummer = result.data.payload.productNumbers.getOrNull(0)
+                                        ?: "0",
+                                    stationNaam = stop.stop.name,
+                                    spoor = departure?.actualTrack ?: departure?.plannedTrack
+                                    ?: arrival?.actualTrack ?: arrival?.plannedTrack,
+                                    ingekort = stop.actualStock.hasSignificantChange ?: false,
+                                    aantalZitplaatsen = stop.actualStock.numberOfSeats?.toString()
+                                        ?: stop.plannedStock.numberOfSeats?.toString() ?: "",
+                                    aantalTreinDelen = stop.actualStock.numberOfParts?.toString()
+                                        ?: stop.plannedStock.numberOfParts?.toString() ?: "",
+                                    actueleAankomstTijd = formatTime(arrival?.actualTime),
+                                    geplandeAankomstTijd = formatTime(arrival?.plannedTime),
+                                    aankomstVertraging = calculateDelay(
+                                        arrival?.delayInSeconds?.toLong() ?: 0
+                                    ),
+                                    actueleVertrekTijd = formatTime(departure?.actualTime),
+                                    geplandeVertrektTijd = formatTime(departure?.plannedTime),
+                                    vertrekVertraging = calculateDelay(
+                                        departure?.delayInSeconds?.toLong() ?: 0
+                                    ),
+                                    materieelType = stop.actualStock.trainType ?: "",
+                                    drukte = DrukteIndicator(
+                                        icon = icon,
+                                        color = color,
+                                        aantalIconen = aantal
+                                    ),
+                                    punctualiteit = arrival?.punctuality?.toString() ?: "0",
+                                    materieelNummers = materieelNummer,
 
-                            ))
-                            if(stop.kind == "ARRIVAL"){
+                                    )
+                            )
+                            if (stop.kind == "ARRIVAL") {
                                 stopOpRoute = false
                             }
                         }

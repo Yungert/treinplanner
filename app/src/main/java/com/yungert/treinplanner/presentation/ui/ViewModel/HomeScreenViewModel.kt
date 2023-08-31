@@ -15,18 +15,20 @@ sealed class ViewStateHomeScreen {
     data class Success(val details: Route?) : ViewStateHomeScreen()
     data class Problem(val exception: ErrorState?) : ViewStateHomeScreen()
 }
-class HomeScreenViewModel() : ViewModel() {
-    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
+
+class HomeScreenViewModel : ViewModel() {
+    private val sharedPreferencesRepository: SharedPreferencesRepository =
+        SharedPreferencesRepository()
     private val _viewState = MutableStateFlow<ViewStateHomeScreen>(ViewStateHomeScreen.Loading)
     val route = _viewState.asStateFlow()
-    fun getLaatstGeplandeReis(context: Context){
+    fun getLaatstGeplandeReis(context: Context) {
         var route: Route? = null
         viewModelScope.launch {
             val vertrek = sharedPreferencesRepository.getLastRoute(context, "vertrekStation")
             val aankomst = sharedPreferencesRepository.getLastRoute(context, "aankomstStation")
             route = Route(
                 aankomstStation = aankomst ?: "",
-                vertrekStation =  vertrek ?: ""
+                vertrekStation = vertrek ?: ""
             )
             _viewState.value = ViewStateHomeScreen.Success(route)
         }

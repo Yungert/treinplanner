@@ -76,7 +76,12 @@ fun ShowDetailReisAdvies(
     val ritDetailViewModel = viewModel
     when (val result = ritDetailViewModel.reisavies.collectAsState().value) {
         is ViewStateDetailReisAdvies.Success -> {
-            DisplayDetailReisAdvies(rit = result.details, navController = navController, viewModel = viewModel, reisAdviesId = reisAdviesId)
+            DisplayDetailReisAdvies(
+                rit = result.details,
+                navController = navController,
+                viewModel = viewModel,
+                reisAdviesId = reisAdviesId
+            )
         }
 
         else -> {
@@ -116,7 +121,12 @@ fun ShowDetailReisAdvies(
                 }
 
                 is ViewStateDetailReisAdvies.Success -> {
-                    DisplayDetailReisAdvies(rit = response.details, navController = navController, viewModel = viewModel, reisAdviesId = reisAdviesId)
+                    DisplayDetailReisAdvies(
+                        rit = response.details,
+                        navController = navController,
+                        viewModel = viewModel,
+                        reisAdviesId = reisAdviesId
+                    )
                 }
             }
         }
@@ -126,7 +136,12 @@ fun ShowDetailReisAdvies(
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DisplayDetailReisAdvies(rit: List<RitDetail>, navController: NavController, viewModel: DetailReisAdviesViewModel, reisAdviesId: String) {
+fun DisplayDetailReisAdvies(
+    rit: List<RitDetail>,
+    navController: NavController,
+    viewModel: DetailReisAdviesViewModel,
+    reisAdviesId: String
+) {
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
