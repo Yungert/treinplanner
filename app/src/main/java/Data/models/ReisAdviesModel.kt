@@ -59,6 +59,7 @@ data class Message(
 
 data class Leg(
     val idx: String,
+    val ctxRecon: String,
     val name: String,
     val travelType: String,
     val direction: String,
@@ -87,6 +88,8 @@ data class Leg(
     val journeyDetail: List<Detail>,
     val reachable: Boolean,
     val plannedDurationInMinutes: Int,
+    val actualDurationInMinutes: Int?,
+    val transfers: Int,
     val overviewPolyLine: List<Coordinate>,
     val nesProperties: NesProperties
 )
@@ -109,9 +112,9 @@ data class Location(
     val plannedTimeZoneOffset: Int,
     val plannedDateTime: String,
     val actualTimeZoneOffset: Int,
-    val actualDateTime: String,
+    val actualDateTime: String?,
     val plannedTrack: String,
-    val actualTrack: String,
+    val actualTrack: String?,
     val exitSide: String,
     val checkinStatus: String,
     val travelAssistanceMeetingPoints: List<String>,

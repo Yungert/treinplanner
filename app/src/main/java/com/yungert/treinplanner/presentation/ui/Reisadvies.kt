@@ -349,9 +349,9 @@ fun DisplayReisAdvies(
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Center
                                         )
-                                        if (advies.vertrekVertraging != "") {
+                                        if (advies.vertrekVertraging != "0" && advies.vertrekVertraging != "") {
                                             Text(
-                                                text = advies.vertrekVertraging,
+                                                text = "+" + advies.vertrekVertraging,
                                                 style = fontsizeLabelCard,
                                                 color = Color.Red,
                                                 textAlign = TextAlign.Center,
@@ -380,13 +380,15 @@ fun DisplayReisAdvies(
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Center
                                         )
-                                        Text(
-                                            text = advies.aankomstVertraging,
-                                            style = fontsizeLabelCard,
-                                            color = Color.Red,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(horizontal = 1.dp)
-                                        )
+                                        if (advies.aankomstVertraging != "0" && advies.aankomstVertraging != "") {
+                                            Text(
+                                                text = "+" + advies.aankomstVertraging,
+                                                style = fontsizeLabelCard,
+                                                color = Color.Red,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(horizontal = 1.dp)
+                                            )
+                                        }
                                     }
 
                                     Row(
@@ -399,13 +401,23 @@ fun DisplayReisAdvies(
                                             modifier = Modifier
                                                 .size(iconSize)
                                         )
-                                        Text(
-                                            text = advies.actueleReistijd,
-                                            style = fontsizeLabelCard,
-                                            color = if (advies.actueleReistijd != advies.geplandeReistijd) Color.Red else Color.White,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(horizontal = 2.dp)
-                                        )
+                                        if(advies.actueleReistijd == "0:00"){
+                                            Text(
+                                                text = advies.geplandeReistijd,
+                                                style = fontsizeLabelCard,
+                                                color =  Color.White,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(horizontal = 2.dp)
+                                            )
+                                        } else {
+                                            Text(
+                                                text = advies.actueleReistijd,
+                                                style = fontsizeLabelCard,
+                                                color = if (advies.actueleReistijd != advies.geplandeReistijd) Color.Red else Color.White,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(horizontal = 2.dp)
+                                            )
+                                        }
                                     }
                                 }
 

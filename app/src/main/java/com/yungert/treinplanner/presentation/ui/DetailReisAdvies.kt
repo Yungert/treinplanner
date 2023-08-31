@@ -343,13 +343,15 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
-                                    Text(
-                                        text = reis.vertrekVertraging,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center,
-                                        color = Color.Red,
-                                        modifier = Modifier.padding(horizontal = 1.dp)
-                                    )
+                                    if(reis.vertrekVertraging != "0" && reis.vertrekVertraging != "") {
+                                        Text(
+                                            text = "+" + reis.vertrekVertraging,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center,
+                                            color = Color.Red,
+                                            modifier = Modifier.padding(horizontal = 1.dp)
+                                        )
+                                    }
                                     if (reis.vertrekSpoor != null) {
                                         Icon(
                                             imageVector = Icons.Default.Tram,
@@ -395,13 +397,15 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
-                                    Text(
-                                        text = reis.aankomstVertraging,
-                                        style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center,
-                                        color = Color.Red,
-                                        modifier = Modifier.padding(horizontal = 1.dp)
-                                    )
+                                    if(reis.aankomstVertraging != "0" && reis.aankomstVertraging != "") {
+                                        Text(
+                                            text = "+" + reis.aankomstVertraging,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center,
+                                            color = Color.Red,
+                                            modifier = Modifier.padding(horizontal = 1.dp)
+                                        )
+                                    }
                                     if (reis.aankomstSpoor != null) {
                                         Icon(
                                             imageVector = Icons.Default.Tram,

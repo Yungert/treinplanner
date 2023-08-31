@@ -99,8 +99,7 @@ class RitDetailViewModel : ViewModel() {
                             treinStops.add(
                                 TreinRitDetail(
                                     eindbestemmingTrein = stop.destination,
-                                    ritNummer = result.data.payload.productNumbers.getOrNull(0)
-                                        ?: "0",
+                                    ritNummer = result.data.payload.productNumbers.getOrNull(0) ?: "0",
                                     stationNaam = stop.stop.name,
                                     spoor = departure?.actualTrack ?: departure?.plannedTrack
                                     ?: arrival?.actualTrack ?: arrival?.plannedTrack,

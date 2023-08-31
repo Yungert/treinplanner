@@ -13,7 +13,7 @@ data class ReisAdvies(
     val geplandeReistijd: String,
     val aantalTransfers: Int,
     val reinadviesId: String,
-    val bericht: Message?,
+    val bericht: List<Message>?,
     val drukte: DrukteIndicator,
     val cancelled: Boolean,
     val treinSoortenOpRit: String,

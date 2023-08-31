@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
-import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
 import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
@@ -42,14 +41,12 @@ class DetailReisAdviesViewModel : ViewModel() {
                         result.data?.legs?.forEachIndexed { index, advies ->
                             var ritDetail: RitDetail? = null
                             var overstap = ""
-                            val alternatievVervoerInzet =
-                                result.data.status == "ALTERNATIVE_TRANSPORT"
+                            val alternatievVervoerInzet = advies.alternativeTransport
                             if (index > 0) {
                                 var lastStop = result.data.legs[index - 1].stops.getOrNull(
                                     result.data.legs[index - 1].stops.size.minus(1)
                                 )
-                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime
-                                    ?: lastStop?.plannedArrivalDateTime
+                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime ?: lastStop?.plannedArrivalDateTime
                                 overstap =
                                     if (result.data.legs.getOrNull(0)?.stops?.getOrNull(0)?.actualDepartureDateTime != null) {
                                         calculateTimeDiff(
@@ -69,47 +66,17 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 ritNummer = if (!alternatievVervoerInzet) advies.product.number else "",
                                 eindbestemmingTrein = advies.direction,
                                 naamVertrekStation = advies.origin.name,
-                                geplandeVertrektijd = formatTime(advies.stops?.getOrNull(0)?.plannedDepartureDateTime),
-                                vertrekSpoor = advies.stops.getOrNull(0)?.actualDepartureTrack
-                                    ?: advies.stops?.getOrNull(0)?.plannedDepartureTrack,
-                                vertrekVertraging = calculateDelay(
-                                    advies.stops.getOrNull(0)?.departureDelayInSeconds?.toLong()
-                                        ?: 0
-                                ),
-                                naamAankomstStation = advies.stops.getOrNull(
-                                    advies.stops.size.minus(
-                                        1
-                                    )
-                                )?.name ?: "",
-                                geplandeAankomsttijd = formatTime(
-                                    advies.stops.getOrNull(
-                                        advies.stops.size?.minus(
-                                            1
-                                        ) ?: 0
-                                    )?.plannedArrivalDateTime
-                                ),
-                                aankomstSpoor = advies.stops.getOrNull(
-                                    advies.stops.size.minus(1)
-                                )?.actualArrivalTrack ?: advies.stops.getOrNull(
-                                    advies.stops?.size?.minus(1) ?: 0
-                                )?.plannedArrivalTrack,
-                                aankomstVertraging = calculateDelay(
-                                    advies.stops.getOrNull(
-                                        advies.stops.size.minus(1)
-                                    )?.arrivalDelayInSeconds?.toLong() ?: 0
-                                ),
+                                geplandeVertrektijd = formatTime(advies.origin.plannedDateTime),
+                                vertrekSpoor = if(alternatievVervoerInzet) "" else advies.origin?.actualTrack ?: advies.origin.plannedTrack,
+                                naamAankomstStation = advies.stops.getOrNull(advies.stops.size.minus(1))?.name ?: "",
+                                geplandeAankomsttijd = formatTime(advies.stops.getOrNull(advies.stops.size?.minus(1) ?: 0)?.plannedArrivalDateTime),
+                                aankomstSpoor = if(alternatievVervoerInzet) "" else advies.destination?.actualTrack ?: advies.destination.plannedTrack,
+                                vertrekVertraging = calculateTimeDiff(advies.origin.plannedDateTime, advies.origin.actualDateTime),
+                                aankomstVertraging = calculateTimeDiff(advies.destination.plannedDateTime, advies.destination.actualDateTime),
                                 berichten = advies.messages,
                                 hoofdBericht = result.data.primaryMessage?.message?.text,
                                 transferBericht = advies.transferMessages,
                                 alternatiefVervoer = alternatievVervoerInzet,
-                                actueleAankomstTijd = formatTime(
-                                    advies.stops.getOrNull(
-                                        advies.stops.size.minus(
-                                            1
-                                        )
-                                    )?.actualArrivalDateTime
-                                ),
-                                actueleVertrektijd = formatTime(advies.stops.getOrNull(0)?.actualDepartureDateTime),
                                 ritId = advies.journeyDetailRef,
                                 vertrekStationUicCode = advies.origin.uicCode,
                                 aankomstStationUicCode = advies.destination.uicCode,

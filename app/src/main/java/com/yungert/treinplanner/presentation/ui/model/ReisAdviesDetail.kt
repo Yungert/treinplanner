@@ -13,8 +13,7 @@ data class RitDetail(
 
     val naamVertrekStation: String,
     val geplandeVertrektijd: String,
-    val actueleVertrektijd: String,
-    val vertrekSpoor: String?,
+    val vertrekSpoor: String,
     val vertrekVertraging: String,
     val vertrekStationUicCode: String,
 
@@ -22,7 +21,6 @@ data class RitDetail(
     val geplandeAankomsttijd: String,
     val aankomstSpoor: String?,
     val aankomstVertraging: String,
-    val actueleAankomstTijd: String,
     val aankomstStationUicCode: String,
 
     val berichten: List<Message>,

@@ -14,7 +14,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.ui.utils.CrowdForecast
-import com.yungert.treinplanner.presentation.ui.utils.calculateDelay
+import com.yungert.treinplanner.presentation.ui.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.ui.utils.formatTime
 import com.yungert.treinplanner.presentation.ui.utils.formatTravelTime
 import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
@@ -77,62 +77,30 @@ class ReisAdviesViewModel : ViewModel() {
                                 } else {
                                     treinSoort + " + " + rit.product.shortCategoryName.lowercase()
                                 }
-                            }
-                            reisAdviezen.add(
-                                ReisAdvies(
-                                    verstrekStation = advies.legs.getOrNull(0)?.origin?.name
-                                        ?: "",
-                                    aankomstStation = advies.legs.getOrNull(
-                                        advies.legs.size?.minus(
-                                            1
-                                        ) ?: 0
-                                    )?.destination?.name ?: "",
-                                    geplandeVertrekTijd = formatTime(advies.legs.getOrNull(0)?.origin?.plannedDateTime),
-                                    geplandeAankomstTijd = formatTime(
-                                        advies.legs.getOrNull(
-                                            advies.legs.size?.minus(
-                                                1
-                                            ) ?: 0
-                                        )?.destination?.plannedDateTime
-                                    ),
-                                    actueleReistijd = formatTravelTime(
-                                        advies.actualDurationInMinutes ?: 0
-                                    ),
-                                    geplandeReistijd = formatTravelTime(
-                                        advies.plannedDurationInMinutes ?: 0
-                                    ),
-                                    aantalTransfers = advies.transfers,
-                                    reinadviesId = advies.ctxRecon,
-                                    aankomstVertraging = calculateDelay(
-                                        advies.legs.getOrNull(
-                                            advies.legs.size?.minus(1) ?: 0
-                                        )?.stops?.getOrNull(
-                                            advies.legs.getOrNull(
-                                                advies.legs.size?.minus(
-                                                    1
-                                                ) ?: 0
-                                            )?.stops?.size?.minus(1) ?: 0
-                                        )?.arrivalDelayInSeconds?.toLong() ?: 0
-                                    ),
-                                    vertrekVertraging = calculateDelay(
-                                        advies.legs.getOrNull(
-                                            advies.legs.size?.minus(
-                                                1
-                                            ) ?: 0
-                                        )?.stops?.getOrNull(0)?.departureDelayInSeconds?.toLong()
-                                            ?: 0
-                                    ),
-                                    bericht = advies.primaryMessage?.message,
-                                    drukte = DrukteIndicator(
-                                        icon = icon,
-                                        aantalIconen = aantal,
-                                        color = color
-                                    ),
-                                    cancelled = advies.status == "CANCELLED",
-                                    treinSoortenOpRit = treinSoort,
-                                    alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT"
+                                reisAdviezen.add(
+                                    ReisAdvies(
+                                        verstrekStation = rit.origin.name,
+                                        aankomstStation = rit.destination.name,
+                                        geplandeVertrekTijd = formatTime(rit.origin.plannedDateTime),
+                                        geplandeAankomstTijd = formatTime(rit.destination.plannedDateTime),
+                                        actueleReistijd = formatTravelTime(rit.actualDurationInMinutes ?: 0),
+                                        geplandeReistijd = formatTravelTime(advies.plannedDurationInMinutes),
+                                        aantalTransfers = rit.transfers,
+                                        reinadviesId = advies.ctxRecon,
+                                        aankomstVertraging = calculateTimeDiff(rit.destination.plannedDateTime, rit.destination.actualDateTime),
+                                        vertrekVertraging = calculateTimeDiff(rit.origin.plannedDateTime, rit.origin.actualDateTime),
+                                        bericht = rit.messages,
+                                        drukte = DrukteIndicator(
+                                            icon = icon,
+                                            aantalIconen = aantal,
+                                            color = color
+                                        ),
+                                        cancelled = rit.cancelled,
+                                        treinSoortenOpRit = treinSoort,
+                                        alternatiefVervoer = rit.alternativeTransport
+                                    )
                                 )
-                            )
+                            }
                         }
 
                         _viewState.value = ViewStateReisAdvies.Success(reisAdviezen)
