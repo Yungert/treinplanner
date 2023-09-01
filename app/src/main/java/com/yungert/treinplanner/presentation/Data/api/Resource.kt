@@ -1,4 +1,4 @@
-package Data.api
+package com.yungert.treinplanner.presentation.Data.api
 
 import com.yungert.treinplanner.presentation.ui.ErrorState
 

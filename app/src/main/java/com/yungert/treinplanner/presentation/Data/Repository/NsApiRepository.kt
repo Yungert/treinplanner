@@ -1,11 +1,11 @@
-package Data.Repository
+package com.yungert.treinplanner.presentation.Data.Repository
 
-import Data.api.NSApiClient
-import Data.api.Resource
-import Data.models.PlaceResponse
-import Data.models.ReisAdviesApiResponse
-import Data.models.RitDetailApiResponse
-import Data.models.TripDetail
+import com.yungert.treinplanner.presentation.Data.api.NSApiClient
+import com.yungert.treinplanner.presentation.Data.api.Resource
+import com.yungert.treinplanner.presentation.Data.models.PlaceResponse
+import com.yungert.treinplanner.presentation.Data.models.ReisAdviesApiResponse
+import com.yungert.treinplanner.presentation.Data.models.RitDetailApiResponse
+import com.yungert.treinplanner.presentation.Data.models.TripDetail
 import com.yungert.treinplanner.BuildConfig
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import kotlinx.coroutines.Dispatchers

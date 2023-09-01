@@ -1,8 +1,8 @@
 package com.yungert.treinplanner.presentation.ui.model
 
-import Data.models.Message
-import Data.models.NesProperties
-import Data.models.TransferMessage
+import com.yungert.treinplanner.presentation.Data.models.Message
+import com.yungert.treinplanner.presentation.Data.models.NesProperties
+import com.yungert.treinplanner.presentation.Data.models.TransferMessage
 
 data class RitDetail(
     val treinOperator: String,

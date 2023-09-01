@@ -1,6 +1,6 @@
-package com.yungert.treinplanner.presentation.ui.utils
+package com.yungert.treinplanner.presentation.utils
 
-import Data.models.Message
+import com.yungert.treinplanner.presentation.Data.models.Message
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement

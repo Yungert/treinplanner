@@ -1,4 +1,4 @@
-package com.yungert.treinplanner.presentation.ui.utils
+package com.yungert.treinplanner.presentation.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

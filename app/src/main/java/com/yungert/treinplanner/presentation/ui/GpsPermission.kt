@@ -41,8 +41,8 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
-import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
-import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
+import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
 @Composable

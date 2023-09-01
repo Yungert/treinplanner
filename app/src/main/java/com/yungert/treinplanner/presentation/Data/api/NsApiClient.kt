@@ -1,4 +1,4 @@
-package Data.api
+package com.yungert.treinplanner.presentation.Data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package Data.Repository
+package com.yungert.treinplanner.presentation.Data.Repository
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit

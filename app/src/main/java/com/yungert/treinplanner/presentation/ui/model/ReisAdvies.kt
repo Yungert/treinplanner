@@ -1,7 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.model
 
-import Data.models.Message
-import Data.models.PrimaryMessage
+import com.yungert.treinplanner.presentation.Data.models.Message
+import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
 
 data class ReisAdvies(
     val primaryMessage: List<PrimaryMessage>,

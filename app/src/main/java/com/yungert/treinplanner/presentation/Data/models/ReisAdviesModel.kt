@@ -1,4 +1,4 @@
-package Data.models
+package com.yungert.treinplanner.presentation.Data.models
 
 
 data class ReisAdviesApiResponse(

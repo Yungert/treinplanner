@@ -1,9 +1,9 @@
-package Data.api
+package com.yungert.treinplanner.presentation.Data.api
 
-import Data.models.PlaceResponse
-import Data.models.ReisAdviesApiResponse
-import Data.models.RitDetailApiResponse
-import Data.models.TripDetail
+import com.yungert.treinplanner.presentation.Data.models.PlaceResponse
+import com.yungert.treinplanner.presentation.Data.models.ReisAdviesApiResponse
+import com.yungert.treinplanner.presentation.Data.models.RitDetailApiResponse
+import com.yungert.treinplanner.presentation.Data.models.TripDetail
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

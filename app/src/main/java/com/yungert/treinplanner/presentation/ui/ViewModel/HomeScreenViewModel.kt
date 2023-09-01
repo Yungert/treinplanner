@@ -1,6 +1,6 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
-import Data.Repository.SharedPreferencesRepository
+import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

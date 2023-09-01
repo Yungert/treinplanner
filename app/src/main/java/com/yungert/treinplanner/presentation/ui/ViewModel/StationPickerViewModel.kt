@@ -1,9 +1,9 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
-import Data.Repository.NsApiRepository
-import Data.Repository.SharedPreferencesRepository
-import Data.api.NSApiClient
-import Data.api.Resource
+import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
+import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
+import com.yungert.treinplanner.presentation.Data.api.NSApiClient
+import com.yungert.treinplanner.presentation.Data.api.Resource
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Looper
@@ -17,8 +17,8 @@ import com.google.android.gms.location.LocationServices
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen
-import com.yungert.treinplanner.presentation.ui.utils.convertMeterNaarKilometer
-import com.yungert.treinplanner.presentation.ui.utils.hasInternetConnection
+import com.yungert.treinplanner.presentation.utils.convertMeterNaarKilometer
+import com.yungert.treinplanner.presentation.utils.hasInternetConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

@@ -61,13 +61,13 @@ import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.ViewModel.RitDetailViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateRitDetail
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
-import com.yungert.treinplanner.presentation.ui.utils.DrukteIndicatorComposable
-import com.yungert.treinplanner.presentation.ui.utils.Foutmelding
-import com.yungert.treinplanner.presentation.ui.utils.LoadingScreen
-import com.yungert.treinplanner.presentation.ui.utils.fontsizeLabelCard
-import com.yungert.treinplanner.presentation.ui.utils.iconSize
-import com.yungert.treinplanner.presentation.ui.utils.minimaleBreedteTouchControls
-import com.yungert.treinplanner.presentation.ui.utils.minimaleHoogteTouchControls
+import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
+import com.yungert.treinplanner.presentation.utils.Foutmelding
+import com.yungert.treinplanner.presentation.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
+import com.yungert.treinplanner.presentation.utils.iconSize
+import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
+import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
 @Composable

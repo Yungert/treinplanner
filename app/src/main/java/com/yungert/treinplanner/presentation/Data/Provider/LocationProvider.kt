@@ -1,4 +1,4 @@
-package Data.Provider
+package com.yungert.treinplanner.presentation.Data.Provider
 
 import android.Manifest
 import android.content.Context

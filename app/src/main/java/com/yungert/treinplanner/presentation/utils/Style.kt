@@ -1,4 +1,4 @@
-package com.yungert.treinplanner.presentation.ui.utils
+package com.yungert.treinplanner.presentation.utils
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp

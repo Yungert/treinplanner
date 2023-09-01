@@ -1,4 +1,4 @@
-package com.yungert.treinplanner.presentation.ui.utils
+package com.yungert.treinplanner.presentation.utils
 
 enum class TransferType(val value: String) {
     CROSS_PLATFORM("CROSS_PLATFORM"),
