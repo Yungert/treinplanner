@@ -1,6 +1,5 @@
 package com.yungert.treinplanner.presentation.utils
 
-import com.yungert.treinplanner.presentation.Data.models.Message
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +40,7 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
+import com.yungert.treinplanner.presentation.Data.models.Message
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DrukteIndicator
 import kotlinx.coroutines.launch

@@ -1,9 +1,5 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
-import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
-import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
-import com.yungert.treinplanner.presentation.Data.api.NSApiClient
-import com.yungert.treinplanner.presentation.Data.api.Resource
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Looper
@@ -14,6 +10,10 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
+import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
+import com.yungert.treinplanner.presentation.Data.api.NSApiClient
+import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.StationNamen
 import com.yungert.treinplanner.presentation.ui.model.stationNamen

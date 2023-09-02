@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -141,6 +142,7 @@ fun ComposeStaions(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun ShowStations(
     stations: List<StationNamen>,
@@ -161,7 +163,9 @@ fun ShowStations(
     } else {
         stations.filter { it.displayValue.lowercase().contains(stationZoekenOPdracht.lowercase()) }
     }
-
+    coroutineScope.launch {
+        listState.scrollToItem(1)
+    }
     Scaffold(
         positionIndicator = {
             PositionIndicator(scalingLazyListState = listState)

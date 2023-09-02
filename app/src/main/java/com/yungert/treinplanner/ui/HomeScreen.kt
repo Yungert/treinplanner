@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -96,11 +97,15 @@ fun HomeScreen(
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DisplayHomeScreen(navController: NavController, route: Route?) {
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    coroutineScope.launch {
+        listState.scrollToItem(2)
+    }
     Scaffold(
         positionIndicator = {
             PositionIndicator(scalingLazyListState = listState)

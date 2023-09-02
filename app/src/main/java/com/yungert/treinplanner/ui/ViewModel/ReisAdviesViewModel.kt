@@ -1,13 +1,13 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
@@ -91,7 +91,7 @@ class ReisAdviesViewModel : ViewModel() {
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
                                     cancelled = advies.status == "CANCELLED",
-                                    aandachtsPunten = if(advies.status == "CANCELLED") advies.primaryMessage?.message?.text else null,
+                                    aandachtsPunten = if(advies.status == "CANCELLED") advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
                                     treinSoortenOpRit = treinSoort,
                                     alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT",
                                 )

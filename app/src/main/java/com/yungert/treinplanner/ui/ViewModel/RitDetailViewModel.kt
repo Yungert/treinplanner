@@ -1,11 +1,11 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
-import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
-import com.yungert.treinplanner.presentation.Data.api.NSApiClient
-import com.yungert.treinplanner.presentation.Data.api.Resource
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
+import com.yungert.treinplanner.presentation.Data.api.NSApiClient
+import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter

@@ -58,7 +58,7 @@ import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisAdviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisAdvies
-import com.yungert.treinplanner.presentation.ui.model.RitDetail
+import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
 import com.yungert.treinplanner.presentation.utils.Foutmelding
 import com.yungert.treinplanner.presentation.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
@@ -78,7 +78,7 @@ fun ShowDetailReisAdvies(
     when (val result = ritDetailViewModel.reisavies.collectAsState().value) {
         is ViewStateDetailReisAdvies.Success -> {
             DisplayDetailReisAdvies(
-                rit = result.details,
+                treinRit = result.details,
                 navController = navController,
                 viewModel = viewModel,
                 reisAdviesId = reisAdviesId
@@ -123,7 +123,7 @@ fun ShowDetailReisAdvies(
 
                 is ViewStateDetailReisAdvies.Success -> {
                     DisplayDetailReisAdvies(
-                        rit = response.details,
+                        treinRit = response.details,
                         navController = navController,
                         viewModel = viewModel,
                         reisAdviesId = reisAdviesId
@@ -138,7 +138,7 @@ fun ShowDetailReisAdvies(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DisplayDetailReisAdvies(
-    rit: List<RitDetail>,
+    treinRit: DetailReisAdvies,
     navController: NavController,
     viewModel: DetailReisAdviesViewModel,
     reisAdviesId: String
@@ -148,8 +148,9 @@ fun DisplayDetailReisAdvies(
     val coroutineScope = rememberCoroutineScope()
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
-    var trips = rit
+    var trips = treinRit
     val context = LocalContext.current
+    val opgeheven = treinRit.opgeheven
     coroutineScope.launch {
         listState.scrollToItem(index = 1)
     }
@@ -194,7 +195,7 @@ fun DisplayDetailReisAdvies(
                 item {
                     ListHeader {
                         Text(
-                            text = stringResource(id = R.string.label_jouw_reis_naar) + " " + rit[rit.size - 1].naamAankomstStation,
+                            text = stringResource(id = R.string.label_jouw_reis_naar) + " " + treinRit.rit[treinRit.rit.size - 1].naamAankomstStation,
                             textAlign = TextAlign.Center,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
@@ -202,7 +203,7 @@ fun DisplayDetailReisAdvies(
                     }
                 }
                 item {
-                    if (rit[0].hoofdBericht != null) {
+                    if (treinRit.rit[0].hoofdBericht != null) {
                         Card(
                             onClick = {},
                         ) {
@@ -215,7 +216,7 @@ fun DisplayDetailReisAdvies(
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
                                     Text(
-                                        text = rit[0].hoofdBericht!!,
+                                        text = treinRit.rit[0].hoofdBericht!!,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
@@ -224,8 +225,40 @@ fun DisplayDetailReisAdvies(
                         }
                     }
                 }
+                if (opgeheven){
+                    item {
+                        Card(
+                            onClick = {},
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Warning,
+                                        contentDescription = "Icon",
+                                        tint = Color.Red,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.label_vervallen_reisadvies),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left,
+                                        maxLines = 2,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
 
-                trips.forEachIndexed { index, reis ->
+                trips.rit.forEachIndexed { index, reis ->
                     item {
                         if (index > 0 && reis.overstapTijd != "") {
                             Card(
@@ -252,7 +285,7 @@ fun DisplayDetailReisAdvies(
                                             )
                                         } else {
                                             Text(
-                                                text = reis.overstapTijd + " "+ stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
+                                                text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
                                                 style = fontsizeLabelCard,
                                                 textAlign = TextAlign.Center
                                             )
@@ -274,7 +307,7 @@ fun DisplayDetailReisAdvies(
                                     )
                                 )
                             },
-                            modifier = if (index == rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
+                            modifier = if (index == treinRit.rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
                                 .padding(
                                     bottom = 0.dp
                                 )

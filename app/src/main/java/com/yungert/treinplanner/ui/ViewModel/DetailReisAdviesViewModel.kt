@@ -1,12 +1,13 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
-import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
-import com.yungert.treinplanner.presentation.Data.api.NSApiClient
-import com.yungert.treinplanner.presentation.Data.api.Resource
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
+import com.yungert.treinplanner.presentation.Data.api.NSApiClient
+import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
@@ -14,11 +15,10 @@ import com.yungert.treinplanner.presentation.utils.hasInternetConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import com.yungert.treinplanner.presentation.ui.model.RitDetail as RitDetail1
 
 sealed class ViewStateDetailReisAdvies {
     object Loading : ViewStateDetailReisAdvies()
-    data class Success(val details: List<RitDetail1>) : ViewStateDetailReisAdvies()
+    data class Success(val details: DetailReisAdvies) : ViewStateDetailReisAdvies()
     data class Problem(val exception: ErrorState?) : ViewStateDetailReisAdvies()
 }
 
@@ -38,6 +38,11 @@ class DetailReisAdviesViewModel : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
+                        var detailReisAdvies: DetailReisAdvies = DetailReisAdvies(
+                            opgeheven = result.data?.status == "CANCELLED",
+                            redenOpheffen = result.data?.primaryMessage?.title,
+                            rit = ritten
+                        )
                         result.data?.legs?.forEachIndexed { index, advies ->
                             var ritDetail: RitDetail? = null
                             var overstap = ""
@@ -101,12 +106,14 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 aankomstStationUicCode = advies.destination.uicCode,
                                 datum = advies.origin.plannedDateTime,
                                 overstapTijd = overstap,
-                                kortereTreinDanGepland = advies.shorterStock
+                                kortereTreinDanGepland = advies.shorterStock,
                             )
 
                             ritDetail.let { ritten.add(it) }
                         }
-                        _viewState.value = ViewStateDetailReisAdvies.Success(ritten)
+                        detailReisAdvies.rit = ritten
+                        _viewState.value = ViewStateDetailReisAdvies.Success(detailReisAdvies)
+
                     }
 
                     is Resource.Loading -> {

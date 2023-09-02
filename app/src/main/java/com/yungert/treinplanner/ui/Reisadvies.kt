@@ -2,7 +2,6 @@ package com.yungert.treinplanner.presentation.ui
 
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -68,6 +67,7 @@ import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.utils.Foutmelding
 import com.yungert.treinplanner.presentation.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
+import com.yungert.treinplanner.presentation.utils.getUitvalRitText
 import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
@@ -159,7 +159,7 @@ fun DisplayReisAdvies(
     }
     var reisAdviezen = reisAdvies
     val context = LocalContext.current
-    val vervallenReisadviexText = stringResource(id = R.string.label_vervallen_reisadvies)
+    val vervallenReisadviexText = getUitvalRitText()
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
@@ -339,16 +339,7 @@ fun DisplayReisAdvies(
                     item {
                         Card(
                             onClick = {
-                                if (!advies.cancelled) {
-                                    navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        vervallenReisadviexText,
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                }
+                                navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -502,7 +493,7 @@ fun DisplayReisAdvies(
                                         Text(
                                             text = stringResource(id = R.string.alternatief_vervoer_bericht),
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center,
+                                            textAlign = TextAlign.Left,
                                             maxLines = 2,
                                         )
 
@@ -531,7 +522,7 @@ fun DisplayReisAdvies(
                                     }
                                 }
 
-                                if(advies.aandachtsPunten != null){
+                                if (advies.aandachtsPunten != null) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -540,7 +531,7 @@ fun DisplayReisAdvies(
                                         Icon(
                                             imageVector = Icons.Default.Warning,
                                             contentDescription = "Icon",
-                                            tint = Color.White,
+                                            tint = if (advies.cancelled) Color.Red else Color.White,
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
                                                 .size(iconSize)
@@ -549,7 +540,6 @@ fun DisplayReisAdvies(
                                             text = advies.aandachtsPunten,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
-                                            maxLines = 2,
                                         )
                                     }
                                 }
