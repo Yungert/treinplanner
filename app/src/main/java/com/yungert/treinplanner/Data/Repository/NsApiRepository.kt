@@ -1,5 +1,6 @@
 package com.yungert.treinplanner.presentation.Data.Repository
 
+import androidx.annotation.Keep
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.Data.models.PlaceResponse
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
+@Keep
 class NsApiRepository(private val nsApiClient: NSApiClient) {
     val apiKey = BuildConfig.API_KEY_NS
     suspend fun fetchReisAdviezen(

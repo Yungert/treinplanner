@@ -1,7 +1,9 @@
 package com.yungert.treinplanner.presentation.Data.api
 
+import androidx.annotation.Keep
 import com.yungert.treinplanner.presentation.ui.ErrorState
 
+@Keep
 sealed class Resource<T>(
     val data: T? = null,
     val state: ErrorState? = null

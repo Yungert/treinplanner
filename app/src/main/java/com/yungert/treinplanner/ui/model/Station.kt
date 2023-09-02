@@ -1,5 +1,8 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class StationNamen(
     val displayValue: String,
     val hiddenValue: String,
@@ -7,7 +10,7 @@ data class StationNamen(
     var distance: Double = -1.0,
     var afstandTotGebruiker: String = ""
 )
-
+@Keep
 var stationNamen = listOf(
     StationNamen("'s-Hertogenbosch", "ht"),
     StationNamen("'s-Hertogenbosch Oost", "hto"),

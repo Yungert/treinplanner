@@ -342,14 +342,14 @@ fun DisplayRitDetail(
                                         )
                                         Text(
                                             text = stop.geplandeVertrektTijd,
-                                            style = fontsizeLabelCard
+                                            style = fontsizeLabelCard,
+                                            modifier = Modifier.padding(horizontal = 1.dp)
                                         )
                                         Text(
                                             text = stop.vertrekVertraging,
                                             style = fontsizeLabelCard,
                                             color = Color.Red,
                                             textAlign = TextAlign.Center,
-                                            modifier = Modifier.padding(horizontal = 1.dp)
                                         )
                                     }
                                 }

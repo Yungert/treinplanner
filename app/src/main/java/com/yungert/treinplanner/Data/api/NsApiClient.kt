@@ -1,8 +1,10 @@
 package com.yungert.treinplanner.presentation.Data.api
 
+import androidx.annotation.Keep
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@Keep
 object NSApiClient {
     private const val BASE_URL = "https://gateway.apiportal.ns.nl/"
 

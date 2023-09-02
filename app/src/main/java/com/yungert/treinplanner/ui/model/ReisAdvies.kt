@@ -1,15 +1,16 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import androidx.annotation.Keep
 import com.yungert.treinplanner.presentation.Data.models.Message
 import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
-
+@Keep
 data class ReisAdvies(
     val primaryMessage: List<PrimaryMessage>?,
     val advies: List<Adviezen>,
     val verstrekStation: String,
     val aankomstStation: String,
 )
-
+@Keep
 data class Adviezen(
     val verstrekStation: String,
     val aankomstStation: String,

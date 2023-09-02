@@ -1,9 +1,12 @@
 package com.yungert.treinplanner.presentation.Data.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class RitDetailApiResponse(
     val payload: Payload
 )
-
+@Keep
 data class Payload(
     val notes: List<JourneyNote>,
     val productNumbers: List<String>,
@@ -11,7 +14,7 @@ data class Payload(
     val allowCrowdReporting: Boolean,
     val source: String,
 )
-
+@Keep
 data class JourneyNote(
     val value: String?,
     val accessibilityValue: String?,
@@ -24,7 +27,7 @@ data class JourneyNote(
     val isPresentationRequired: Boolean?,
     val category: String?
 )
-
+@Keep
 data class JourneyStop(
     val id: String,
     val stop: StopDetails,
@@ -40,7 +43,7 @@ data class JourneyStop(
     val platformFeatures: List<PlatformFeature>,
     val coachCrowdForecast: List<CoachCrowdForecast>
 )
-
+@Keep
 data class StopDetails(
     val name: String,
     val lng: Double,
@@ -48,7 +51,7 @@ data class StopDetails(
     val countryCode: String,
     val uicCode: String
 )
-
+@Keep
 data class Departure(
     val product: JourneyProduct,
     val origin: StopDetails,
@@ -62,7 +65,7 @@ data class Departure(
     val crowdForecast: String,
     val stockIdentifiers: List<String>
 )
-
+@Keep
 data class JourneyProduct(
     val number: String,
     val categoryCode: String,
@@ -72,7 +75,7 @@ data class JourneyProduct(
     val operatorName: String,
     val type: String
 )
-
+@Keep
 data class TrainStock(
     val trainType: String,
     val numberOfSeats: Int,
@@ -80,14 +83,14 @@ data class TrainStock(
     val trainParts: List<TrainPart>,
     val hasSignificantChange: Boolean?
 )
-
+@Keep
 data class TrainPart(
     val stockIdentifier: String,
     val facilities: List<String>,
     val image: Image,
     val destination: Station,
 )
-
+@Keep
 data class Arrival(
     val product: JourneyProduct,
     val origin: StopDetails,
@@ -102,11 +105,11 @@ data class Arrival(
     val crowdForecast: String,
     val stockIdentifiers: List<String>
 )
-
+@Keep
 data class Image(
     val uri: String
 )
-
+@Keep
 data class Station(
     val UICCode: String?,
     val stationType: String?,
@@ -128,30 +131,30 @@ data class Station(
     val eindDatum: String?,
     val nearbyMeLocationId: NearbyMeLocationId?
 )
-
+@Keep
 data class Track(
     val spoorNummer: String?
 )
-
+@Keep
 data class StationsNamen(
     val lang: String?,
     val middel: String?,
     val kort: String?,
     val festive: String?
 )
-
+@Keep
 data class NearbyMeLocationId(
     val type: String?,
     val value: String?
 )
-
+@Keep
 data class PlatformFeature(
     val paddingLeft: Int?,
     val width: Int?,
     val type: String?,
     val description: String?
 )
-
+@Keep
 data class CoachCrowdForecast(
     val paddingLeft: Int?,
     val width: Int?,

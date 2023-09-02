@@ -1,5 +1,8 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class TreinRitDetail(
     val eindbestemmingTrein: String,
     val ritNummer: String,

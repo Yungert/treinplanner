@@ -1,10 +1,11 @@
 package com.yungert.treinplanner.presentation.ui.model
 
+import androidx.annotation.Keep
 import com.yungert.treinplanner.presentation.Data.models.Message
 import com.yungert.treinplanner.presentation.Data.models.NesProperties
 import com.yungert.treinplanner.presentation.Data.models.TransferMessage
 
-
+@Keep
 data class RitDetail(
     val treinOperator: String,
     val treinOperatorType: String,
@@ -33,7 +34,7 @@ data class RitDetail(
 
     val overstapTijd: String?,
 )
-
+@Keep
 data class MessageData(
     val id: String,
     val externalId: String,

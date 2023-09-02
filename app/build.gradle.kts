@@ -17,18 +17,29 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        signingConfig = signingConfigs.getByName("debug")
 
 
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "NS_API_KEY", "NS_API_KEY")
+            //buildConfigField("String", "NS_API_KEY", "NS_API_KEY")
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            //buildConfigField("String", "NS_API_KEY", "NS_API_KEY")
         }
     }
     compileOptions {
@@ -92,7 +103,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.4.3")
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("androidx.datastore:datastore-core:1.0.0")
+    implementation("androidx.datastore:datastore-core:1.1.0-alpha03")
     androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
