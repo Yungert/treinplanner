@@ -56,7 +56,7 @@ class ReisAdviesViewModel : ViewModel() {
                             val uniek = primaryMessage.any { message ->
                                 message.message?.id == advies.primaryMessage?.message?.id
                             }
-                            if (!uniek) {
+                            if (!uniek && advies.primaryMessage?.type != "LEG_TRANSFER_IMPOSSIBLE" && advies.primaryMessage?.type != "LEG_CANCELLED" && advies.primaryMessage?.type != "TRIP_CANCELLED" && advies.primaryMessage?.type != "ADDITIONAL") {
                                 advies.primaryMessage?.let { primaryMessage.add(it) }
                             }
                             advies.legs.forEachIndexed { index, rit ->
@@ -91,6 +91,7 @@ class ReisAdviesViewModel : ViewModel() {
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
                                     cancelled = advies.status == "CANCELLED",
+                                    aandachtsPunten = if(advies.status == "CANCELLED") advies.primaryMessage?.message?.text else null,
                                     treinSoortenOpRit = treinSoort,
                                     alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT",
                                 )

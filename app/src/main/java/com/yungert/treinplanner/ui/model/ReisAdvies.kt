@@ -4,7 +4,7 @@ import com.yungert.treinplanner.presentation.Data.models.Message
 import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
 
 data class ReisAdvies(
-    val primaryMessage: List<PrimaryMessage>,
+    val primaryMessage: List<PrimaryMessage>?,
     val advies: List<Adviezen>,
     val verstrekStation: String,
     val aankomstStation: String,
@@ -24,6 +24,7 @@ data class Adviezen(
     val bericht: List<Message>?,
     val drukte: DrukteIndicator,
     val cancelled: Boolean,
+    val aandachtsPunten: String?,
     val treinSoortenOpRit: String,
     val alternatiefVervoer: Boolean,
 )

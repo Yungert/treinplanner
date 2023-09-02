@@ -309,7 +309,7 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
-                if (reisAdvies.primaryMessage.isNotEmpty()) {
+                if (reisAdvies.primaryMessage != null) {
                     reisAdvies.primaryMessage.forEach { bericht ->
                         item {
                             Card(
@@ -525,7 +525,30 @@ fun DisplayReisAdvies(
                                         Text(
                                             text = stringResource(id = R.string.label_vervallen_reisadvies),
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center,
+                                            textAlign = TextAlign.Left,
+                                            maxLines = 2,
+                                        )
+                                    }
+                                }
+
+                                if(advies.aandachtsPunten != null){
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Icon",
+                                            tint = Color.White,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = advies.aandachtsPunten,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
                                             maxLines = 2,
                                         )
                                     }
