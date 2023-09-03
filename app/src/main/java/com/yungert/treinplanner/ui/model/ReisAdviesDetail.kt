@@ -9,6 +9,7 @@ data class DetailReisAdvies(
     var opgeheven: Boolean,
     var redenOpheffen: String?,
     var rit: List<RitDetail>,
+    val hoofdBericht: String?,
 )
 @Keep
 data class RitDetail(
@@ -33,7 +34,7 @@ data class RitDetail(
     val aankomstStationUicCode: String,
 
     val berichten: List<Message>,
-    val hoofdBericht: String?,
+
     val transferBericht: List<TransferMessage>?,
     val alternatiefVervoer: Boolean,
     val ritId: String,

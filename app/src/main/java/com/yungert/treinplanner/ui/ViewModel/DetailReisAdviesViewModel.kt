@@ -41,7 +41,8 @@ class DetailReisAdviesViewModel : ViewModel() {
                         var detailReisAdvies: DetailReisAdvies = DetailReisAdvies(
                             opgeheven = result.data?.status == "CANCELLED",
                             redenOpheffen = result.data?.primaryMessage?.title,
-                            rit = ritten
+                            rit = ritten,
+                            hoofdBericht = result.data?.primaryMessage?.message?.text,
                         )
                         result.data?.legs?.forEachIndexed { index, advies ->
                             var ritDetail: RitDetail? = null
@@ -98,7 +99,6 @@ class DetailReisAdviesViewModel : ViewModel() {
                                     advies.destination.actualDateTime
                                 ),
                                 berichten = advies.messages,
-                                hoofdBericht = result.data.primaryMessage?.message?.text,
                                 transferBericht = advies.transferMessages,
                                 alternatiefVervoer = alternatievVervoerInzet,
                                 ritId = advies.journeyDetailRef,

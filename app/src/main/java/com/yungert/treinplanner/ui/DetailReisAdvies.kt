@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardTab
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Start
 import androidx.compose.material.icons.filled.Tram
 import androidx.compose.material.icons.filled.Warning
@@ -53,6 +55,7 @@ import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
@@ -203,7 +206,7 @@ fun DisplayDetailReisAdvies(
                     }
                 }
                 item {
-                    if (treinRit.rit[0].hoofdBericht != null) {
+                    if (treinRit.hoofdBericht != null) {
                         Card(
                             onClick = {},
                         ) {
@@ -224,7 +227,7 @@ fun DisplayDetailReisAdvies(
                                             .size(iconSize)
                                     )
                                     Text(
-                                        text = treinRit.rit[0].hoofdBericht!!,
+                                        text = treinRit.hoofdBericht,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left,
                                     )
@@ -283,7 +286,7 @@ fun DisplayDetailReisAdvies(
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center,
+                                        horizontalArrangement = Arrangement.Start,
                                     ) {
                                         if (reis.alternatiefVervoer) {
                                             Text(
@@ -317,8 +320,8 @@ fun DisplayDetailReisAdvies(
                             },
                             modifier = if (index == treinRit.rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
                                 .padding(
-                                    bottom = 0.dp
-                                )
+                                    bottom = 0.dp,
+                                    )
                                 .defaultMinSize(
                                     minWidth = minimaleBreedteTouchControls,
                                     minHeight = minimaleHoogteTouchControls
@@ -326,19 +329,20 @@ fun DisplayDetailReisAdvies(
 
                         ) {
                             Column(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(start = 5.dp),
                             ) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Text(
                                         text = reis.treinOperator + " " + reis.treinOperatorType + " " + reis.ritNummer + " " + stringResource(
                                             id = R.string.label_eindbestemming_trein
                                         ) + ":",
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                 }
                                 Row(
@@ -346,19 +350,19 @@ fun DisplayDetailReisAdvies(
                                         .fillMaxWidth()
                                         .padding(bottom = 4.dp),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Text(
                                         text = reis.eindbestemmingTrein,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                 }
                                 if(reis.opgeheven){
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center,
+                                        horizontalArrangement = Arrangement.Start,
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Warning,
@@ -379,7 +383,7 @@ fun DisplayDetailReisAdvies(
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Start,
@@ -392,7 +396,7 @@ fun DisplayDetailReisAdvies(
                                     Text(
                                         text = reis.naamVertrekStation,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                 }
                                 Row(
@@ -400,18 +404,26 @@ fun DisplayDetailReisAdvies(
                                         .fillMaxWidth()
                                         .padding(bottom = 4.dp),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Schedule,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(12.dp)
+                                    )
                                     Text(
                                         text = reis.geplandeVertrektijd,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                     if (reis.vertrekVertraging != "0" && reis.vertrekVertraging != "") {
                                         Text(
                                             text = "+" + reis.vertrekVertraging,
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center,
+                                            textAlign = TextAlign.Left,
                                             color = Color.Red,
                                             modifier = Modifier.padding(horizontal = 1.dp)
                                         )
@@ -428,14 +440,14 @@ fun DisplayDetailReisAdvies(
                                         Text(
                                             text = reis.vertrekSpoor,
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.Left
                                         )
                                     }
                                 }
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.KeyboardTab,
@@ -448,18 +460,26 @@ fun DisplayDetailReisAdvies(
                                     Text(
                                         text = reis.naamAankomstStation,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                 }
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Schedule,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(12.dp)
+                                    )
                                     Text(
                                         text = reis.geplandeAankomsttijd,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                     if (reis.aankomstVertraging != "0" && reis.aankomstVertraging != "") {
                                         Text(
@@ -477,12 +497,35 @@ fun DisplayDetailReisAdvies(
                                             tint = Color.White,
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
-                                                .size(iconSize)
+                                                .size(iconSize),
+
                                         )
                                         Text(
                                             text = reis.aankomstSpoor,
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.Left
+                                        )
+                                    }
+                                }
+
+                                reis.berichten.forEach { bericht ->
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Info,
+                                            contentDescription = "Icon",
+                                            tint = Color.Yellow,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = bericht.text,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left
                                         )
                                     }
                                 }
@@ -520,6 +563,7 @@ fun DisplayDetailReisAdvies(
             )
         }
         LaunchedEffect(Unit) { focusRequester.requestFocus() }
+        TimeText()
     }
 }
 

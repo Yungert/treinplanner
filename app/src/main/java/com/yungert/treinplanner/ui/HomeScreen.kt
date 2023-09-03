@@ -46,6 +46,7 @@ import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
@@ -297,4 +298,5 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
         }
     }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    TimeText()
 }
