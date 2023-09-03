@@ -32,6 +32,7 @@ data class RitDetail(
     val aankomstSpoor: String?,
     val aankomstVertraging: String,
     val aankomstStationUicCode: String,
+    val punctualiteit: Double,
 
     val berichten: List<Message>,
 

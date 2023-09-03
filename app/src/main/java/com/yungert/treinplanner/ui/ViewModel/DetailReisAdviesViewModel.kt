@@ -107,7 +107,8 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 datum = advies.origin.plannedDateTime,
                                 overstapTijd = overstap,
                                 kortereTreinDanGepland = advies.shorterStock,
-                                opgeheven = advies.cancelled
+                                opgeheven = advies.cancelled,
+                                punctualiteit = advies.punctuality ?: 0.0,
                             )
 
                             ritDetail.let { ritten.add(it) }

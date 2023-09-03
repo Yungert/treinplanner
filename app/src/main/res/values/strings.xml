@@ -38,4 +38,5 @@
     <string name="label_instellingen">Instellingen</string>
     <string name="label_geen_optimale_route">Langere reis vanwege een verstoring</string>
     <string name="label_rijdt_niet">Rijdt niet</string>
+    <string name="label_fout_berekenen_overstap">Er is een fout opgetreden bij berekenen van de overstaptijd</string>
 </resources>

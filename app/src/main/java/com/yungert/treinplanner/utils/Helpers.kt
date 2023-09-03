@@ -10,6 +10,7 @@ import java.time.Duration
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.Temporal
 
 private var lastFormattedTime: String? = null
 fun formatTime(time: String?): String {
@@ -78,15 +79,12 @@ fun calculateTimeDiff(startTime: String?, endTime: String?): String {
     if (startTime == null || endTime == null) {
         return ""
     }
+    val format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssxx")
 
-    var start = formatTime(startTime)
-    var end = formatTime(endTime)
+    var start = OffsetDateTime.parse(startTime, format)
+    var end = OffsetDateTime.parse(endTime, format)
 
-    val formatter = DateTimeFormatter.ofPattern("HH:mm")
-    val startLocalTime = LocalTime.parse(start, formatter)
-    val endLocalTime = LocalTime.parse(end, formatter)
-
-    val duration = Duration.between(startLocalTime, endLocalTime)
+    val duration = Duration.between(start, end)
 
     return duration.toMinutes().toString()
 }

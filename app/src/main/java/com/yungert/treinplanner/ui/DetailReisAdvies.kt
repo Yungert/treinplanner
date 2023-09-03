@@ -17,8 +17,10 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardTab
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Start
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Tram
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -286,7 +288,7 @@ fun DisplayDetailReisAdvies(
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Start,
+                                        horizontalArrangement = Arrangement.Center,
                                     ) {
                                         if (reis.alternatiefVervoer) {
                                             Text(
@@ -301,6 +303,35 @@ fun DisplayDetailReisAdvies(
                                                 textAlign = TextAlign.Center
                                             )
                                         }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (index > 0 && reis.overstapTijd == ""){
+                            Card(
+                                onClick = {
+                                },
+                                modifier = Modifier
+                                    .padding(2.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+
+                                        Text(
+                                            text = stringResource(id = R.string.label_fout_berekenen_overstap),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Center
+                                        )
+
                                     }
                                 }
                             }
@@ -321,7 +352,7 @@ fun DisplayDetailReisAdvies(
                             modifier = if (index == treinRit.rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
                                 .padding(
                                     bottom = 0.dp,
-                                    )
+                                )
                                 .defaultMinSize(
                                     minWidth = minimaleBreedteTouchControls,
                                     minHeight = minimaleHoogteTouchControls
@@ -329,7 +360,8 @@ fun DisplayDetailReisAdvies(
 
                         ) {
                             Column(
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier
+                                    .fillMaxWidth()
                                     .padding(start = 5.dp),
                             ) {
                                 Row(
@@ -428,7 +460,7 @@ fun DisplayDetailReisAdvies(
                                             modifier = Modifier.padding(horizontal = 1.dp)
                                         )
                                     }
-                                    if (reis.vertrekSpoor != null) {
+                                    if (reis.vertrekSpoor != "") {
                                         Icon(
                                             imageVector = Icons.Default.Tram,
                                             contentDescription = "Icon",
@@ -490,7 +522,7 @@ fun DisplayDetailReisAdvies(
                                             modifier = Modifier.padding(horizontal = 1.dp)
                                         )
                                     }
-                                    if (reis.aankomstSpoor != null) {
+                                    if (reis.aankomstSpoor != "") {
                                         Icon(
                                             imageVector = Icons.Default.Tram,
                                             contentDescription = "Icon",
@@ -501,11 +533,29 @@ fun DisplayDetailReisAdvies(
 
                                         )
                                         Text(
-                                            text = reis.aankomstSpoor,
+                                            text = reis.aankomstSpoor!!,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left
                                         )
                                     }
+                                    
+                                    Icon(
+                                        imageVector = Icons.Outlined.Timer,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize),
+
+                                        )
+                                    Text(
+                                        text = if(reis.punctualiteit > 0.0)reis.punctualiteit.toString() + "%" else stringResource(
+                                            id = R.string.label_onbekend
+                                        ),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left
+                                    )
+
                                 }
 
                                 reis.berichten.forEach { bericht ->
