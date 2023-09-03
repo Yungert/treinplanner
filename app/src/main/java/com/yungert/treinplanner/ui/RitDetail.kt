@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.AirlineSeatReclineNormal
 import androidx.compose.material.icons.filled.East
 import androidx.compose.material.icons.filled.Train
 import androidx.compose.material.icons.filled.Tram
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -84,7 +85,7 @@ fun ShowRitDetail(
     when (val result = ritDetailViewModel.stops.collectAsState().value) {
         is ViewStateRitDetail.Success -> {
             DisplayRitDetail(
-                stops = result.details,
+                ritDetail = result.details,
                 navController = navController,
                 viewModel = viewModel,
                 depatureUicCode = depatureUicCode,
@@ -133,7 +134,7 @@ fun ShowRitDetail(
 
                 is ViewStateRitDetail.Success -> {
                     DisplayRitDetail(
-                        stops = response.details,
+                        ritDetail = response.details,
                         navController = navController,
                         viewModel = viewModel,
                         depatureUicCode = depatureUicCode,
@@ -151,7 +152,7 @@ fun ShowRitDetail(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DisplayRitDetail(
-    stops: List<TreinRitDetail>,
+    ritDetail: TreinRitDetail,
     navController: NavController,
     viewModel: RitDetailViewModel,
     depatureUicCode: String,
@@ -164,7 +165,8 @@ fun DisplayRitDetail(
     val coroutineScope = rememberCoroutineScope()
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
-    var treinStops = stops
+    var treinStops = ritDetail
+
     val context = LocalContext.current
     coroutineScope.launch {
         listState.scrollToItem(index = 2)
@@ -213,13 +215,37 @@ fun DisplayRitDetail(
                 item {
                     ListHeader {
                         Text(
-                            text = stringResource(id = R.string.label_rit) + " " + stops.getOrNull(0)?.ritNummer + " " + stringResource(
+                            text = stringResource(id = R.string.label_rit) + " " + ritDetail.ritNummer + " " + stringResource(
                                 id = R.string.label_eindbestemming_trein
-                            ) + " " + stops.getOrNull(0)?.eindbestemmingTrein,
+                            ) + " " + ritDetail.eindbestemmingTrein,
                             textAlign = TextAlign.Center,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
+                    }
+                }
+
+                if (ritDetail.opgeheven) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Warning,
+                                contentDescription = "Icon",
+                                tint = Color.Red,
+                                modifier = Modifier
+                                    .padding(horizontal = 2.dp)
+                                    .size(iconSize)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.label_rijdt_niet),
+                                style = fontsizeLabelCard,
+                                textAlign = TextAlign.Left,
+                            )
+                        }
                     }
                 }
 
@@ -238,15 +264,18 @@ fun DisplayRitDetail(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            if (stops.getOrNull(0)?.materieelType != "" && stops.getOrNull(0)?.aantalTreinDelen != "") {
+                            if (ritDetail.stops.getOrNull(0)?.materieelType != "" && ritDetail.stops.getOrNull(
+                                    0
+                                )?.aantalTreinDelen != ""
+                            ) {
                                 Text(
-                                    text = stops.getOrNull(0)?.materieelType + "-" + stops.getOrNull(
+                                    text = ritDetail.stops.getOrNull(0)?.materieelType + "-" + ritDetail.stops.getOrNull(
                                         0
                                     )?.aantalTreinDelen + " ",
                                     style = fontsizeLabelCard
                                 )
                             }
-                            if (stops.getOrNull(0)?.aantalZitplaatsen != "") {
+                            if (ritDetail.stops.getOrNull(0)?.aantalZitplaatsen != "") {
                                 Icon(
                                     imageVector = Icons.Default.AirlineSeatReclineNormal,
                                     contentDescription = "Icon",
@@ -256,7 +285,7 @@ fun DisplayRitDetail(
                                         .padding(vertical = 2.dp)
                                 )
                                 Text(
-                                    text = stops.getOrNull(0)?.aantalZitplaatsen
+                                    text = ritDetail.stops.getOrNull(0)?.aantalZitplaatsen
                                         ?: stringResource(id = R.string.label_onbekend),
                                     style = fontsizeLabelCard
                                 )
@@ -267,7 +296,7 @@ fun DisplayRitDetail(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            if (stops.get(0).materieelNummers.isNotEmpty()) {
+                            if (ritDetail.stops.get(0).materieelNummers.isNotEmpty()) {
                                 Icon(
                                     imageVector = Icons.Default.Train,
                                     contentDescription = "Icon",
@@ -277,12 +306,14 @@ fun DisplayRitDetail(
                                         .padding(vertical = 2.dp)
                                 )
 
-                                stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
+                                ritDetail.stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
                                     Text(
                                         text = materieel,
                                         style = fontsizeLabelCard
                                     )
-                                    if (index < (stops.getOrNull(0)?.materieelNummers?.size?.minus(1)
+                                    if (index < (ritDetail.stops.getOrNull(0)?.materieelNummers?.size?.minus(
+                                            1
+                                        )
                                             ?: 0)
                                     ) {
                                         Text(
@@ -295,7 +326,8 @@ fun DisplayRitDetail(
                         }
                     }
                 }
-                treinStops.forEachIndexed { index, stop ->
+                treinStops.stops.forEachIndexed { index, stop ->
+                    val tekstKleur = if(stop.opgeheven) Color.Red else Color.White
                     item {
                         Column(
                             modifier = Modifier
@@ -321,7 +353,8 @@ fun DisplayRitDetail(
 
                                 Text(
                                     text = if (stop.geplandeAankomstTijd != "") stop.geplandeAankomstTijd else stop.geplandeVertrektTijd,
-                                    style = fontsizeLabelCard
+                                    style = fontsizeLabelCard,
+                                    color = tekstKleur
                                 )
                                 Text(
                                     text = if (stop.geplandeAankomstTijd != "") stop.aankomstVertraging else stop.vertrekVertraging,
@@ -343,7 +376,8 @@ fun DisplayRitDetail(
                                         Text(
                                             text = stop.geplandeVertrektTijd,
                                             style = fontsizeLabelCard,
-                                            modifier = Modifier.padding(horizontal = 1.dp)
+                                            modifier = Modifier.padding(horizontal = 1.dp),
+                                            color = tekstKleur
                                         )
                                         Text(
                                             text = stop.vertrekVertraging,
@@ -361,7 +395,8 @@ fun DisplayRitDetail(
                             ) {
                                 Text(
                                     text = stop.stationNaam,
-                                    style = fontsizeLabelCard
+                                    style = fontsizeLabelCard,
+                                    color = tekstKleur
                                 )
                             }
 
@@ -381,7 +416,8 @@ fun DisplayRitDetail(
                                     )
                                     Text(
                                         text = stop.spoor + " ",
-                                        style = fontsizeLabelCard
+                                        style = fontsizeLabelCard,
+                                        color = tekstKleur
                                     )
                                 }
                                 DrukteIndicatorComposable(
@@ -391,8 +427,28 @@ fun DisplayRitDetail(
                                 )
                             }
 
-
-                            if (index == stops.size - 1) {
+                            if(stop.opgeheven){
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Warning,
+                                        contentDescription = "Icon",
+                                        tint = Color.Red,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.label_rijdt_niet),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left,
+                                    )
+                                }
+                            }
+                            if (index == ritDetail.stops.size - 1) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()

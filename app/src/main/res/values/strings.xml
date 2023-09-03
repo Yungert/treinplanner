@@ -36,4 +36,6 @@
     <string name="label_dichtbijzijnde_stations_ophalen">Dichtstbijzijnde  stations ophalen</string>
     <string name="label_kortere_trein_waarschuwing">Kortere trein dan gepland, houdt rekening met extra drukte</string>
     <string name="label_instellingen">Instellingen</string>
+    <string name="label_geen_optimale_route">Langere reis vanwege een verstoring</string>
+    <string name="label_rijdt_niet">Rijdt niet</string>
 </resources>

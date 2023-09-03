@@ -6,6 +6,11 @@ import androidx.annotation.Keep
 data class TreinRitDetail(
     val eindbestemmingTrein: String,
     val ritNummer: String,
+    var opgeheven: Boolean,
+    val stops: List<StopOpRoute>,
+)
+
+data class StopOpRoute(
     val stationNaam: String,
     val spoor: String?,
     val materieelType: String,
@@ -20,7 +25,7 @@ data class TreinRitDetail(
     val vertrekVertraging: String,
     val drukte: DrukteIndicator,
     val punctualiteit: String,
-    val materieelNummers: List<String>
+    val materieelNummers: List<String>,
+    val opgeheven: Boolean,
 )
-
 

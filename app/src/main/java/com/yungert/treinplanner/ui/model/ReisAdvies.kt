@@ -12,6 +12,7 @@ data class ReisAdvies(
 )
 @Keep
 data class Adviezen(
+    val optimaleRoute: Boolean,
     val verstrekStation: String,
     val aankomstStation: String,
     val geplandeVertrekTijd: String,

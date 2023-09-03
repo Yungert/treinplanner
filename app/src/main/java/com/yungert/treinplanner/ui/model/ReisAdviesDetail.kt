@@ -39,6 +39,7 @@ data class RitDetail(
     val ritId: String,
 
     val overstapTijd: String?,
+    val opgeheven: Boolean
 )
 @Keep
 data class MessageData(

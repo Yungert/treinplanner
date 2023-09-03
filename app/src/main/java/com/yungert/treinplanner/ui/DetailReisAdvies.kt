@@ -213,12 +213,20 @@ fun DisplayDetailReisAdvies(
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Warning,
+                                        contentDescription = "Icon",
+                                        tint = Color.Yellow,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
                                     Text(
                                         text = treinRit.rit[0].hoofdBericht!!,
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left,
                                     )
                                 }
                             }
@@ -345,6 +353,28 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center
                                     )
+                                }
+                                if(reis.opgeheven){
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Icon",
+                                            tint = Color.Red,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = stringResource(id = R.string.label_rijdt_niet),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
+                                            maxLines = 2,
+                                        )
+                                    }
                                 }
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),

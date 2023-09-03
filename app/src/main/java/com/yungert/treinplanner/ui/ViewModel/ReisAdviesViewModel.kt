@@ -94,6 +94,7 @@ class ReisAdviesViewModel : ViewModel() {
                                     aandachtsPunten = if(advies.status == "CANCELLED") advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
                                     treinSoortenOpRit = treinSoort,
                                     alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT",
+                                    optimaleRoute = advies.optimal
                                 )
                             )
                         }

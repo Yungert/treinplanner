@@ -1,12 +1,15 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import android.content.Context
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.StopOpRoute
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
 import com.yungert.treinplanner.presentation.utils.calculateDelay
@@ -18,7 +21,7 @@ import kotlinx.coroutines.launch
 
 sealed class ViewStateRitDetail {
     object Loading : ViewStateRitDetail()
-    data class Success(val details: List<TreinRitDetail>) : ViewStateRitDetail()
+    data class Success(val details: TreinRitDetail) : ViewStateRitDetail()
     data class Problem(val exception: ErrorState?) : ViewStateRitDetail()
 }
 
@@ -46,11 +49,20 @@ class RitDetailViewModel : ViewModel() {
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        var treinStops = mutableListOf<TreinRitDetail>()
+                        var treinStops = mutableListOf<StopOpRoute>()
+                        var treinRit = TreinRitDetail(
+                            eindbestemmingTrein = result.data?.payload?.stops?.getOrNull(0)?.destination ?: "",
+                            ritNummer = result.data?.payload?.productNumbers?.getOrNull(0) ?: "0",
+                            stops = treinStops,
+                            opgeheven = false
+                        )
                         var stopOpRoute = false
                         result.data?.payload?.stops?.forEach { stop ->
                             if (stop.kind == "DEPARTURE") {
                                 stopOpRoute = true
+                                if(stop.departures.getOrNull(0)?.cancelled == true){
+                                    treinRit.opgeheven = true
+                                }
                             }
                             if (stop.status == "PASSING") {
                                 return@forEach
@@ -71,10 +83,7 @@ class RitDetailViewModel : ViewModel() {
                             }
 
                             treinStops.add(
-                                TreinRitDetail(
-                                    eindbestemmingTrein = stop.destination,
-                                    ritNummer = result.data.payload.productNumbers.getOrNull(0)
-                                        ?: "0",
+                                StopOpRoute(
                                     stationNaam = stop.stop.name,
                                     spoor = departure?.actualTrack ?: departure?.plannedTrack
                                     ?: arrival?.actualTrack ?: arrival?.plannedTrack,
@@ -97,13 +106,17 @@ class RitDetailViewModel : ViewModel() {
                                     drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
                                     materieelNummers = materieelNummer,
+                                    opgeheven = arrival?.cancelled ?: departure?.cancelled ?: false
                                     )
                             )
                             if (stop.kind == "ARRIVAL") {
                                 stopOpRoute = false
+                                if(stop.arrivals.getOrNull(0)?.cancelled == true){
+                                    treinRit.opgeheven = true
+                                }
                             }
                         }
-                        _viewState.value = ViewStateRitDetail.Success(treinStops)
+                        _viewState.value = ViewStateRitDetail.Success(treinRit)
                     }
 
                     is Resource.Loading -> {

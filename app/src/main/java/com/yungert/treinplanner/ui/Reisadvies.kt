@@ -543,6 +543,28 @@ fun DisplayReisAdvies(
                                         )
                                     }
                                 }
+
+                                if (!advies.optimaleRoute && !advies.cancelled) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Icon",
+                                            tint = Color.Yellow,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = stringResource(id = R.string.label_geen_optimale_route),
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
+                                        )
+                                    }
+                                }
                             }
                         }
                     }

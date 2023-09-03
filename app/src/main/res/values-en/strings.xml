@@ -35,4 +35,6 @@
     <string name="label_dichtbijzijnde_stations_ophalen">Retrieve nearest stations</string>
     <string name="label_kortere_trein_waarschuwing">"Shorter train than planned, takes extra crowds into account  "</string>
     <string name="label_instellingen">Settings</string>
+    <string name="label_geen_optimale_route">Longer journey due to a disruption</string>
+    <string name="label_rijdt_niet">Cancelled</string>
 </resources>
