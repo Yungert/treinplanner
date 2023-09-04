@@ -38,7 +38,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
-                        var detailReisAdvies: DetailReisAdvies = DetailReisAdvies(
+                        var detailReisAdvies = DetailReisAdvies(
                             opgeheven = result.data?.status == "CANCELLED",
                             redenOpheffen = result.data?.primaryMessage?.title,
                             rit = ritten,

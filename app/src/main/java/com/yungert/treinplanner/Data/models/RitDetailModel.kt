@@ -88,7 +88,16 @@ data class TrainPart(
     val stockIdentifier: String,
     val facilities: List<String>,
     val image: Image,
-    val destination: Station,
+    val destination: Eindbestemming?,
+)
+
+@Keep
+data class Eindbestemming(
+    val name: String,
+    val lng: String,
+    val lat: String,
+    val countryCode: String,
+    val uicCode: String,
 )
 @Keep
 data class Arrival(

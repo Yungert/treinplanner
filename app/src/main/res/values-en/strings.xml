@@ -38,4 +38,6 @@
     <string name="label_geen_optimale_route">Longer journey due to a disruption</string>
     <string name="label_rijdt_niet">Cancelled</string>
     <string name="label_fout_berekenen_overstap">An error occurred while calculating the transfer time</string>
+    <string name="label_treinstel">Part</string>
+    <string name="label_rijdt_tot">ends at</string>
 </resources>

@@ -265,18 +265,13 @@ fun DisplayRitDetail(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            if (ritDetail.stops.getOrNull(0)?.materieelType != "" && ritDetail.stops.getOrNull(
-                                    0
-                                )?.aantalTreinDelen != ""
-                            ) {
+
                                 Text(
-                                    text = ritDetail.stops.getOrNull(0)?.materieelType + "-" + ritDetail.stops.getOrNull(
-                                        0
-                                    )?.aantalTreinDelen + " ",
+                                    text = ritDetail.materieelType + "-" + ritDetail.aantalTreinDelen+ " ",
                                     style = fontsizeLabelCard
                                 )
-                            }
-                            if (ritDetail.stops.getOrNull(0)?.aantalZitplaatsen != "") {
+
+
                                 Icon(
                                     imageVector = Icons.Default.AirlineSeatReclineNormal,
                                     contentDescription = "Icon",
@@ -286,10 +281,35 @@ fun DisplayRitDetail(
                                         .padding(vertical = 2.dp)
                                 )
                                 Text(
-                                    text = ritDetail.stops.getOrNull(0)?.aantalZitplaatsen
-                                        ?: stringResource(id = R.string.label_onbekend),
+                                    text = if(ritDetail.aantalZitplaatsen.toString() != "") ritDetail.aantalZitplaatsen.toString() else stringResource(id = R.string.label_onbekend),
                                     style = fontsizeLabelCard
                                 )
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Train,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
+                            )
+                            ritDetail.materieelInzet.forEachIndexed { index, materieel ->
+                                Text(
+                                    text = materieel.treinNummer,
+                                    style = fontsizeLabelCard
+                                )
+                                if (index < (ritDetail.materieelInzet?.size?.minus(1) ?: 0)) {
+                                    Text(
+                                        text = ", ",
+                                        style = fontsizeLabelCard
+                                    )
+                                }
                             }
                         }
                         Row(
@@ -297,31 +317,12 @@ fun DisplayRitDetail(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            if (ritDetail.stops.get(0).materieelNummers.isNotEmpty()) {
-                                Icon(
-                                    imageVector = Icons.Default.Train,
-                                    contentDescription = "Icon",
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .size(iconSize)
-                                        .padding(vertical = 2.dp)
-                                )
-
-                                ritDetail.stops.getOrNull(0)?.materieelNummers?.forEachIndexed { index, materieel ->
+                            ritDetail.materieelInzet.forEach { materieelInzet ->
+                                if(materieelInzet.eindBestemmingTreindeel != ritDetail.eindbestemmingTrein){
                                     Text(
-                                        text = materieel,
+                                        text = stringResource(id = R.string.label_treinstel) + " " +  materieelInzet.treinNummer + " " + stringResource(id = R.string.label_rijdt_tot) + " " + materieelInzet.eindBestemmingTreindeel,
                                         style = fontsizeLabelCard
                                     )
-                                    if (index < (ritDetail.stops.getOrNull(0)?.materieelNummers?.size?.minus(
-                                            1
-                                        )
-                                            ?: 0)
-                                    ) {
-                                        Text(
-                                            text = ", ",
-                                            style = fontsizeLabelCard
-                                        )
-                                    }
                                 }
                             }
                         }
@@ -336,19 +337,14 @@ fun DisplayRitDetail(
                                 .defaultMinSize(
                                     minWidth = minimaleBreedteTouchControls,
                                     minHeight = minimaleHoogteTouchControls
-                                ),
+                                )
+                                .padding(horizontal = 15.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            Divider(
-                                color = Color.White,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(1.dp)
-                            )
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
+                                horizontalArrangement = Arrangement.Start,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
 
@@ -388,31 +384,13 @@ fun DisplayRitDetail(
                                         )
                                     }
                                 }
-                            }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Text(
-                                    text = stop.stationNaam,
-                                    style = fontsizeLabelCard,
-                                    color = tekstKleur
-                                )
-                            }
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
                                 if (stop.spoor != null) {
                                     Icon(
                                         imageVector = Icons.Default.Tram,
                                         contentDescription = "Icon",
                                         tint = Color.White,
                                         modifier = Modifier
-                                            .size(iconSize)
+                                            .size(16.dp)
                                             .padding(vertical = 2.dp)
                                     )
                                     Text(
@@ -427,12 +405,23 @@ fun DisplayRitDetail(
                                     color = stop.drukte.color
                                 )
                             }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Start,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = stop.stationNaam,
+                                    style = fontsizeLabelCard,
+                                    color = tekstKleur
+                                )
+                            }
 
                             if(stop.opgeheven){
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Warning,
@@ -454,13 +443,13 @@ fun DisplayRitDetail(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(bottom = 60.dp),
-                                    horizontalArrangement = Arrangement.Center,
+                                    horizontalArrangement = Arrangement.Start,
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     Text(
-                                        text = stringResource(id = R.string.text_eindpunt_van_jouw_reis),
+                                        text = "\n" + stringResource(id = R.string.text_eindpunt_van_jouw_reis),
                                         style = fontsizeLabelCard,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Left
                                     )
                                 }
                             }

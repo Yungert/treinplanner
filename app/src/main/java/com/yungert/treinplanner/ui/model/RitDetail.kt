@@ -7,16 +7,17 @@ data class TreinRitDetail(
     val eindbestemmingTrein: String,
     val ritNummer: String,
     var opgeheven: Boolean,
+    var aantalZitplaatsen: Int,
+    var aantalTreinDelen: Int,
+    var materieelType: String,
+    var ingekort: Boolean,
+    var materieelInzet: List<MaterieelInzet>,
     val stops: List<StopOpRoute>,
 )
 
 data class StopOpRoute(
     val stationNaam: String,
     val spoor: String?,
-    val materieelType: String,
-    val aantalZitplaatsen: String,
-    val aantalTreinDelen: String,
-    val ingekort: Boolean,
     val geplandeAankomstTijd: String,
     val actueleAankomstTijd: String,
     val aankomstVertraging: String,
@@ -25,7 +26,11 @@ data class StopOpRoute(
     val vertrekVertraging: String,
     val drukte: DrukteIndicator,
     val punctualiteit: String,
-    val materieelNummers: List<String>,
     val opgeheven: Boolean,
+)
+
+data class MaterieelInzet(
+    var treinNummer : String,
+    var eindBestemmingTreindeel: String
 )
 

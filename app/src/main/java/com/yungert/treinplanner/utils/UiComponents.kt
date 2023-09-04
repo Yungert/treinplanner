@@ -222,7 +222,7 @@ fun Foutmelding(errorState: ErrorState? = ErrorState.UNKNOWN, onClick: () -> Uni
     }
 }
 
-fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator {
+fun DrukteIndicatorFormatter(forecast: String?, compactLayout: Boolean? = false): DrukteIndicator {
     var icon = Icons.Default.GroupOff
     var color = Color.Gray
     var aantal = 1
@@ -247,7 +247,7 @@ fun DrukteIndicatorFormatter(forecast: String?): DrukteIndicator {
     return DrukteIndicator(
         icon = icon,
         color = color,
-        aantalIconen = aantal,
+        aantalIconen = if(!compactLayout!!) aantal else 1,
     )
 }
 

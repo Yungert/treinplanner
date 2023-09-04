@@ -9,6 +9,7 @@ import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.MaterieelInzet
 import com.yungert.treinplanner.presentation.ui.model.StopOpRoute
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
@@ -54,16 +55,42 @@ class RitDetailViewModel : ViewModel() {
                             eindbestemmingTrein = result.data?.payload?.stops?.getOrNull(0)?.destination ?: "",
                             ritNummer = result.data?.payload?.productNumbers?.getOrNull(0) ?: "0",
                             stops = treinStops,
-                            opgeheven = false
-                        )
+                            opgeheven = false,
+                            ingekort = false,
+                            aantalTreinDelen = 0,
+                            aantalZitplaatsen = 0,
+                            materieelType = "",
+                            materieelInzet = emptyList()
+                            )
                         var stopOpRoute = false
+                        var ingezetMaterieel = mutableListOf<MaterieelInzet>()
                         result.data?.payload?.stops?.forEach { stop ->
                             if (stop.kind == "DEPARTURE") {
                                 stopOpRoute = true
                                 if(stop.departures.getOrNull(0)?.cancelled == true){
                                     treinRit.opgeheven = true
                                 }
+                                treinRit.aantalTreinDelen = stop.actualStock?.numberOfParts ?:stop.plannedStock?.numberOfParts ?: 0
+                                treinRit.aantalZitplaatsen = stop.actualStock?.numberOfSeats ?:stop.plannedStock?.numberOfSeats ?: 0
+                                treinRit.materieelType = stop.actualStock?.trainType ?:stop.plannedStock?.trainType ?: ""
+                                if(stop.actualStock != null) {
+                                    stop.actualStock.trainParts.forEach { part ->
+                                        ingezetMaterieel.add(
+                                            MaterieelInzet(
+                                            treinNummer = part.stockIdentifier,
+                                            eindBestemmingTreindeel = part.destination?.name ?: stop.destination
+                                        ))
+                                    }
+                                } else {
+                                    stop.plannedStock?.trainParts?.forEach { part ->
+                                        ingezetMaterieel.add(MaterieelInzet(
+                                            treinNummer = part.stockIdentifier,
+                                            eindBestemmingTreindeel = part.destination?.name ?: stop.destination
+                                        ))
+                                    }
+                                }
                             }
+                            treinRit.materieelInzet = ingezetMaterieel
                             if (stop.status == "PASSING") {
                                 return@forEach
                             }
@@ -81,17 +108,15 @@ class RitDetailViewModel : ViewModel() {
                                     materieelNummer.add(part.stockIdentifier)
                                 }
                             }
+                            if(stop.actualStock?.hasSignificantChange == true){
+                                treinRit.ingekort = true
+                            }
 
                             treinStops.add(
                                 StopOpRoute(
                                     stationNaam = stop.stop.name,
                                     spoor = departure?.actualTrack ?: departure?.plannedTrack
                                     ?: arrival?.actualTrack ?: arrival?.plannedTrack,
-                                    ingekort = stop.actualStock?.hasSignificantChange ?: false,
-                                    aantalZitplaatsen = stop.actualStock?.numberOfSeats?.toString()
-                                        ?: stop.plannedStock?.numberOfSeats.toString(),
-                                    aantalTreinDelen = stop.actualStock?.numberOfParts?.toString()
-                                        ?: stop.plannedStock?.numberOfParts.toString(),
                                     actueleAankomstTijd = formatTime(arrival?.actualTime),
                                     geplandeAankomstTijd = formatTime(arrival?.plannedTime),
                                     aankomstVertraging = calculateDelay(
@@ -102,10 +127,8 @@ class RitDetailViewModel : ViewModel() {
                                     vertrekVertraging = calculateDelay(
                                         departure?.delayInSeconds?.toLong() ?: 0
                                     ),
-                                    materieelType = stop.actualStock?.trainType ?: "",
-                                    drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast),
+                                    drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast, compactLayout = true),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
-                                    materieelNummers = materieelNummer,
                                     opgeheven = arrival?.cancelled ?: departure?.cancelled ?: false
                                     )
                             )
