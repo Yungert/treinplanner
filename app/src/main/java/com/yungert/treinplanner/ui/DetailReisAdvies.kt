@@ -451,22 +451,20 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left
                                     )
-                                    if (reis.vertrekVertraging != "0" && reis.vertrekVertraging != "") {
-                                        Text(
-                                            text = "+" + reis.vertrekVertraging,
-                                            style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Left,
-                                            color = Color.Red,
-                                            modifier = Modifier.padding(horizontal = 1.dp)
-                                        )
-                                    }
+                                    Text(
+                                        text = if(reis.vertrekVertraging.trim() == "0") "" else "+" + reis.vertrekVertraging,
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left,
+                                        color = Color.Red,
+                                        modifier = Modifier.padding(horizontal = 2.dp)
+                                    )
+
                                     if (reis.vertrekSpoor != "") {
                                         Icon(
                                             imageVector = Icons.Default.Tram,
                                             contentDescription = "Icon",
                                             tint = Color.White,
                                             modifier = Modifier
-                                                .padding(horizontal = 2.dp)
                                                 .size(iconSize)
                                         )
                                         Text(
@@ -513,29 +511,27 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left
                                     )
-                                    if (reis.aankomstVertraging != "0" && reis.aankomstVertraging != "") {
-                                        Text(
-                                            text = "+" + reis.aankomstVertraging,
-                                            style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center,
-                                            color = Color.Red,
-                                            modifier = Modifier.padding(horizontal = 1.dp)
-                                        )
-                                    }
+
+                                    Text(
+                                        text = if(reis.aankomstVertraging.trim() == "0") "" else "+" + reis.aankomstVertraging,
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center,
+                                        color = Color.Red,
+                                        modifier = Modifier.padding(horizontal = 2.dp)
+                                    )
+
                                     if (reis.aankomstSpoor != "") {
                                         Icon(
                                             imageVector = Icons.Default.Tram,
                                             contentDescription = "Icon",
                                             tint = Color.White,
                                             modifier = Modifier
-                                                .padding(horizontal = 2.dp)
                                                 .size(iconSize),
-
                                         )
                                         Text(
                                             text = reis.aankomstSpoor!!,
                                             style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Left
+                                            textAlign = TextAlign.Left,
                                         )
                                     }
                                     
@@ -549,9 +545,7 @@ fun DisplayDetailReisAdvies(
 
                                         )
                                     Text(
-                                        text = if(reis.punctualiteit > 0.0)reis.punctualiteit.toString() + "%" else stringResource(
-                                            id = R.string.label_onbekend
-                                        ),
+                                        text = if(reis.punctualiteit > 0.0)reis.punctualiteit.toString() + "%" else "?",
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left
                                     )

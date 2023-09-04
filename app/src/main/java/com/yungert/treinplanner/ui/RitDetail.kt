@@ -334,10 +334,10 @@ fun DisplayRitDetail(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .defaultMinSize(
-                                    minWidth = minimaleBreedteTouchControls,
-                                    minHeight = minimaleHoogteTouchControls
-                                )
+//                                .defaultMinSize(
+//                                    minWidth = minimaleBreedteTouchControls,
+//                                    minHeight = minimaleHoogteTouchControls
+//                                )
                                 .padding(horizontal = 15.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -358,7 +358,6 @@ fun DisplayRitDetail(
                                     style = fontsizeLabelCard,
                                     color = Color.Red,
                                     textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(horizontal = 1.dp)
                                 )
                                 if (stop.geplandeAankomstTijd != "" && stop.geplandeVertrektTijd != "") {
                                     if (stop.geplandeAankomstTijd != stop.geplandeVertrektTijd) {
@@ -391,7 +390,8 @@ fun DisplayRitDetail(
                                         tint = Color.White,
                                         modifier = Modifier
                                             .size(16.dp)
-                                            .padding(vertical = 2.dp)
+                                            .padding(end = 1.dp)
+                                            .padding(start = 2.dp)
                                     )
                                     Text(
                                         text = stop.spoor + " ",
