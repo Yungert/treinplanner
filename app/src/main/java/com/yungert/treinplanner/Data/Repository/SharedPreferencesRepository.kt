@@ -35,12 +35,9 @@ class SharedPreferencesRepository {
     }
 
     suspend fun editLastRoute(context: Context, key: String, value: String) {
-        val exist = (getLastRoute(context, key) != null)
         val dataStoreKey = stringPreferencesKey(key)
-        if (exist) {
-            context.dataStore.edit { settings ->
-                settings[dataStoreKey] = value
-            }
+        context.dataStore.edit { settings ->
+            settings[dataStoreKey] = value
         }
     }
 }
