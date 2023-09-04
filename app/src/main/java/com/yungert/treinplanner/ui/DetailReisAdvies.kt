@@ -423,7 +423,7 @@ fun DisplayDetailReisAdvies(
                                         tint = Color.White,
                                         modifier = Modifier
                                             .padding(horizontal = 2.dp)
-                                            .size(12.dp)
+                                            .size(iconSize)
                                     )
                                     Text(
                                         text = reis.naamVertrekStation,
@@ -444,7 +444,7 @@ fun DisplayDetailReisAdvies(
                                         tint = Color.White,
                                         modifier = Modifier
                                             .padding(horizontal = 2.dp)
-                                            .size(12.dp)
+                                            .size(iconSize)
                                     )
                                     Text(
                                         text = reis.geplandeVertrektijd,
@@ -467,7 +467,7 @@ fun DisplayDetailReisAdvies(
                                             tint = Color.White,
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
-                                                .size(12.dp)
+                                                .size(iconSize)
                                         )
                                         Text(
                                             text = reis.vertrekSpoor,
@@ -487,7 +487,7 @@ fun DisplayDetailReisAdvies(
                                         tint = Color.White,
                                         modifier = Modifier
                                             .padding(horizontal = 2.dp)
-                                            .size(12.dp)
+                                            .size(iconSize)
                                     )
                                     Text(
                                         text = reis.naamAankomstStation,
@@ -506,7 +506,7 @@ fun DisplayDetailReisAdvies(
                                         tint = Color.White,
                                         modifier = Modifier
                                             .padding(horizontal = 2.dp)
-                                            .size(12.dp)
+                                            .size(iconSize)
                                     )
                                     Text(
                                         text = reis.geplandeAankomsttijd,
