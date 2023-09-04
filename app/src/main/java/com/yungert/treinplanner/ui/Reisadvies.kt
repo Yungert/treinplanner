@@ -74,6 +74,7 @@ import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
+private var indexReisadvies = 0
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ShowReisAdvies(
@@ -96,6 +97,7 @@ fun ShowReisAdvies(
         }
 
         else -> {
+            indexReisadvies = 0
             val context = LocalContext.current
             DisposableEffect(lifeCycleOwner) {
                 val observer = LifecycleEventObserver { _, event ->
@@ -152,15 +154,15 @@ fun DisplayReisAdvies(
     naarStation: String,
     viewModel: ReisAdviesViewModel
 ) {
+    val INDEX_OFFSET = 2
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberScalingLazyListState()
     coroutineScope.launch {
-        listState.scrollToItem(2)
+        listState.scrollToItem(indexReisadvies + INDEX_OFFSET)
     }
     var reisAdviezen = reisAdvies
     val context = LocalContext.current
-    val vervallenReisadviexText = getUitvalRitText()
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
@@ -336,11 +338,12 @@ fun DisplayReisAdvies(
                     }
                 }
 
-                reisAdviezen.advies.forEach { advies ->
+                reisAdviezen.advies.forEachIndexed { index, advies ->
                     item {
                         Card(
                             onClick = {
                                 navController.navigate(Screen.Reisadvies.withArguments(advies.reinadviesId))
+                                indexReisadvies = index + INDEX_OFFSET
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

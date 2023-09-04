@@ -334,10 +334,6 @@ fun DisplayRitDetail(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-//                                .defaultMinSize(
-//                                    minWidth = minimaleBreedteTouchControls,
-//                                    minHeight = minimaleHoogteTouchControls
-//                                )
                                 .padding(horizontal = 15.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -367,7 +363,6 @@ fun DisplayRitDetail(
                                             tint = Color.White,
                                             modifier = Modifier
                                                 .size(21.dp)
-                                                .padding(vertical = 2.dp)
                                         )
                                         Text(
                                             text = stop.geplandeVertrektTijd,

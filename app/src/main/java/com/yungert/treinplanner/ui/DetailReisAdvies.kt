@@ -71,7 +71,7 @@ import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
-
+private var indexRit = 0
 @Composable
 fun ShowDetailReisAdvies(
     reisAdviesId: String,
@@ -91,6 +91,7 @@ fun ShowDetailReisAdvies(
         }
 
         else -> {
+            indexRit = 0
             val context = LocalContext.current
             DisposableEffect(lifeCycleOwner) {
                 val observer = LifecycleEventObserver { _, event ->
@@ -148,6 +149,8 @@ fun DisplayDetailReisAdvies(
     viewModel: DetailReisAdviesViewModel,
     reisAdviesId: String
 ) {
+    var INDEX_OFFSET = 1
+    var extraItem = 0
     val focusRequester = remember { FocusRequester() }
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -156,8 +159,9 @@ fun DisplayDetailReisAdvies(
     var trips = treinRit
     val context = LocalContext.current
     val opgeheven = treinRit.opgeheven
+
     coroutineScope.launch {
-        listState.scrollToItem(index = 1)
+        listState.scrollToItem(indexRit + INDEX_OFFSET)
     }
     fun refresh() = refreshScope.launch {
         viewModel.getReisadviesDetail(
@@ -209,6 +213,7 @@ fun DisplayDetailReisAdvies(
                 }
                 item {
                     if (treinRit.hoofdBericht != null) {
+                        extraItem++
                         Card(
                             onClick = {},
                         ) {
@@ -239,6 +244,7 @@ fun DisplayDetailReisAdvies(
                     }
                 }
                 if (opgeheven){
+                    extraItem
                     item {
                         Card(
                             onClick = {},
@@ -272,8 +278,10 @@ fun DisplayDetailReisAdvies(
                 }
 
                 trips.rit.forEachIndexed { index, reis ->
+                    extraItem++
                     item {
                         if (index > 0 && reis.overstapTijd != "") {
+
                             Card(
                                 onClick = {
                                 },
@@ -348,6 +356,7 @@ fun DisplayDetailReisAdvies(
                                         reis.datum
                                     )
                                 )
+                                indexRit = index + extraItem
                             },
                             modifier = if (index == treinRit.rit.size - 1) Modifier.padding(bottom = 40.dp) else Modifier
                                 .padding(
@@ -452,7 +461,7 @@ fun DisplayDetailReisAdvies(
                                         textAlign = TextAlign.Left
                                     )
                                     Text(
-                                        text = if(reis.vertrekVertraging.trim() == "0") "" else "+" + reis.vertrekVertraging,
+                                        text = if(reis.vertrekVertraging.trim() == "0" || reis.vertrekVertraging.trim() == "") "" else "+" + reis.vertrekVertraging,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left,
                                         color = Color.Red,
@@ -513,7 +522,7 @@ fun DisplayDetailReisAdvies(
                                     )
 
                                     Text(
-                                        text = if(reis.aankomstVertraging.trim() == "0") "" else "+" + reis.aankomstVertraging,
+                                        text = if(reis.vertrekVertraging.trim() == "0" || reis.vertrekVertraging.trim() == "") "" else "+" + reis.aankomstVertraging,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
                                         color = Color.Red,
