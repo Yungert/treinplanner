@@ -49,9 +49,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                             var overstap = ""
                             val alternatievVervoerInzet = advies.alternativeTransport
                             if (index > 0) {
-                                var lastStop = result.data.legs[index - 1].destination.actualDateTime ?: result.data.legs[index - 1].destination.plannedDateTime
-
-                                var aankomstVorigeTrein = lastStop
+                                var aankomstVorigeTrein = result.data.legs[index - 1].destination.actualDateTime ?: result.data.legs[index - 1].destination.plannedDateTime
                                 overstap =
                                     calculateTimeDiff(
                                         aankomstVorigeTrein,
@@ -65,8 +63,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 eindbestemmingTrein = advies.direction,
                                 naamVertrekStation = advies.origin.name,
                                 geplandeVertrektijd = formatTime(advies.origin.plannedDateTime),
-                                vertrekSpoor = if (alternatievVervoerInzet) "" else advies.origin.actualTrack
-                                    ?: advies.origin.plannedTrack,
+                                vertrekSpoor = if (alternatievVervoerInzet) "" else advies.origin.actualTrack ?: advies.origin.plannedTrack,
                                 naamAankomstStation = advies.destination.name,
                                 geplandeAankomsttijd = formatTime(advies.destination.actualDateTime ?: advies.destination.plannedDateTime),
                                 aankomstSpoor = if (alternatievVervoerInzet) "" else advies.destination.actualTrack

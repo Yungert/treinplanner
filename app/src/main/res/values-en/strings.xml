@@ -40,4 +40,5 @@
     <string name="label_fout_berekenen_overstap">An error occurred while calculating the transfer time</string>
     <string name="label_treinstel">Part</string>
     <string name="label_rijdt_tot">ends at</string>
+    <string name="label_server_error">"A server error has occurred, try again later  "</string>
 </resources>

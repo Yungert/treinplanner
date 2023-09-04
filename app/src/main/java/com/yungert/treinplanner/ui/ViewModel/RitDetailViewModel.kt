@@ -65,6 +65,10 @@ class RitDetailViewModel : ViewModel() {
                         var stopOpRoute = false
                         var ingezetMaterieel = mutableListOf<MaterieelInzet>()
                         result.data?.payload?.stops?.forEach { stop ->
+                            if (stop.status == "PASSING") {
+                                return@forEach
+                            }
+
                             if (stop.kind == "DEPARTURE") {
                                 stopOpRoute = true
                                 if(stop.departures.getOrNull(0)?.cancelled == true){
@@ -91,9 +95,6 @@ class RitDetailViewModel : ViewModel() {
                                 }
                             }
                             treinRit.materieelInzet = ingezetMaterieel
-                            if (stop.status == "PASSING") {
-                                return@forEach
-                            }
                             if (!stopOpRoute) {
                                 return@forEach
                             }
@@ -102,8 +103,7 @@ class RitDetailViewModel : ViewModel() {
 
                             val materieelNummer = mutableListOf<String>()
                             if (stop.actualStock != null || stop.plannedStock != null) {
-                                var materieel =
-                                    if (stop.actualStock != null) stop.actualStock else stop.plannedStock
+                                var materieel = stop.actualStock ?: stop.plannedStock
                                 materieel?.trainParts?.forEach { part ->
                                     materieelNummer.add(part.stockIdentifier)
                                 }
@@ -115,18 +115,13 @@ class RitDetailViewModel : ViewModel() {
                             treinStops.add(
                                 StopOpRoute(
                                     stationNaam = stop.stop.name,
-                                    spoor = departure?.actualTrack ?: departure?.plannedTrack
-                                    ?: arrival?.actualTrack ?: arrival?.plannedTrack,
+                                    spoor = departure?.actualTrack ?: departure?.plannedTrack ?: arrival?.actualTrack ?: arrival?.plannedTrack,
                                     actueleAankomstTijd = formatTime(arrival?.actualTime),
                                     geplandeAankomstTijd = formatTime(arrival?.plannedTime),
-                                    aankomstVertraging = calculateDelay(
-                                        arrival?.delayInSeconds?.toLong() ?: 0
-                                    ),
+                                    aankomstVertraging = calculateDelay(arrival?.delayInSeconds?.toLong() ?: 0),
                                     actueleVertrekTijd = formatTime(departure?.actualTime),
                                     geplandeVertrektTijd = formatTime(departure?.plannedTime),
-                                    vertrekVertraging = calculateDelay(
-                                        departure?.delayInSeconds?.toLong() ?: 0
-                                    ),
+                                    vertrekVertraging = calculateDelay(departure?.delayInSeconds?.toLong() ?: 0),
                                     drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast, compactLayout = true),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
                                     opgeheven = arrival?.cancelled ?: departure?.cancelled ?: false

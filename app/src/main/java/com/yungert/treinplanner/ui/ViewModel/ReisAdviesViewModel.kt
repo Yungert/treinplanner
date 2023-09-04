@@ -72,22 +72,12 @@ class ReisAdviesViewModel : ViewModel() {
                                     aankomstStation = eindStation,
                                     geplandeVertrekTijd = formatTime(advies.legs.getOrNull(0)?.origin?.plannedDateTime),
                                     geplandeAankomstTijd = formatTime(advies.legs.getOrNull(advies.legs.size - 1)?.destination?.plannedDateTime),
-                                    actueleReistijd = formatTravelTime(
-                                        advies.actualDurationInMinutes
-                                    ),
+                                    actueleReistijd = formatTravelTime(advies.actualDurationInMinutes),
                                     geplandeReistijd = formatTravelTime(advies.plannedDurationInMinutes),
                                     aantalTransfers = advies.transfers,
                                     reinadviesId = advies.ctxRecon,
-                                    aankomstVertraging = calculateTimeDiff(
-                                        advies.legs.getOrNull(
-                                            advies.legs.size - 1
-                                        )?.destination?.plannedDateTime,
-                                        advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime
-                                    ),
-                                    vertrekVertraging = calculateTimeDiff(
-                                        advies.legs.getOrNull(0)?.origin?.plannedDateTime,
-                                        advies.legs.getOrNull(0)?.origin?.actualDateTime
-                                    ),
+                                    aankomstVertraging = calculateTimeDiff(advies.legs.getOrNull(advies.legs.size - 1)?.destination?.plannedDateTime, advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime),
+                                    vertrekVertraging = calculateTimeDiff(advies.legs.getOrNull(0)?.origin?.plannedDateTime, advies.legs.getOrNull(0)?.origin?.actualDateTime),
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
                                     cancelled = advies.status == "CANCELLED",
