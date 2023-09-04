@@ -321,7 +321,8 @@ fun DisplayRitDetail(
                                 if(materieelInzet.eindBestemmingTreindeel != ritDetail.eindbestemmingTrein){
                                     Text(
                                         text = stringResource(id = R.string.label_treinstel) + " " +  materieelInzet.treinNummer + " " + stringResource(id = R.string.label_rijdt_tot) + " " + materieelInzet.eindBestemmingTreindeel,
-                                        style = fontsizeLabelCard
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Center,
                                     )
                                 }
                             }

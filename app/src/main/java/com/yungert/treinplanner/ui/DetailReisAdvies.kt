@@ -244,7 +244,7 @@ fun DisplayDetailReisAdvies(
                     }
                 }
                 if (opgeheven){
-                    extraItem
+                    extraItem++
                     item {
                         Card(
                             onClick = {},
@@ -522,7 +522,7 @@ fun DisplayDetailReisAdvies(
                                     )
 
                                     Text(
-                                        text = if(reis.vertrekVertraging.trim() == "0" || reis.vertrekVertraging.trim() == "") "" else "+" + reis.aankomstVertraging,
+                                        text = if(reis.aankomstVertraging.trim() == "0" || reis.aankomstVertraging.trim() == "") "" else "+" + reis.aankomstVertraging,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
                                         color = Color.Red,

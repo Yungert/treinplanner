@@ -49,23 +49,14 @@ class DetailReisAdviesViewModel : ViewModel() {
                             var overstap = ""
                             val alternatievVervoerInzet = advies.alternativeTransport
                             if (index > 0) {
-                                var lastStop = result.data.legs[index - 1].stops.getOrNull(
-                                    result.data.legs[index - 1].stops.size.minus(1)
-                                )
-                                var aankomstVorigeTrein = lastStop?.actualArrivalDateTime
-                                    ?: lastStop?.plannedArrivalDateTime
+                                var lastStop = result.data.legs[index - 1].destination.actualDateTime ?: result.data.legs[index - 1].destination.plannedDateTime
+
+                                var aankomstVorigeTrein = lastStop
                                 overstap =
-                                    if (result.data.legs.getOrNull(0)?.stops?.getOrNull(0)?.actualDepartureDateTime != null) {
-                                        calculateTimeDiff(
-                                            aankomstVorigeTrein,
-                                            advies.stops.getOrNull(0)?.actualDepartureDateTime
-                                        )
-                                    } else {
-                                        calculateTimeDiff(
-                                            aankomstVorigeTrein,
-                                            advies.stops.getOrNull(0)?.plannedDepartureDateTime
-                                        )
-                                    }
+                                    calculateTimeDiff(
+                                        aankomstVorigeTrein,
+                                        advies.origin.actualDateTime ?: advies.origin.plannedDateTime
+                                    )
                             }
                             ritDetail = RitDetail(
                                 treinOperator = advies.product.operatorName,
