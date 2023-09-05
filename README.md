@@ -43,7 +43,7 @@ Als een station in de A-Z lijst of de lijst met stations in de buurt wordt gesel
 Na het selecteren van de stations worden de route en de reisadviezen weergegeven:
 
 ![Screenshot_20230905_194156.png](demo/Screenshot_20230905_194156.png "Route en reisadviezen")
-![Screenshot_20230905_182030.png](demo/2FScreenshot_20230905_182030.png "Reisadviezen")
+![Screenshot_20230905_182030.png](demo/Screenshot_20230905_182030.png "Reisadviezen")
 ![Screenshot_20230905_194910.png](demo/Screenshot_20230905_194910.png "Andere reis plannen")
 
 Een reisadvies bestaat uit:
