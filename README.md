@@ -16,7 +16,7 @@ Bijna alle functies vereisen een internetverbinding om gegevens op te halen. Voo
 ### Thuisscherm
 Om later in het proces een reisadvies op te kunnen stellen, is er informatie nodig over de treinstations waartussen gereisd wordt. Zie het onderstaande screenshot op het thuisscherm:
 
-![Screenshot_20230905_181855.png](demo/Screenshot_20230905_181855 "Thuisscherm")
+![Screenshot_20230905_181855.png](demo/Screenshot_20230905_181855.png "Thuisscherm")
 
 ### Stationpicker
 
