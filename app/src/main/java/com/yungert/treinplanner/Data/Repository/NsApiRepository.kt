@@ -2,6 +2,7 @@ package com.yungert.treinplanner.presentation.Data.Repository
 
 import androidx.annotation.Keep
 import com.yungert.treinplanner.BuildConfig
+import com.yungert.treinplanner.Data.models.DisruptionResponseModel
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.Data.models.PlaceResponse
@@ -106,6 +107,24 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                 if (apiResult.isSuccessful) {
                     if (apiResult.body() != null) {
                         emit(Resource.Success(apiResult.body()!!))
+                    }
+                } else {
+                    emit(Resource.Error(ErrorState.SERVER_ERROR))
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(ErrorState.SERVER_ERROR))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun fetchDisruptionById(disruptionId: String): Flow<Resource<DisruptionResponseModel>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val apiResult = nsApiClient.apiService.getDisruptionById(disruptionId = disruptionId, authToken = apiKey)
+                if (apiResult.isSuccessful) {
+                    if (apiResult.body()?.getOrNull(0) != null) {
+                        emit(Resource.Success(apiResult.body()?.get(0)!!))
                     }
                 } else {
                     emit(Resource.Error(ErrorState.SERVER_ERROR))

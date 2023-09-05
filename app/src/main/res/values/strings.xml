@@ -44,4 +44,5 @@
     <string name="label_server_error">Er is een serverfout opgetreden, probeer het later opnieuw</string>
     <string name="label_trein_gecombineerd">Er wordt hier een treinstel aangekoppeld</string>
     <string name="label_trein_split">Trein wordt gesplitst</string>
+    <string name="label_verwachte_eindtijd">Verwachte eindtijd</string>
 </resources>

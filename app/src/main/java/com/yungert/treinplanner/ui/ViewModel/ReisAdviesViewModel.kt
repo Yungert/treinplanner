@@ -12,6 +12,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
+import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
@@ -61,6 +62,23 @@ class ReisAdviesViewModel : ViewModel() {
                                     treinSoort + " + " + rit.product.shortCategoryName.lowercase()
                                 }
                             }
+                            var eindTijd = ""
+                            advies.messages.forEach {bericht ->
+                                if(MessageType.fromValue(bericht.type) == MessageType.DISRUPTION) {
+                                    nsApiRepository.fetchDisruptionById(bericht.id).collect { result ->
+                                        eindTijd = formatTime(result.data?.end)
+                                    }
+                                }
+                            }
+
+                            if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
+                                advies.primaryMessage?.message?.id?.let {
+                                    nsApiRepository.fetchDisruptionById(it).collect { result ->
+                                        eindTijd = formatTime(result.data?.end)
+                                    }
+                                }
+                            }
+
                             adviezen.add(
                                 Adviezen(
                                     verstrekStation = startStation,
@@ -79,7 +97,8 @@ class ReisAdviesViewModel : ViewModel() {
                                     aandachtsPunten = if(TripStatus.fromValue(advies.status) == TripStatus.CANCELLED) advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
                                     treinSoortenOpRit = treinSoort,
                                     alternatiefVervoer = TripStatus.fromValue(advies.status) == TripStatus.ALTERNATIVE_TRANSPORT,
-                                    primaryMessage = advies.primaryMessage
+                                    primaryMessage = advies.primaryMessage,
+                                    eindTijdverstoring = eindTijd
                                 )
                             )
                         }
@@ -92,7 +111,6 @@ class ReisAdviesViewModel : ViewModel() {
                             )
                         )
                     }
-
                     is Resource.Loading -> {
                         _viewState.value = ViewStateReisAdvies.Loading
                     }
@@ -101,7 +119,6 @@ class ReisAdviesViewModel : ViewModel() {
                         _viewState.value = ViewStateReisAdvies.Problem(result.state)
                     }
                 }
-
             }
         }
     }

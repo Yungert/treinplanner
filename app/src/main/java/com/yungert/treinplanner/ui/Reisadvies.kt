@@ -19,6 +19,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CompareArrows
 import androidx.compose.material.icons.filled.East
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -67,6 +68,7 @@ import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.utils.Foutmelding
 import com.yungert.treinplanner.presentation.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
@@ -517,6 +519,30 @@ fun DisplayReisAdvies(
                                         )
                                         Text(
                                             text = advies.primaryMessage.message?.text ?: advies.primaryMessage.title,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
+                                        )
+
+
+                                    }
+                                }
+
+                                if(MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION && advies.eindTijdverstoring != ""){
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Info,
+                                            contentDescription = "Icon",
+                                            tint = Color.Yellow,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = stringResource(id = R.string.label_verwachte_eindtijd) + ": " + advies.eindTijdverstoring,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
                                         )

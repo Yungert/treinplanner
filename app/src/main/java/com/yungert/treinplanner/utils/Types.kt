@@ -105,10 +105,11 @@ enum class PrimaryMessageType(val value: String) {
 
 enum class MessageType(val value: String) {
     MAINTENANCE("MAINTENANCE"),
-    DISRUPTION("DISRUPTION");
+    DISRUPTION("DISRUPTION"),
+    UNKNOWM("UNKNOWM");
 
     companion object {
-        fun fromValue(value: String): MessageType? {
+        fun fromValue(value: String?): MessageType? {
             return MessageType.values().find { it.value == value }
         }
     }

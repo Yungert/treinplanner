@@ -1,6 +1,7 @@
 package com.yungert.treinplanner.presentation.Data.api
 
 import androidx.annotation.Keep
+import com.yungert.treinplanner.Data.models.DisruptionResponseModel
 import com.yungert.treinplanner.presentation.Data.models.PlaceResponse
 import com.yungert.treinplanner.presentation.Data.models.ReisAdviesApiResponse
 import com.yungert.treinplanner.presentation.Data.models.RitDetailApiResponse
@@ -9,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 @Keep
 interface NSApiService {
@@ -45,5 +47,9 @@ interface NSApiService {
         @Header("Ocp-Apim-Subscription-Key") authToken: String
     ): Response<PlaceResponse>
 
-
+    @GET("reisinformatie-api/api/v3/disruptions/")
+    suspend fun getDisruptionById(
+        @Query("id") disruptionId: String,
+        @Header("Ocp-Apim-Subscription-Key") authToken: String
+    ): Response<List<DisruptionResponseModel>>
 }

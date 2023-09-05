@@ -27,6 +27,7 @@ data class Adviezen(
     val aantalTransfers: Int,
     val reinadviesId: String,
     val bericht: List<Message>?,
+    val eindTijdverstoring: String?,
     val drukte: DrukteIndicator,
     val status: TripStatus,
     val aandachtsPunten: String?,
