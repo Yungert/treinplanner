@@ -16,7 +16,7 @@ Bijna alle functies vereisen een internetverbinding om gegevens op te halen. Voo
 ### Thuisscherm
 Om later in het proces een reisadvies op te kunnen stellen, is er informatie nodig over de treinstations waartussen gereisd wordt. Zie het onderstaande screenshot op het thuisscherm:
 
-![Screenshot_20230905_181855.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_181855.png "Thuisscherm")
+![Screenshot_20230905_181855.png](demo/Screenshot_20230905_181855 "Thuisscherm")
 
 ### Stationpicker
 
@@ -28,7 +28,7 @@ Op het thuisscherm zijn te zien:
 Om het station waar de reis zal starten (vertrekstation) in te voeren, heeft de gebruiker de keuze uit twee opties. Het station opzoeken in de A-Z lijst of door middel van zijn huidige locatie (hiervoor is wel toestemming nodig van de gebruiker).
 In onderstaande afbeelding is de A-Z lijst weergegeven. Bovenaan de lijst is een zoekbalk waarin de gebruiker een zoekopdracht voor een stationsnaam kan invoeren. De lijst zal dan worden ingekort met stations die de zoekopdracht (deels) in de naam hebben.
 
-![Screenshot_20230905_181821.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_181821.png "Station picker A-Z lijst")
+![Screenshot_20230905_181821.png](demo/Screenshot_20230905_181821.png "Station picker A-Z lijst")
 
 De gebruiker heeft tevens de mogelijkheid om stations als 'favoriet' te markeren door op het sterretje te klikken. Deze zal dan geel worden. Alle stations die als 'favoriet' zijn gemarkeerd, verschijnen altijd bovenaan in de A-Z lijst. Als de gebruiker het station niet langer als 'favoriet' wil hebben, klikt de gebruiker op het gele sterretje om het te verwijderen. Alle favoriete stations worden lokaal op het horloge opgeslagen.
 
@@ -36,15 +36,15 @@ Een tweede mogelijkheid om het vertrekstation te kiezen is door de stations in d
 
 Indien er geen toestemming is gegeven, wordt de gebruiker naar de A-Z lijst geredirect. Als er wel toestemming is gegeven, worden de stations in de buurt opgehaald inclusief de afstand tussen het horloge en het station, zie afbeelding hieronder:
 
-![Screenshot_20230905_181845.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_181845.png "Stations in de buurt")
+![Screenshot_20230905_181845.png](demo/Screenshot_20230905_181845.png "Stations in de buurt")
 
 Als een station in de A-Z lijst of de lijst met stations in de buurt wordt geselecteerd, wordt de gebruiker doorgestuurd naar de A-Z lijst om het aankomststation te kiezen. Zodra de gebruiker het aankomststation heeft uitgekozen, worden de reisadviezen opgehaald en worden deze stations op het horloge opgeslagen als de laatst geplande route.
 ### Reisadviezen
 Na het selecteren van de stations worden de route en de reisadviezen weergegeven:
 
-![Screenshot_20230905_194156.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_194156.png "Route en reisadviezen")
-![Screenshot_20230905_182030.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_182030.png "Reisadviezen")
-![Screenshot_20230905_194910.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_194910.png "Andere reis plannen")
+![Screenshot_20230905_194156.png](demo/Screenshot_20230905_194156.png "Route en reisadviezen")
+![Screenshot_20230905_182030.png](demo/2FScreenshot_20230905_182030.png "Reisadviezen")
+![Screenshot_20230905_194910.png](demo/Screenshot_20230905_194910.png "Andere reis plannen")
 
 Een reisadvies bestaat uit:
 
@@ -64,9 +64,9 @@ Bij het klikken op het stukje boven het eerste reisadvies, waar de vertrek- en a
 Bij het klikken op een reisadvies wordt de detailweergave geopend voor dat specifieke reisadvies.
 ### Reisadvies detail
 
-![Screenshot_20230905_195449.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_195449.png "Reisadvies detail weergave")
-![Screenshot_20230905_195455.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_195455.png "Reisadvies detail weergave")
-![Screenshot_20230905_195502.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_195502.png "Reisadvies detail weergave")
+![Screenshot_20230905_195449.png](demo/Screenshot_20230905_195449.png "Reisadvies detail weergave")
+![Screenshot_20230905_195455.png](demo/Screenshot_20230905_195455.png "Reisadvies detail weergave")
+![Screenshot_20230905_195502.png](demo/Screenshot_20230905_195502.png "Reisadvies detail weergave")
 
 De detailweergave van een reisadvies bestaat uit (van boven naar beneden):
 
@@ -94,7 +94,7 @@ Bij het selecteren van een treinrit in de reisadviesdetailweergave wordt de info
 
 ### Treinrit detail
 
-![Screenshot_20230905_181415.png](..%2F..%2FOneDrive%2Fns%20demo%2FScreenshot_20230905_181415.png "Treinrit detail")
+![Screenshot_20230905_181415.png](demo/Screenshot_20230905_181415.png "Treinrit detail")
 
 De detailweergave van een treinrit bestaat uit (van boven naar beneden):
 
