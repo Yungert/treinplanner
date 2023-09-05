@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollBy
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -38,7 +35,6 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -61,7 +57,6 @@ import androidx.wear.compose.material.ScalingLazyListAnchorType
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.rememberScalingLazyListState
-import androidx.wear.compose.material.scrollAway
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.StationPickerViewModel

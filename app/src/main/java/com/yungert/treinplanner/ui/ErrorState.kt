@@ -4,8 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.WifiOff
-import androidx.compose.material.icons.rounded.Warning
-import androidx.compose.material.icons.rounded.WifiOff
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.yungert.treinplanner.R
 

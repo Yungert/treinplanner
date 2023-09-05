@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardTab
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Start
-import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Tram
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Timer
@@ -71,6 +70,7 @@ import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
+
 private var indexRit = 0
 @Composable
 fun ShowDetailReisAdvies(
@@ -238,6 +238,27 @@ fun DisplayDetailReisAdvies(
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left,
                                     )
+                                }
+                                if(treinRit.eindTijdVerstoring != ""){
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Info,
+                                            contentDescription = "Icon",
+                                            tint = Color.Yellow,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = stringResource(id = R.string.label_verwachte_eindtijd) + ": " +  treinRit.eindTijdVerstoring,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
+                                        )
+                                    }
                                 }
                             }
                         }

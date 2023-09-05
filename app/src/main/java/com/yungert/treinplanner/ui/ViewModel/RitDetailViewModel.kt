@@ -1,10 +1,8 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource

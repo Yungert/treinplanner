@@ -10,6 +10,7 @@ data class DetailReisAdvies(
     var redenOpheffen: String?,
     var rit: List<RitDetail>,
     val hoofdBericht: String?,
+    var eindTijdVerstoring: String,
 )
 @Keep
 data class RitDetail(

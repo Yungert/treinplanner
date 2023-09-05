@@ -8,13 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirlineSeatReclineNormal
@@ -70,8 +67,6 @@ import com.yungert.treinplanner.presentation.utils.LoadingScreen
 import com.yungert.treinplanner.presentation.utils.StopStatusType
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
-import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
-import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
 @Composable

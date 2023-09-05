@@ -7,10 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.yungert.treinplanner.R
 import java.time.Duration
-import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.Temporal
 
 private var lastFormattedTime: String? = null
 fun formatTime(time: String?): String {

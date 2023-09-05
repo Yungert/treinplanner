@@ -9,6 +9,7 @@ import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
+import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
@@ -39,12 +40,22 @@ class DetailReisAdviesViewModel : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
+                        var eindTijd = ""
                         var detailReisAdvies = DetailReisAdvies(
                             opgeheven = result.data?.status?.let { TripStatus.fromValue(it) } == TripStatus.CANCELLED,
                             redenOpheffen = result.data?.primaryMessage?.title,
                             rit = ritten,
                             hoofdBericht = result.data?.primaryMessage?.message?.text,
+                            eindTijdVerstoring = eindTijd
                         )
+                        if(MessageType.fromValue(result.data?.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
+                            result.data?.primaryMessage?.message?.id?.let {
+                                nsApiRepository.fetchDisruptionById(it).collect { result ->
+                                    detailReisAdvies.eindTijdVerstoring = formatTime(result.data?.expectedDuration?.endTime)
+
+                                }
+                            }
+                        }
                         result.data?.legs?.forEachIndexed { index, advies ->
                             var ritDetail: RitDetail? = null
                             var overstap = ""

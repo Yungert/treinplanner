@@ -7,7 +7,6 @@ import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
-import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
@@ -66,7 +65,7 @@ class ReisAdviesViewModel : ViewModel() {
                             advies.messages.forEach {bericht ->
                                 if(MessageType.fromValue(bericht.type) == MessageType.DISRUPTION) {
                                     nsApiRepository.fetchDisruptionById(bericht.id).collect { result ->
-                                        eindTijd = formatTime(result.data?.end)
+                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime)
                                     }
                                 }
                             }
@@ -74,7 +73,7 @@ class ReisAdviesViewModel : ViewModel() {
                             if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
                                 advies.primaryMessage?.message?.id?.let {
                                     nsApiRepository.fetchDisruptionById(it).collect { result ->
-                                        eindTijd = formatTime(result.data?.end)
+                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime)
                                     }
                                 }
                             }
