@@ -19,6 +19,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirlineSeatReclineNormal
 import androidx.compose.material.icons.filled.East
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Train
 import androidx.compose.material.icons.filled.Tram
 import androidx.compose.material.icons.filled.Warning
@@ -66,6 +67,7 @@ import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.utils.Foutmelding
 import com.yungert.treinplanner.presentation.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.utils.StopStatusType
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
@@ -412,7 +414,48 @@ fun DisplayRitDetail(
                                     color = tekstKleur
                                 )
                             }
-
+                            if(stop.status == StopStatusType.COMBINE){
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Info,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.label_trein_gecombineerd),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left,
+                                    )
+                                }
+                            }
+                            if(stop.status == StopStatusType.SPLIT){
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Start,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Info,
+                                        contentDescription = "Icon",
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .padding(horizontal = 2.dp)
+                                            .size(iconSize)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.label_trein_split),
+                                        style = fontsizeLabelCard,
+                                        textAlign = TextAlign.Left,
+                                    )
+                                }
+                            }
                             if(stop.opgeheven){
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),

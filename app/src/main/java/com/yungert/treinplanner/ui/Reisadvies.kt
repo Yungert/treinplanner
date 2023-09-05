@@ -67,8 +67,8 @@ import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.utils.Foutmelding
 import com.yungert.treinplanner.presentation.utils.LoadingScreen
+import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
-import com.yungert.treinplanner.presentation.utils.getUitvalRitText
 import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
@@ -312,31 +312,6 @@ fun DisplayReisAdvies(
                         }
                     }
                 }
-                if (reisAdvies.primaryMessage != null) {
-                    reisAdvies.primaryMessage.forEach { bericht ->
-                        item {
-                            Card(
-                                onClick = {},
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(),
-                                ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center,
-                                    ) {
-                                        Text(
-                                            text = bericht.message?.text ?: bericht.title,
-                                            style = fontsizeLabelCard,
-                                            textAlign = TextAlign.Center
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
 
                 reisAdviezen.advies.forEachIndexed { index, advies ->
                     item {
@@ -503,7 +478,7 @@ fun DisplayReisAdvies(
 
                                     }
                                 }
-                                if (advies.cancelled) {
+                                if (advies.status == TripStatus.CANCELLED) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -526,7 +501,7 @@ fun DisplayReisAdvies(
                                     }
                                 }
 
-                                if (advies.aandachtsPunten != null) {
+                                if (advies.primaryMessage != null) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -535,7 +510,29 @@ fun DisplayReisAdvies(
                                         Icon(
                                             imageVector = Icons.Default.Warning,
                                             contentDescription = "Icon",
-                                            tint = if (advies.cancelled) Color.Red else Color.White,
+                                            tint = Color.Red,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .size(iconSize)
+                                        )
+                                        Text(
+                                            text = advies.primaryMessage.message?.text ?: advies.primaryMessage.title,
+                                            style = fontsizeLabelCard,
+                                            textAlign = TextAlign.Left,
+                                        )
+                                    }
+                                }
+
+                                if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title)) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Start,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Icon",
+                                            tint = if (advies.status == TripStatus.CANCELLED) Color.Red else Color.Yellow,
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
                                                 .size(iconSize)

@@ -1,6 +1,7 @@
 package com.yungert.treinplanner.presentation.ui.model
 
 import androidx.annotation.Keep
+import com.yungert.treinplanner.presentation.utils.StopStatusType
 
 @Keep
 data class TreinRitDetail(
@@ -27,6 +28,7 @@ data class StopOpRoute(
     val drukte: DrukteIndicator,
     val punctualiteit: String,
     val opgeheven: Boolean,
+    val status: StopStatusType?
 )
 
 data class MaterieelInzet(

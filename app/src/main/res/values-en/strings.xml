@@ -41,4 +41,6 @@
     <string name="label_treinstel">Part</string>
     <string name="label_rijdt_tot">ends at</string>
     <string name="label_server_error">"A server error has occurred, try again later  "</string>
+    <string name="label_trein_gecombineerd">A train set is connected here</string>
+    <string name="label_trein_split">train will be split</string>
 </resources>

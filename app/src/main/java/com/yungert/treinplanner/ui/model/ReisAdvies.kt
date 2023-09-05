@@ -3,15 +3,19 @@ package com.yungert.treinplanner.presentation.ui.model
 import androidx.annotation.Keep
 import com.yungert.treinplanner.presentation.Data.models.Message
 import com.yungert.treinplanner.presentation.Data.models.PrimaryMessage
+import com.yungert.treinplanner.presentation.utils.TripStatus
+
 @Keep
 data class ReisAdvies(
-    val primaryMessage: List<PrimaryMessage>?,
+
     val advies: List<Adviezen>,
     val verstrekStation: String,
     val aankomstStation: String,
 )
+
 @Keep
 data class Adviezen(
+    val primaryMessage: PrimaryMessage?,
     val verstrekStation: String,
     val aankomstStation: String,
     val geplandeVertrekTijd: String,
@@ -24,7 +28,7 @@ data class Adviezen(
     val reinadviesId: String,
     val bericht: List<Message>?,
     val drukte: DrukteIndicator,
-    val cancelled: Boolean,
+    val status: TripStatus,
     val aandachtsPunten: String?,
     val treinSoortenOpRit: String,
     val alternatiefVervoer: Boolean,

@@ -13,6 +13,8 @@ import com.yungert.treinplanner.presentation.ui.model.MaterieelInzet
 import com.yungert.treinplanner.presentation.ui.model.StopOpRoute
 import com.yungert.treinplanner.presentation.ui.model.TreinRitDetail
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
+import com.yungert.treinplanner.presentation.utils.StopKindType
+import com.yungert.treinplanner.presentation.utils.StopStatusType
 import com.yungert.treinplanner.presentation.utils.calculateDelay
 import com.yungert.treinplanner.presentation.utils.formatTime
 import com.yungert.treinplanner.presentation.utils.hasInternetConnection
@@ -65,32 +67,42 @@ class RitDetailViewModel : ViewModel() {
                         var stopOpRoute = false
                         var ingezetMaterieel = mutableListOf<MaterieelInzet>()
                         result.data?.payload?.stops?.forEach { stop ->
-                            if (stop.status == "PASSING") {
+                            if (StopStatusType.fromValue(stop.status) == StopStatusType.PASSING) {
                                 return@forEach
                             }
-
-                            if (stop.kind == "DEPARTURE") {
-                                stopOpRoute = true
-                                if(stop.departures.getOrNull(0)?.cancelled == true){
-                                    treinRit.opgeheven = true
-                                }
-                                treinRit.aantalTreinDelen = stop.actualStock?.numberOfParts ?:stop.plannedStock?.numberOfParts ?: 0
-                                treinRit.aantalZitplaatsen = stop.actualStock?.numberOfSeats ?:stop.plannedStock?.numberOfSeats ?: 0
-                                treinRit.materieelType = stop.actualStock?.trainType ?:stop.plannedStock?.trainType ?: ""
-                                if(stop.actualStock != null) {
-                                    stop.actualStock.trainParts.forEach { part ->
-                                        ingezetMaterieel.add(
-                                            MaterieelInzet(
-                                            treinNummer = part.stockIdentifier,
-                                            eindBestemmingTreindeel = part.destination?.name ?: stop.destination
-                                        ))
+                            if (stop.kind != null) {
+                                if (StopKindType.fromValue(stop.kind) == StopKindType.DEPARTURE) {
+                                    stopOpRoute = true
+                                    if (stop.departures.getOrNull(0)?.cancelled == true) {
+                                        treinRit.opgeheven = true
                                     }
-                                } else {
-                                    stop.plannedStock?.trainParts?.forEach { part ->
-                                        ingezetMaterieel.add(MaterieelInzet(
-                                            treinNummer = part.stockIdentifier,
-                                            eindBestemmingTreindeel = part.destination?.name ?: stop.destination
-                                        ))
+                                    treinRit.aantalTreinDelen = stop.actualStock?.numberOfParts
+                                        ?: stop.plannedStock?.numberOfParts ?: 0
+                                    treinRit.aantalZitplaatsen = stop.actualStock?.numberOfSeats
+                                        ?: stop.plannedStock?.numberOfSeats ?: 0
+                                    treinRit.materieelType =
+                                        stop.actualStock?.trainType ?: stop.plannedStock?.trainType
+                                                ?: ""
+                                    if (stop.actualStock != null) {
+                                        stop.actualStock.trainParts.forEach { part ->
+                                            ingezetMaterieel.add(
+                                                MaterieelInzet(
+                                                    treinNummer = part.stockIdentifier,
+                                                    eindBestemmingTreindeel = part.destination?.name
+                                                        ?: stop.destination
+                                                )
+                                            )
+                                        }
+                                    } else {
+                                        stop.plannedStock?.trainParts?.forEach { part ->
+                                            ingezetMaterieel.add(
+                                                MaterieelInzet(
+                                                    treinNummer = part.stockIdentifier,
+                                                    eindBestemmingTreindeel = part.destination?.name
+                                                        ?: stop.destination
+                                                )
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -124,13 +136,16 @@ class RitDetailViewModel : ViewModel() {
                                     vertrekVertraging = calculateDelay(departure?.delayInSeconds?.toLong() ?: 0),
                                     drukte = DrukteIndicatorFormatter(stop.departures.getOrNull(0)?.crowdForecast, compactLayout = true),
                                     punctualiteit = arrival?.punctuality?.toString() ?: "0",
-                                    opgeheven = arrival?.cancelled ?: departure?.cancelled ?: false
+                                    opgeheven = arrival?.cancelled ?: departure?.cancelled ?: false,
+                                    status = StopStatusType.fromValue(stop.status)
                                     )
                             )
-                            if (stop.kind == "ARRIVAL") {
-                                stopOpRoute = false
-                                if(stop.arrivals.getOrNull(0)?.cancelled == true){
-                                    treinRit.opgeheven = true
+                            if (stop.kind != null) {
+                                if (StopKindType.fromValue(stop.kind) == StopKindType.ARRIVAL) {
+                                    stopOpRoute = false
+                                    if (stop.arrivals.getOrNull(0)?.cancelled == true) {
+                                        treinRit.opgeheven = true
+                                    }
                                 }
                             }
                         }

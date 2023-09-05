@@ -35,7 +35,7 @@ data class JourneyStop(
     val nextStopId: List<String>,
     val destination: String,
     val status: String,
-    val kind: String,
+    val kind: String?,
     val arrivals: List<Arrival>,
     val departures: List<Departure>,
     val actualStock: TrainStock?,

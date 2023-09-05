@@ -12,6 +12,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
+import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
 import com.yungert.treinplanner.presentation.utils.formatTravelTime
@@ -50,15 +51,9 @@ class ReisAdviesViewModel : ViewModel() {
                 when (result) {
                     is Resource.Success -> {
                         var adviezen = mutableListOf<Adviezen>()
-                        var primaryMessage = mutableListOf<PrimaryMessage>()
+
                         result.data?.trips?.forEachIndexed { index, advies ->
                             var treinSoort = ""
-                            val uniek = primaryMessage.any { message ->
-                                message.message?.id == advies.primaryMessage?.message?.id
-                            }
-                            if (!uniek && advies.primaryMessage?.type != "LEG_TRANSFER_IMPOSSIBLE" && advies.primaryMessage?.type != "LEG_CANCELLED" && advies.primaryMessage?.type != "TRIP_CANCELLED" && advies.primaryMessage?.type != "ADDITIONAL") {
-                                advies.primaryMessage?.let { primaryMessage.add(it) }
-                            }
                             advies.legs.forEachIndexed { index, rit ->
                                 treinSoort = if (index == 0) {
                                     treinSoort + rit.product.shortCategoryName.lowercase()
@@ -80,17 +75,17 @@ class ReisAdviesViewModel : ViewModel() {
                                     vertrekVertraging = calculateTimeDiff(advies.legs.getOrNull(0)?.origin?.plannedDateTime, advies.legs.getOrNull(0)?.origin?.actualDateTime),
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
-                                    cancelled = advies.status == "CANCELLED",
-                                    aandachtsPunten = if(advies.status == "CANCELLED") advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
+                                    status = TripStatus.fromValue(advies.status) ?: TripStatus.UNCERTAIN,
+                                    aandachtsPunten = if(TripStatus.fromValue(advies.status) == TripStatus.CANCELLED) advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
                                     treinSoortenOpRit = treinSoort,
-                                    alternatiefVervoer = advies.status == "ALTERNATIVE_TRANSPORT",
+                                    alternatiefVervoer = TripStatus.fromValue(advies.status) == TripStatus.ALTERNATIVE_TRANSPORT,
+                                    primaryMessage = advies.primaryMessage
                                 )
                             )
                         }
 
                         _viewState.value = ViewStateReisAdvies.Success(
                             ReisAdvies(
-                                primaryMessage = primaryMessage,
                                 advies = adviezen,
                                 verstrekStation = startStation,
                                 aankomstStation = eindStation

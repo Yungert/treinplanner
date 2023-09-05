@@ -9,6 +9,7 @@ import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
+import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
 import com.yungert.treinplanner.presentation.utils.hasInternetConnection
@@ -39,7 +40,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
                         var detailReisAdvies = DetailReisAdvies(
-                            opgeheven = result.data?.status == "CANCELLED",
+                            opgeheven = result.data?.status?.let { TripStatus.fromValue(it) } == TripStatus.CANCELLED,
                             redenOpheffen = result.data?.primaryMessage?.title,
                             rit = ritten,
                             hoofdBericht = result.data?.primaryMessage?.message?.text,
