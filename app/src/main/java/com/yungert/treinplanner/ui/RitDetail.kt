@@ -325,6 +325,8 @@ fun DisplayRitDetail(
                                         text = stringResource(id = R.string.label_treinstel) + " " +  materieelInzet.treinNummer + " " + stringResource(id = R.string.label_rijdt_tot) + " " + materieelInzet.eindBestemmingTreindeel,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
