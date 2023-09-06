@@ -72,6 +72,7 @@ import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
 private var indexRit = 0
+
 @Composable
 fun ShowDetailReisAdvies(
     reisAdviesId: String,
@@ -239,7 +240,7 @@ fun DisplayDetailReisAdvies(
                                         textAlign = TextAlign.Left,
                                     )
                                 }
-                                if(treinRit.eindTijdVerstoring != ""){
+                                if (treinRit.eindTijdVerstoring != "") {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -254,7 +255,7 @@ fun DisplayDetailReisAdvies(
                                                 .size(iconSize)
                                         )
                                         Text(
-                                            text = stringResource(id = R.string.label_verwachte_eindtijd) + ": " +  treinRit.eindTijdVerstoring,
+                                            text = stringResource(id = R.string.label_verwachte_eindtijd) + ": " + treinRit.eindTijdVerstoring,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
                                         )
@@ -264,7 +265,7 @@ fun DisplayDetailReisAdvies(
                         }
                     }
                 }
-                if (opgeheven){
+                if (opgeheven) {
                     extraItem++
                     item {
                         Card(
@@ -312,12 +313,11 @@ fun DisplayDetailReisAdvies(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth(),
-                                    verticalArrangement = Arrangement.spacedBy(8.dp),
                                 ) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center,
+                                        horizontalArrangement = Arrangement.Start,
                                     ) {
                                         if (reis.alternatiefVervoer) {
                                             Text(
@@ -329,15 +329,30 @@ fun DisplayDetailReisAdvies(
                                             Text(
                                                 text = reis.overstapTijd + " " + stringResource(id = R.string.text_tijd_overstap_op_andere_trein) + " " + reis.vertrekSpoor,
                                                 style = fontsizeLabelCard,
-                                                textAlign = TextAlign.Center
+                                                textAlign = TextAlign.Left
                                             )
                                         }
                                     }
+
+                                    if (reis.crossPlatform) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Start,
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = R.string.label_cross_platform_overstap),
+                                                style = fontsizeLabelCard,
+                                                textAlign = TextAlign.Left
+                                            )
+                                        }
+                                    }
+
                                 }
                             }
                         }
 
-                        if (index > 0 && reis.overstapTijd == ""){
+                        if (index > 0 && reis.overstapTijd == "") {
                             Card(
                                 onClick = {
                                 },
@@ -420,7 +435,7 @@ fun DisplayDetailReisAdvies(
                                         textAlign = TextAlign.Left
                                     )
                                 }
-                                if(reis.opgeheven){
+                                if (reis.opgeheven) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -482,7 +497,7 @@ fun DisplayDetailReisAdvies(
                                         textAlign = TextAlign.Left
                                     )
                                     Text(
-                                        text = if(reis.vertrekVertraging.trim() == "0" || reis.vertrekVertraging.trim() == "") "" else "+" + reis.vertrekVertraging,
+                                        text = if (reis.vertrekVertraging.trim() == "0" || reis.vertrekVertraging.trim() == "") "" else "+" + reis.vertrekVertraging,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left,
                                         color = Color.Red,
@@ -543,7 +558,7 @@ fun DisplayDetailReisAdvies(
                                     )
 
                                     Text(
-                                        text = if(reis.aankomstVertraging.trim() == "0" || reis.aankomstVertraging.trim() == "") "" else "+" + reis.aankomstVertraging,
+                                        text = if (reis.aankomstVertraging.trim() == "0" || reis.aankomstVertraging.trim() == "") "" else "+" + reis.aankomstVertraging,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
                                         color = Color.Red,
@@ -564,7 +579,7 @@ fun DisplayDetailReisAdvies(
                                             textAlign = TextAlign.Left,
                                         )
                                     }
-                                    
+
                                     Icon(
                                         imageVector = Icons.Outlined.Timer,
                                         contentDescription = "Icon",
@@ -575,7 +590,7 @@ fun DisplayDetailReisAdvies(
 
                                         )
                                     Text(
-                                        text = if(reis.punctualiteit > 0.0)reis.punctualiteit.toString() + "%" else "?",
+                                        text = if (reis.punctualiteit > 0.0) reis.punctualiteit.toString() + "%" else "?",
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left
                                     )

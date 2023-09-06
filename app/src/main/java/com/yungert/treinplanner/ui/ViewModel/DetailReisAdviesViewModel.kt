@@ -10,6 +10,7 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.utils.MessageType
+import com.yungert.treinplanner.presentation.utils.TransferType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
@@ -68,6 +69,12 @@ class DetailReisAdviesViewModel : ViewModel() {
                                         advies.origin.actualDateTime ?: advies.origin.plannedDateTime
                                     )
                             }
+                            var overstapCrossPlatform = false
+                            advies.transferMessages?.forEach { transfer ->
+                            if(TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM){
+                                overstapCrossPlatform = true
+                            }
+                            }
                             ritDetail = RitDetail(
                                 treinOperator = advies.product.operatorName,
                                 treinOperatorType = if (!alternatievVervoerInzet) advies.product.categoryCode else advies.product.longCategoryName,
@@ -99,6 +106,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 kortereTreinDanGepland = advies.shorterStock,
                                 opgeheven = advies.cancelled,
                                 punctualiteit = advies.punctuality ?: 0.0,
+                                crossPlatform = overstapCrossPlatform
                             )
 
                             ritDetail.let { ritten.add(it) }

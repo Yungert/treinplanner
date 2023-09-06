@@ -44,4 +44,5 @@
     <string name="label_trein_gecombineerd">A train set is connected here</string>
     <string name="label_trein_split">train will be split</string>
     <string name="label_verwachte_eindtijd">Expected end time</string>
+    <string name="label_cross_platform_overstap">Transfer on same platform</string>
 </resources>

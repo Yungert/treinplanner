@@ -45,4 +45,5 @@
     <string name="label_trein_gecombineerd">Er wordt hier een treinstel aangekoppeld</string>
     <string name="label_trein_split">Trein wordt gesplitst</string>
     <string name="label_verwachte_eindtijd">Verwachte eindtijd</string>
+    <string name="label_cross_platform_overstap">Overstap is op zelfde perron</string>
 </resources>
