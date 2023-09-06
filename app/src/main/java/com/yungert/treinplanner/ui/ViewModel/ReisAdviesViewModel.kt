@@ -62,18 +62,21 @@ class ReisAdviesViewModel : ViewModel() {
                                 }
                             }
                             var eindTijd = ""
-                            advies.messages.forEach {bericht ->
-                                if(MessageType.fromValue(bericht.type) == MessageType.DISRUPTION) {
-                                    nsApiRepository.fetchDisruptionById(bericht.id).collect { result ->
-                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime)
-                                    }
+                            advies.messages.forEach { bericht ->
+                                if (MessageType.fromValue(bericht.type) == MessageType.DISRUPTION) {
+                                    nsApiRepository.fetchDisruptionById(bericht.id)
+                                        .collect { result ->
+                                            eindTijd =
+                                                formatTime(result.data?.expectedDuration?.endTime)
+                                        }
                                 }
                             }
 
                             if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
                                 advies.primaryMessage?.message?.id?.let {
                                     nsApiRepository.fetchDisruptionById(it).collect { result ->
-                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime)
+                                        eindTijd =
+                                            formatTime(result.data?.expectedDuration?.endTime)
                                     }
                                 }
                             }
@@ -88,12 +91,22 @@ class ReisAdviesViewModel : ViewModel() {
                                     geplandeReistijd = formatTravelTime(advies.plannedDurationInMinutes),
                                     aantalTransfers = advies.transfers,
                                     reinadviesId = advies.ctxRecon,
-                                    aankomstVertraging = calculateTimeDiff(advies.legs.getOrNull(advies.legs.size - 1)?.destination?.plannedDateTime, advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime),
-                                    vertrekVertraging = calculateTimeDiff(advies.legs.getOrNull(0)?.origin?.plannedDateTime, advies.legs.getOrNull(0)?.origin?.actualDateTime),
+                                    aankomstVertraging = calculateTimeDiff(
+                                        advies.legs.getOrNull(
+                                            advies.legs.size - 1
+                                        )?.destination?.plannedDateTime,
+                                        advies.legs.getOrNull(advies.legs.size - 1)?.destination?.actualDateTime
+                                    ),
+                                    vertrekVertraging = calculateTimeDiff(
+                                        advies.legs.getOrNull(0)?.origin?.plannedDateTime,
+                                        advies.legs.getOrNull(0)?.origin?.actualDateTime
+                                    ),
                                     bericht = advies.messages,
                                     drukte = DrukteIndicatorFormatter(advies.crowdForecast),
-                                    status = TripStatus.fromValue(advies.status) ?: TripStatus.UNCERTAIN,
-                                    aandachtsPunten = if(TripStatus.fromValue(advies.status) == TripStatus.CANCELLED) advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title else null,
+                                    status = TripStatus.fromValue(advies.status)
+                                        ?: TripStatus.UNCERTAIN,
+                                    aandachtsPunten = if (TripStatus.fromValue(advies.status) == TripStatus.CANCELLED) advies.primaryMessage?.message?.text
+                                        ?: advies.primaryMessage?.title else null,
                                     treinSoortenOpRit = treinSoort,
                                     alternatiefVervoer = TripStatus.fromValue(advies.status) == TripStatus.ALTERNATIVE_TRANSPORT,
                                     primaryMessage = advies.primaryMessage,
@@ -110,6 +123,7 @@ class ReisAdviesViewModel : ViewModel() {
                             )
                         )
                     }
+
                     is Resource.Loading -> {
                         _viewState.value = ViewStateReisAdvies.Loading
                     }

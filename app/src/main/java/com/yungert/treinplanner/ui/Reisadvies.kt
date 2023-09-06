@@ -77,6 +77,7 @@ import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
 import kotlinx.coroutines.launch
 
 private var indexReisadvies = 0
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ShowReisAdvies(
@@ -518,14 +519,15 @@ fun DisplayReisAdvies(
                                                 .size(iconSize)
                                         )
                                         Text(
-                                            text = advies.primaryMessage.message?.text ?: advies.primaryMessage.title,
+                                            text = advies.primaryMessage.message?.text
+                                                ?: advies.primaryMessage.title,
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
                                         )
                                     }
                                 }
 
-                                if(MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION && advies.eindTijdverstoring != ""){
+                                if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION && advies.eindTijdverstoring != "") {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -547,7 +549,9 @@ fun DisplayReisAdvies(
                                     }
                                 }
 
-                                if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title)) {
+                                if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text
+                                        ?: advies.primaryMessage?.title)
+                                ) {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically,

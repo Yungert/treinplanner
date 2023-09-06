@@ -168,6 +168,7 @@ enum class StopStatusType(val value: String) {
     DESTINATION("DESTINATION"),
     STOP_CHANGED_ORIGIN("STOP_CHANGED_ORIGIN"),
     STOP_CHANGED_DESTINATION("STOP_CHANGED_DESTINATION");
+
     companion object {
         fun fromValue(value: String): StopStatusType? {
             return StopStatusType.values().find { it.value == value }
@@ -179,6 +180,7 @@ enum class StopKindType(val value: String) {
     DEPARTURE("DEPARTURE"),
     ARRIVAL("ARRIVAL"),
     TRANSFER("TRANSFER");
+
     companion object {
         fun fromValue(value: String): StopKindType? {
             return StopKindType.values().find { it.value == value }

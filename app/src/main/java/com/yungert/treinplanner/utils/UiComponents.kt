@@ -247,7 +247,7 @@ fun DrukteIndicatorFormatter(forecast: String?, compactLayout: Boolean? = false)
     return DrukteIndicator(
         icon = icon,
         color = color,
-        aantalIconen = if(!compactLayout!!) aantal else 1,
+        aantalIconen = if (!compactLayout!!) aantal else 1,
     )
 }
 

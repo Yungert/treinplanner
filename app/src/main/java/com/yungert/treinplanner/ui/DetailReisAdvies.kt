@@ -303,7 +303,7 @@ fun DisplayDetailReisAdvies(
                     extraItem++
                     item {
                         if (index > 0 && reis.overstapTijd != "") {
-                            if(!reis.overstapMogelijk){
+                            if (!reis.overstapMogelijk) {
                                 Card(
                                     onClick = {
                                     },

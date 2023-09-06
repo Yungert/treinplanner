@@ -49,10 +49,11 @@ class DetailReisAdviesViewModel : ViewModel() {
                             hoofdBericht = result.data?.primaryMessage?.message?.text,
                             eindTijdVerstoring = eindTijd
                         )
-                        if(MessageType.fromValue(result.data?.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
+                        if (MessageType.fromValue(result.data?.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
                             result.data?.primaryMessage?.message?.id?.let {
                                 nsApiRepository.fetchDisruptionById(it).collect { result ->
-                                    detailReisAdvies.eindTijdVerstoring = formatTime(result.data?.expectedDuration?.endTime)
+                                    detailReisAdvies.eindTijdVerstoring =
+                                        formatTime(result.data?.expectedDuration?.endTime)
 
                                 }
                             }
@@ -62,20 +63,23 @@ class DetailReisAdviesViewModel : ViewModel() {
                             var overstap = ""
                             val alternatievVervoerInzet = advies.alternativeTransport
                             if (index > 0) {
-                                var aankomstVorigeTrein = result.data.legs[index - 1].destination.actualDateTime ?: result.data.legs[index - 1].destination.plannedDateTime
+                                var aankomstVorigeTrein =
+                                    result.data.legs[index - 1].destination.actualDateTime
+                                        ?: result.data.legs[index - 1].destination.plannedDateTime
                                 overstap =
                                     calculateTimeDiff(
                                         aankomstVorigeTrein,
-                                        advies.origin.actualDateTime ?: advies.origin.plannedDateTime
+                                        advies.origin.actualDateTime
+                                            ?: advies.origin.plannedDateTime
                                     )
                             }
                             var overstapCrossPlatform = false
                             var overstapMogelijkheid = true
                             advies.transferMessages?.forEach { transfer ->
-                                if(TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM){
+                                if (TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM) {
                                     overstapCrossPlatform = true
                                 }
-                                if(TransferType.fromValue(transfer.type) == TransferType.IMPOSSIBLE_TRANSFER){
+                                if (TransferType.fromValue(transfer.type) == TransferType.IMPOSSIBLE_TRANSFER) {
                                     overstapMogelijkheid = false
                                 }
                             }
@@ -86,9 +90,13 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 eindbestemmingTrein = advies.direction,
                                 naamVertrekStation = advies.origin.name,
                                 geplandeVertrektijd = formatTime(advies.origin.plannedDateTime),
-                                vertrekSpoor = if (alternatievVervoerInzet) "" else advies.origin.actualTrack ?: advies.origin.plannedTrack,
+                                vertrekSpoor = if (alternatievVervoerInzet) "" else advies.origin.actualTrack
+                                    ?: advies.origin.plannedTrack,
                                 naamAankomstStation = advies.destination.name,
-                                geplandeAankomsttijd = formatTime(advies.destination.actualDateTime ?: advies.destination.plannedDateTime),
+                                geplandeAankomsttijd = formatTime(
+                                    advies.destination.actualDateTime
+                                        ?: advies.destination.plannedDateTime
+                                ),
                                 aankomstSpoor = if (alternatievVervoerInzet) "" else advies.destination.actualTrack
                                     ?: advies.destination.plannedTrack,
                                 vertrekVertraging = calculateTimeDiff(

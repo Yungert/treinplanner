@@ -263,24 +263,26 @@ fun DisplayRitDetail(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
 
-                                Text(
-                                    text = ritDetail.materieelType + "-" + ritDetail.aantalTreinDelen+ " ",
-                                    style = fontsizeLabelCard
-                                )
+                            Text(
+                                text = ritDetail.materieelType + "-" + ritDetail.aantalTreinDelen + " ",
+                                style = fontsizeLabelCard
+                            )
 
 
-                                Icon(
-                                    imageVector = Icons.Default.AirlineSeatReclineNormal,
-                                    contentDescription = "Icon",
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .size(iconSize)
-                                        .padding(vertical = 2.dp)
-                                )
-                                Text(
-                                    text = if(ritDetail.aantalZitplaatsen.toString() != "") ritDetail.aantalZitplaatsen.toString() else stringResource(id = R.string.label_onbekend),
-                                    style = fontsizeLabelCard
-                                )
+                            Icon(
+                                imageVector = Icons.Default.AirlineSeatReclineNormal,
+                                contentDescription = "Icon",
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(iconSize)
+                                    .padding(vertical = 2.dp)
+                            )
+                            Text(
+                                text = if (ritDetail.aantalZitplaatsen.toString() != "") ritDetail.aantalZitplaatsen.toString() else stringResource(
+                                    id = R.string.label_onbekend
+                                ),
+                                style = fontsizeLabelCard
+                            )
                         }
 
                         Row(
@@ -301,7 +303,7 @@ fun DisplayRitDetail(
                                     text = materieel.treinNummer,
                                     style = fontsizeLabelCard
                                 )
-                                if (index < (ritDetail.materieelInzet?.size?.minus(1) ?: 0)) {
+                                if (index < (ritDetail.materieelInzet.size?.minus(1) ?: 0)) {
                                     Text(
                                         text = ", ",
                                         style = fontsizeLabelCard
@@ -315,9 +317,11 @@ fun DisplayRitDetail(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             ritDetail.materieelInzet.forEach { materieelInzet ->
-                                if(materieelInzet.eindBestemmingTreindeel != ritDetail.eindbestemmingTrein){
+                                if (materieelInzet.eindBestemmingTreindeel != ritDetail.eindbestemmingTrein) {
                                     Text(
-                                        text = stringResource(id = R.string.label_treinstel) + " " +  materieelInzet.treinNummer + " " + stringResource(id = R.string.label_rijdt_tot) + " " + materieelInzet.eindBestemmingTreindeel,
+                                        text = stringResource(id = R.string.label_treinstel) + " " + materieelInzet.treinNummer + " " + stringResource(
+                                            id = R.string.label_rijdt_tot
+                                        ) + " " + materieelInzet.eindBestemmingTreindeel,
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Center,
                                         maxLines = 1,
@@ -329,7 +333,7 @@ fun DisplayRitDetail(
                     }
                 }
                 treinStops.stops.forEachIndexed { index, stop ->
-                    val tekstKleur = if(stop.opgeheven) Color.Red else Color.White
+                    val tekstKleur = if (stop.opgeheven) Color.Red else Color.White
                     item {
                         Column(
                             modifier = Modifier
@@ -411,7 +415,7 @@ fun DisplayRitDetail(
                                     color = tekstKleur
                                 )
                             }
-                            if(stop.status == StopStatusType.COMBINE){
+                            if (stop.status == StopStatusType.COMBINE) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
@@ -432,7 +436,7 @@ fun DisplayRitDetail(
                                     )
                                 }
                             }
-                            if(stop.status == StopStatusType.SPLIT){
+                            if (stop.status == StopStatusType.SPLIT) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
@@ -453,7 +457,7 @@ fun DisplayRitDetail(
                                     )
                                 }
                             }
-                            if(stop.opgeheven){
+                            if (stop.opgeheven) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
