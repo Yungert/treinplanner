@@ -27,9 +27,10 @@ enum class WarningType(val value: String) {
 }
 
 enum class CrowdForecast(val value: String) {
-    rustig("LOW"),
-    gemiddeld("MEDIUM"),
-    druk("HIGH"),
+    LOW("LOW"),
+    MEDIUM("MEDIUM"),
+    HIGH("HIGH"),
+    UNKNOWN("UNKNOWN"),
     onbekend("onbekend");
 
     companion object {
