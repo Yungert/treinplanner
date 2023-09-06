@@ -2,7 +2,7 @@ package com.yungert.treinplanner.presentation.Data.Repository
 
 import androidx.annotation.Keep
 import com.yungert.treinplanner.BuildConfig
-import com.yungert.treinplanner.Data.models.DisruptionResponseModel
+import com.yungert.treinplanner.data.models.DisruptionResponseModel
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.Data.models.PlaceResponse

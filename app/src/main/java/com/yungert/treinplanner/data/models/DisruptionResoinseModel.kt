@@ -1,4 +1,4 @@
-package com.yungert.treinplanner.Data.models
+package com.yungert.treinplanner.data.models
 
 data class DisruptionResponseModel(
     val id: String,

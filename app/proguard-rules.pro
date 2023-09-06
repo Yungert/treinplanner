@@ -28,9 +28,9 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
--keep class com.yungert.treinplanner.Data.models.** { *; }
+-keep class com.yungert.treinplanner.data.models.** { *; }
 -keep class com.yungert.treinplanner.ui.model.** { *; }
--keep class com.yungert.treinplanner.Data.Repository.** { *; }
+-keep class com.yungert.treinplanner.data.Repository.** { *; }
 -dontwarn kotlin.reflect.jvm.internal.**
 -keep class kotlin.reflect.jvm.internal.** { *; }
 -keep interface javax.annotation.Nullable

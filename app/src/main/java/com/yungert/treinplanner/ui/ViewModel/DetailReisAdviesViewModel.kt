@@ -70,10 +70,14 @@ class DetailReisAdviesViewModel : ViewModel() {
                                     )
                             }
                             var overstapCrossPlatform = false
+                            var overstapMogelijkheid = true
                             advies.transferMessages?.forEach { transfer ->
-                            if(TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM){
-                                overstapCrossPlatform = true
-                            }
+                                if(TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM){
+                                    overstapCrossPlatform = true
+                                }
+                                if(TransferType.fromValue(transfer.type) == TransferType.IMPOSSIBLE_TRANSFER){
+                                    overstapMogelijkheid = false
+                                }
                             }
                             ritDetail = RitDetail(
                                 treinOperator = advies.product.operatorName,
@@ -106,7 +110,8 @@ class DetailReisAdviesViewModel : ViewModel() {
                                 kortereTreinDanGepland = advies.shorterStock,
                                 opgeheven = advies.cancelled,
                                 punctualiteit = advies.punctuality ?: 0.0,
-                                crossPlatform = overstapCrossPlatform
+                                crossPlatform = overstapCrossPlatform,
+                                overstapMogelijk = overstapMogelijkheid,
                             )
 
                             ritDetail.let { ritten.add(it) }

@@ -288,7 +288,7 @@ fun DisplayDetailReisAdvies(
                                             .size(iconSize)
                                     )
                                     Text(
-                                        text = stringResource(id = R.string.label_vervallen_reisadvies),
+                                        text = stringResource(id = R.string.label_reisadvies_niet_mogelijk),
                                         style = fontsizeLabelCard,
                                         textAlign = TextAlign.Left,
                                         maxLines = 2,
@@ -303,7 +303,32 @@ fun DisplayDetailReisAdvies(
                     extraItem++
                     item {
                         if (index > 0 && reis.overstapTijd != "") {
-
+                            if(!reis.overstapMogelijk){
+                                Card(
+                                    onClick = {
+                                    },
+                                    modifier = Modifier
+                                        .padding(2.dp)
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Start,
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = R.string.label_overstap_niet_mogelijk),
+                                                style = fontsizeLabelCard,
+                                                textAlign = TextAlign.Left
+                                            )
+                                        }
+                                    }
+                                }
+                                return@item
+                            }
                             Card(
                                 onClick = {
                                 },

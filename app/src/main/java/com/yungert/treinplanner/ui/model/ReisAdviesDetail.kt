@@ -42,6 +42,7 @@ data class RitDetail(
     val ritId: String,
 
     val crossPlatform : Boolean,
+    val overstapMogelijk : Boolean,
     val overstapTijd: String?,
     val opgeheven: Boolean
 )

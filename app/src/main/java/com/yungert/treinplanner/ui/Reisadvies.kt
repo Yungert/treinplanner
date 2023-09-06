@@ -495,7 +495,7 @@ fun DisplayReisAdvies(
                                                 .size(iconSize)
                                         )
                                         Text(
-                                            text = stringResource(id = R.string.label_vervallen_reisadvies),
+                                            text = stringResource(id = R.string.label_reisadvies_niet_mogelijk),
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
                                             maxLines = 2,
@@ -522,8 +522,6 @@ fun DisplayReisAdvies(
                                             style = fontsizeLabelCard,
                                             textAlign = TextAlign.Left,
                                         )
-
-
                                     }
                                 }
 
