@@ -49,7 +49,7 @@ class DetailReisadviesViewModel : ViewModel() {
                         var ovFiets = mutableListOf<OvFiets>()
                         var dataEindbestemmingStation = DataEindbestemmingStation(
                             ovFiets = ovFiets,
-                            ritPrijsInEuro = String.format("%.2f", result.data?.productFare?.priceInCents?.div(100.0) ?: 0.00)
+                            ritPrijsInEuro = if(result.data?.productFare?.priceInCents == null) "-" else String.format("%.2f", result.data.productFare.priceInCents / 100.0)
                         )
 
                         nsApiRepository.fetchOvFietsByStationId(stationId = result.data?.legs?.getOrNull(result.data.legs.size - 1)?.destination?.stationCode ?: "").collect { result ->
