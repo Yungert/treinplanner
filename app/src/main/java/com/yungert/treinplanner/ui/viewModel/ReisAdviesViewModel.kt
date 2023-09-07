@@ -9,7 +9,7 @@ import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
-import com.yungert.treinplanner.presentation.ui.model.ReisAdvies
+import com.yungert.treinplanner.presentation.ui.model.Reisadvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
 import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
@@ -22,14 +22,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-sealed class ViewStateReisAdvies {
-    object Loading : ViewStateReisAdvies()
-    data class Success(val details: ReisAdvies) : ViewStateReisAdvies()
-    data class Problem(val exception: ErrorState?) : ViewStateReisAdvies()
+sealed class ViewStateReisadvies {
+    object Loading : ViewStateReisadvies()
+    data class Success(val details: Reisadvies) : ViewStateReisadvies()
+    data class Problem(val exception: ErrorState?) : ViewStateReisadvies()
 }
 
 class ReisAdviesViewModel : ViewModel() {
-    private val _viewState = MutableStateFlow<ViewStateReisAdvies>(ViewStateReisAdvies.Loading)
+    private val _viewState = MutableStateFlow<ViewStateReisadvies>(ViewStateReisadvies.Loading)
     val reisavies = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
     private val sharedPreferencesRepository: SharedPreferencesRepository =
@@ -37,7 +37,7 @@ class ReisAdviesViewModel : ViewModel() {
 
     fun getReisadviezen(startStation: String, eindStation: String, context: Context) {
         if (!hasInternetConnection(context)) {
-            _viewState.value = ViewStateReisAdvies.Problem(ErrorState.NO_CONNECTION)
+            _viewState.value = ViewStateReisadvies.Problem(ErrorState.NO_CONNECTION)
             return
         }
 
@@ -115,8 +115,8 @@ class ReisAdviesViewModel : ViewModel() {
                             )
                         }
 
-                        _viewState.value = ViewStateReisAdvies.Success(
-                            ReisAdvies(
+                        _viewState.value = ViewStateReisadvies.Success(
+                            Reisadvies(
                                 advies = adviezen,
                                 verstrekStation = startStation,
                                 aankomstStation = eindStation
@@ -125,11 +125,11 @@ class ReisAdviesViewModel : ViewModel() {
                     }
 
                     is Resource.Loading -> {
-                        _viewState.value = ViewStateReisAdvies.Loading
+                        _viewState.value = ViewStateReisadvies.Loading
                     }
 
                     is Resource.Error -> {
-                        _viewState.value = ViewStateReisAdvies.Problem(result.state)
+                        _viewState.value = ViewStateReisadvies.Problem(result.state)
                     }
                 }
             }

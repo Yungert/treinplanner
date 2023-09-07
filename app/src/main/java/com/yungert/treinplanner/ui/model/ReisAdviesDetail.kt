@@ -6,7 +6,7 @@ import com.yungert.treinplanner.presentation.Data.models.NesProperties
 import com.yungert.treinplanner.presentation.Data.models.TransferMessage
 
 @Keep
-data class DetailReisAdvies(
+data class DetailReisadvies(
     var opgeheven: Boolean,
     var redenOpheffen: String?,
     var rit: List<RitDetail>,

@@ -7,7 +7,7 @@ import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
-import com.yungert.treinplanner.presentation.ui.model.DetailReisAdvies
+import com.yungert.treinplanner.presentation.ui.model.DetailReisadvies
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TransferType
@@ -19,21 +19,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-sealed class ViewStateDetailReisAdvies {
-    object Loading : ViewStateDetailReisAdvies()
-    data class Success(val details: DetailReisAdvies) : ViewStateDetailReisAdvies()
-    data class Problem(val exception: ErrorState?) : ViewStateDetailReisAdvies()
+sealed class ViewStateDetailReisadvies {
+    object Loading : ViewStateDetailReisadvies()
+    data class Success(val details: DetailReisadvies) : ViewStateDetailReisadvies()
+    data class Problem(val exception: ErrorState?) : ViewStateDetailReisadvies()
 }
 
-class DetailReisAdviesViewModel : ViewModel() {
+class DetailReisadviesViewModel : ViewModel() {
     private val _viewState =
-        MutableStateFlow<ViewStateDetailReisAdvies>(ViewStateDetailReisAdvies.Loading)
+        MutableStateFlow<ViewStateDetailReisadvies>(ViewStateDetailReisadvies.Loading)
     val reisavies = _viewState.asStateFlow()
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
 
     fun getReisadviesDetail(reisAdviesId: String, context: Context) {
         if (!hasInternetConnection(context)) {
-            _viewState.value = ViewStateDetailReisAdvies.Problem(ErrorState.NO_CONNECTION)
+            _viewState.value = ViewStateDetailReisadvies.Problem(ErrorState.NO_CONNECTION)
             return
         }
         viewModelScope.launch {
@@ -42,7 +42,7 @@ class DetailReisAdviesViewModel : ViewModel() {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
                         var eindTijd = ""
-                        var detailReisAdvies = DetailReisAdvies(
+                        var detailReisAdvies = DetailReisadvies(
                             opgeheven = result.data?.status?.let { TripStatus.fromValue(it) } == TripStatus.CANCELLED,
                             redenOpheffen = result.data?.primaryMessage?.title,
                             rit = ritten,
@@ -125,16 +125,16 @@ class DetailReisAdviesViewModel : ViewModel() {
                             ritDetail.let { ritten.add(it) }
                         }
                         detailReisAdvies.rit = ritten
-                        _viewState.value = ViewStateDetailReisAdvies.Success(detailReisAdvies)
+                        _viewState.value = ViewStateDetailReisadvies.Success(detailReisAdvies)
 
                     }
 
                     is Resource.Loading -> {
-                        _viewState.value = ViewStateDetailReisAdvies.Loading
+                        _viewState.value = ViewStateDetailReisadvies.Loading
                     }
 
                     is Resource.Error -> {
-                        _viewState.value = ViewStateDetailReisAdvies.Problem(result.state)
+                        _viewState.value = ViewStateDetailReisadvies.Problem(result.state)
                     }
                 }
 
