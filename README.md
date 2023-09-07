@@ -8,7 +8,7 @@ De app in beschikbaar in het Nederlands en Engels (wordt op basis van systeemtaa
   - [Thuisscherm](#Thuisscherm)
   - [Stations kiezen](#Stationpicker)
   - [Reisadviezen](#Reisadvies-detail)
-  - [Thuisscherm](#Treinrit-detail)
+  - [Trein Detail](#Treinrit-detail)
 
 ## Features
 Bijna alle functies vereisen een internetverbinding om gegevens op te halen. Voor één functie is een GPS-signaal nodig.
@@ -45,6 +45,8 @@ Na het selecteren van de stations worden de route en de reisadviezen weergegeven
 ![Screenshot_20230905_194156.png](demo/Screenshot_20230905_194156.png "Route en reisadviezen")
 ![Screenshot_20230905_182030.png](demo/Screenshot_20230905_182030.png "Reisadviezen")
 ![Screenshot_20230905_194910.png](demo/Screenshot_20230905_194910.png "Andere reis plannen")
+![Screenshot_20230905_194910.png](demo/Screenshot_20230906_143719.png "Verstoring")
+![Screenshot_20230905_195502.png](demo/Screenshot_20230907_134946.png "overstap niet mogelijk")
 
 Een reisadvies bestaat uit:
 
@@ -67,6 +69,7 @@ Bij het klikken op een reisadvies wordt de detailweergave geopend voor dat speci
 ![Screenshot_20230905_195449.png](demo/Screenshot_20230905_195449.png "Reisadvies detail weergave")
 ![Screenshot_20230905_195455.png](demo/Screenshot_20230905_195455.png "Reisadvies detail weergave")
 ![Screenshot_20230905_195502.png](demo/Screenshot_20230905_195502.png "Reisadvies detail weergave")
+
 
 De detailweergave van een reisadvies bestaat uit (van boven naar beneden):
 
@@ -95,6 +98,7 @@ Bij het selecteren van een treinrit in de reisadviesdetailweergave wordt de info
 ### Treinrit detail
 
 ![Screenshot_20230905_181415.png](demo/Screenshot_20230905_181415.png "Treinrit detail")
+![Screenshot_20230905_181415.png](demo/Screenshot_20230907_135146.png "Treinrit detail")
 
 De detailweergave van een treinrit bestaat uit (van boven naar beneden):
 
