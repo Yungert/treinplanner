@@ -84,7 +84,7 @@ fun DisplayHomeScreen(navController: NavController, route: Route?) {
     val listState = rememberScalingLazyListState()
     val coroutineScope = rememberCoroutineScope()
     coroutineScope.launch {
-        listState.scrollToItem(2)
+        listState.scrollToItem(1)
     }
     Scaffold(
         positionIndicator = {

@@ -1,13 +1,16 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import android.content.Context
+import android.provider.ContactsContract.Data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.ui.ErrorState
+import com.yungert.treinplanner.presentation.ui.model.DataEindbestemmingStation
 import com.yungert.treinplanner.presentation.ui.model.DetailReisadvies
+import com.yungert.treinplanner.presentation.ui.model.OvFiets
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
 import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TransferType
@@ -42,12 +45,37 @@ class DetailReisadviesViewModel : ViewModel() {
                     is Resource.Success -> {
                         var ritten = mutableListOf<RitDetail>()
                         var eindTijd = ""
+
+                        var ovFiets = mutableListOf<OvFiets>()
+                        var dataEindbestemmingStation = DataEindbestemmingStation(
+                            ovFiets = ovFiets,
+                            ritPrijsInEuro = String.format("%.2f", result.data?.productFare?.priceInCents?.div(100.0) ?: 0.00)
+                        )
+
+                        nsApiRepository.fetchOvFietsByStationId(stationId = result.data?.legs?.getOrNull(result.data.legs.size - 1)?.destination?.stationCode ?: "").collect { result ->
+                            result.data?.payload?.forEach {place ->
+                                place.locations.forEach { location ->
+                                    ovFiets.add(
+                                        OvFiets(
+                                            aantalOvFietsen = location.extra.rentalBikes,
+                                            locatieFietsStalling = location.description
+                                        )
+                                    )
+                                }
+                            }
+                            dataEindbestemmingStation.ovFiets = ovFiets
+                        }
+
+
+
+
                         var detailReisAdvies = DetailReisadvies(
                             opgeheven = result.data?.status?.let { TripStatus.fromValue(it) } == TripStatus.CANCELLED,
                             redenOpheffen = result.data?.primaryMessage?.title,
                             rit = ritten,
                             hoofdBericht = result.data?.primaryMessage?.message?.text,
-                            eindTijdVerstoring = eindTijd
+                            eindTijdVerstoring = eindTijd,
+                            dataEindStation = dataEindbestemmingStation,
                         )
                         if (MessageType.fromValue(result.data?.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
                             result.data?.primaryMessage?.message?.id?.let {
@@ -58,6 +86,8 @@ class DetailReisadviesViewModel : ViewModel() {
                                 }
                             }
                         }
+
+
                         result.data?.legs?.forEachIndexed { index, advies ->
                             var ritDetail: RitDetail? = null
                             var overstap = ""
@@ -75,6 +105,7 @@ class DetailReisadviesViewModel : ViewModel() {
                             }
                             var overstapCrossPlatform = false
                             var overstapMogelijkheid = true
+
                             advies.transferMessages?.forEach { transfer ->
                                 if (TransferType.fromValue(transfer.type) == TransferType.CROSS_PLATFORM) {
                                     overstapCrossPlatform = true
@@ -126,7 +157,6 @@ class DetailReisadviesViewModel : ViewModel() {
                         }
                         detailReisAdvies.rit = ritten
                         _viewState.value = ViewStateDetailReisadvies.Success(detailReisAdvies)
-
                     }
 
                     is Resource.Loading -> {
