@@ -21,7 +21,7 @@ import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
 
 @Composable
-fun TransferNietmogelijkComposable(){
+fun TransferNietmogelijkComposable() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

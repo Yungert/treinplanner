@@ -31,7 +31,6 @@ import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
-import com.yungert.treinplanner.ui.view.detailReisadvies.composables.OverstapOnbekendComposable
 
 @Composable
 fun ReisAdviesCardComposable(
@@ -187,10 +186,10 @@ fun ReisAdviesCardComposable(
                 ReisadviesNietMogelijkComposable()
             }
 
-            if (advies.primaryMessage != null ) {
-                if(advies.primaryMessage.type?.let { PrimaryMessageType.fromValue(it) } != PrimaryMessageType.LEG_TRANSFER_IMPOSSIBLE){
+            if (advies.primaryMessage != null) {
+                if (advies.primaryMessage.type?.let { PrimaryMessageType.fromValue(it) } != PrimaryMessageType.LEG_TRANSFER_IMPOSSIBLE) {
                     PrimaryMessageComposaBle(advies.primaryMessage)
-                } else{
+                } else {
                     TransferNietmogelijkComposable()
                 }
             }
@@ -199,7 +198,9 @@ fun ReisAdviesCardComposable(
                 DisruptionEindTijdComposable(eindTijdverstoring = advies.eindTijdverstoring!!)
             }
 
-            if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title)) {
+            if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text
+                    ?: advies.primaryMessage?.title)
+            ) {
                 AandachtsPuntenComposable(
                     status = advies.status,
                     aandachtsPunten = advies.aandachtsPunten
