@@ -232,7 +232,7 @@ fun DisplayReisadvies(
                     )
                 }
 
-                if(reisAdviezen.advies.isEmpty()){
+                if (reisAdviezen.advies.isEmpty()) {
                     item {
                         Text(
                             text = stringResource(id = R.string.label_geen_reisadviezen_gevonden),

@@ -1,7 +1,6 @@
 package com.yungert.treinplanner.presentation.ui.ViewModel
 
 import android.content.Context
-import android.provider.ContactsContract.Data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yungert.treinplanner.presentation.Data.Repository.NsApiRepository
@@ -49,11 +48,18 @@ class DetailReisadviesViewModel : ViewModel() {
                         var ovFiets = mutableListOf<OvFiets>()
                         var dataEindbestemmingStation = DataEindbestemmingStation(
                             ovFiets = ovFiets,
-                            ritPrijsInEuro = if(result.data?.productFare?.priceInCents == null) "-" else String.format("%.2f", result.data.productFare.priceInCents / 100.0)
+                            ritPrijsInEuro = if (result.data?.productFare?.priceInCents == null) "-" else String.format(
+                                "%.2f",
+                                result.data.productFare.priceInCents / 100.0
+                            )
                         )
 
-                        nsApiRepository.fetchOvFietsByStationId(stationId = result.data?.legs?.getOrNull(result.data.legs.size - 1)?.destination?.stationCode ?: "").collect { result ->
-                            result.data?.payload?.forEach {place ->
+                        nsApiRepository.fetchOvFietsByStationId(
+                            stationId = result.data?.legs?.getOrNull(
+                                result.data.legs.size - 1
+                            )?.destination?.stationCode ?: ""
+                        ).collect { result ->
+                            result.data?.payload?.forEach { place ->
                                 place.locations.forEach { location ->
                                     ovFiets.add(
                                         OvFiets(
@@ -65,8 +71,6 @@ class DetailReisadviesViewModel : ViewModel() {
                             }
                             dataEindbestemmingStation.ovFiets = ovFiets
                         }
-
-
 
 
                         var detailReisAdvies = DetailReisadvies(

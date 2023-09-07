@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
+import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.ui.model.DataEindbestemmingStation
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
-import com.yungert.treinplanner.R
 
 @Composable
 fun DataEindStationComposable(dateEindStation: DataEindbestemmingStation) {
@@ -59,7 +59,7 @@ fun DataEindStationComposable(dateEindStation: DataEindbestemmingStation) {
                 )
             }
         }
-        if(dateEindStation.ovFiets?.isEmpty() == true){
+        if (dateEindStation.ovFiets?.isEmpty() == true) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -113,7 +113,7 @@ fun DataEindStationComposable(dateEindStation: DataEindbestemmingStation) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
 
-                ) {
+                    ) {
                     Icon(
                         imageVector = Icons.Default.PedalBike,
                         contentDescription = "Icon",

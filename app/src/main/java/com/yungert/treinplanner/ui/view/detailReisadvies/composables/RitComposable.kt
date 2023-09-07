@@ -35,7 +35,7 @@ fun RitComposable(
             )
             onClick(index + extraItem)
         },
-        modifier =  Modifier
+        modifier = Modifier
             .padding(
                 bottom = 0.dp,
             )

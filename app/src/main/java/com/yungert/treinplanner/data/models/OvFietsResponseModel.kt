@@ -1,4 +1,5 @@
 package com.yungert.treinplanner.data.models
+
 import com.google.gson.annotations.SerializedName
 import com.yungert.treinplanner.presentation.Data.models.Link
 
