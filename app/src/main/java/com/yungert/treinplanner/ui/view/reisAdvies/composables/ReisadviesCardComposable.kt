@@ -25,11 +25,13 @@ import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
 import com.yungert.treinplanner.presentation.utils.MessageType
+import com.yungert.treinplanner.presentation.utils.PrimaryMessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
 import com.yungert.treinplanner.presentation.utils.minimaleBreedteTouchControls
 import com.yungert.treinplanner.presentation.utils.minimaleHoogteTouchControls
+import com.yungert.treinplanner.ui.view.detailReisadvies.composables.OverstapOnbekendComposable
 
 @Composable
 fun ReisAdviesCardComposable(
@@ -185,17 +187,19 @@ fun ReisAdviesCardComposable(
                 ReisadviesNietMogelijkComposable()
             }
 
-            if (advies.primaryMessage != null) {
-                PrimaryMessageComposaBle(advies.primaryMessage)
+            if (advies.primaryMessage != null ) {
+                if(advies.primaryMessage.type?.let { PrimaryMessageType.fromValue(it) } != PrimaryMessageType.LEG_TRANSFER_IMPOSSIBLE){
+                    PrimaryMessageComposaBle(advies.primaryMessage)
+                } else{
+                    TransferNietmogelijkComposable()
+                }
             }
 
             if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION && advies.eindTijdverstoring != "") {
                 DisruptionEindTijdComposable(eindTijdverstoring = advies.eindTijdverstoring!!)
             }
 
-            if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text
-                    ?: advies.primaryMessage?.title)
-            ) {
+            if (advies.aandachtsPunten != null && advies.aandachtsPunten != (advies.primaryMessage?.message?.text ?: advies.primaryMessage?.title)) {
                 AandachtsPuntenComposable(
                     status = advies.status,
                     aandachtsPunten = advies.aandachtsPunten
