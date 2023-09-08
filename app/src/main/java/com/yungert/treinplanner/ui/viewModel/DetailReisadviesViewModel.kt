@@ -85,7 +85,7 @@ class DetailReisadviesViewModel : ViewModel() {
                             result.data?.primaryMessage.message.type?.let { type ->
                                 nsApiRepository.fetchDisruptionById(id, type).collect { result ->
                                     detailReisAdvies.eindTijdVerstoring =
-                                        formatTime(result.data?.expectedDuration?.endTime)
+                                        formatTime(result.data?.expectedDuration?.endTime ?: result.data?.end , rekeningHoudenMetDag = true)
                                 }
                             }
                         }
