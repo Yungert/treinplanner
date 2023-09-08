@@ -20,15 +20,19 @@ fun formatTime(time: String?): String {
 
     val modifiedTimestamp = StringBuilder(time).insert(offsetIndex + 3, ':').toString()
 
-    val offsetDateTime = OffsetDateTime.parse(modifiedTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+    val offsetDateTime =
+        OffsetDateTime.parse(modifiedTimestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 
 
     val endTime = offsetDateTime.toLocalTime()
     val endDate = offsetDateTime.toLocalDate()
     val localDate = LocalDate.now()
     val formattedEndTime = endTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    if(endDate != localDate){
-        return endDate.dayOfMonth.toString() + " " + endDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + endDate.year + " " + formattedEndTime
+    if (endDate != localDate) {
+        return endDate.dayOfMonth.toString() + " " + endDate.month.getDisplayName(
+            TextStyle.FULL,
+            Locale.getDefault()
+        ) + " " + endDate.year + " " + formattedEndTime
     }
 
     lastFormattedTime = formattedEndTime

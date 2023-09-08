@@ -11,7 +11,6 @@ import com.yungert.treinplanner.presentation.ui.model.DataEindbestemmingStation
 import com.yungert.treinplanner.presentation.ui.model.DetailReisadvies
 import com.yungert.treinplanner.presentation.ui.model.OvFiets
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
-import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TransferType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
@@ -64,7 +63,7 @@ class DetailReisadviesViewModel : ViewModel() {
                                     ovFiets.add(
                                         OvFiets(
                                             aantalOvFietsen = location.extra.rentalBikes,
-                                            locatieFietsStalling = if(location.street?.trim() != null && location.houseNumber != null) location.street.trim() + " " + location.houseNumber else location.description
+                                            locatieFietsStalling = if (location.street?.trim() != null && location.houseNumber != null) location.street.trim() + " " + location.houseNumber else location.description
                                         )
                                     )
                                 }

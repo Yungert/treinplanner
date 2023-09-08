@@ -24,7 +24,6 @@ import androidx.wear.compose.material.Text
 import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorComposable
-import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.PrimaryMessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard

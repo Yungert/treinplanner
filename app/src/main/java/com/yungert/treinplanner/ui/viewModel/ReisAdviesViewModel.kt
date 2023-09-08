@@ -11,7 +11,6 @@ import com.yungert.treinplanner.presentation.ui.ErrorState
 import com.yungert.treinplanner.presentation.ui.model.Adviezen
 import com.yungert.treinplanner.presentation.ui.model.Reisadvies
 import com.yungert.treinplanner.presentation.utils.DrukteIndicatorFormatter
-import com.yungert.treinplanner.presentation.utils.MessageType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
 import com.yungert.treinplanner.presentation.utils.formatTime
@@ -64,9 +63,13 @@ class ReisAdviesViewModel : ViewModel() {
                             var eindTijd = ""
                             advies.primaryMessage?.message?.id?.let { id ->
                                 advies.primaryMessage.message.type?.let { type ->
-                                    nsApiRepository.fetchDisruptionById(id, type).collect { result ->
-                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime ?: result.data?.end)
-                                    }
+                                    nsApiRepository.fetchDisruptionById(id, type)
+                                        .collect { result ->
+                                            eindTijd = formatTime(
+                                                result.data?.expectedDuration?.endTime
+                                                    ?: result.data?.end
+                                            )
+                                        }
                                 }
                             }
 
