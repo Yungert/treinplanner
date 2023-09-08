@@ -12,7 +12,7 @@ import java.util.Locale
 
 
 private var lastFormattedTime: String? = null
-fun formatTime(time: String?, rekeningHoudenMetDag :Boolean? = false): String {
+fun formatTime(time: String?, rekeningHoudenMetDag: Boolean? = false): String {
     if (time == null || time == "") {
         return ""
     }

@@ -131,7 +131,7 @@ class NsApiRepository(private val nsApiClient: NSApiClient) {
                     authToken = apiKey
                 )
                 if (apiResult.isSuccessful) {
-                    if (apiResult.body()!= null) {
+                    if (apiResult.body() != null) {
                         emit(Resource.Success(apiResult.body()!!))
                     }
                 } else {
