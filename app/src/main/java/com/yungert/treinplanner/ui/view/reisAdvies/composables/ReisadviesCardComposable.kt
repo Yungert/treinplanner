@@ -194,7 +194,7 @@ fun ReisAdviesCardComposable(
                 }
             }
 
-            if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION && advies.eindTijdverstoring != "") {
+            if (advies.eindTijdverstoring != "") {
                 DisruptionEindTijdComposable(eindTijdverstoring = advies.eindTijdverstoring!!)
             }
 

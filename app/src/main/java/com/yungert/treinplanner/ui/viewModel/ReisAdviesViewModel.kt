@@ -62,21 +62,10 @@ class ReisAdviesViewModel : ViewModel() {
                                 }
                             }
                             var eindTijd = ""
-                            advies.messages.forEach { bericht ->
-                                if (MessageType.fromValue(bericht.type) == MessageType.DISRUPTION) {
-                                    nsApiRepository.fetchDisruptionById(bericht.id)
-                                        .collect { result ->
-                                            eindTijd =
-                                                formatTime(result.data?.expectedDuration?.endTime)
-                                        }
-                                }
-                            }
-
-                            if (MessageType.fromValue(advies.primaryMessage?.message?.type) == MessageType.DISRUPTION) {
-                                advies.primaryMessage?.message?.id?.let {
-                                    nsApiRepository.fetchDisruptionById(it).collect { result ->
-                                        eindTijd =
-                                            formatTime(result.data?.expectedDuration?.endTime)
+                            advies.primaryMessage?.message?.id?.let { id ->
+                                advies.primaryMessage.message.type?.let { type ->
+                                    nsApiRepository.fetchDisruptionById(id, type).collect { result ->
+                                        eindTijd = formatTime(result.data?.expectedDuration?.endTime ?: result.data?.end)
                                     }
                                 }
                             }
