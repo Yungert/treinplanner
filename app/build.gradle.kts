@@ -111,4 +111,8 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.google.dagger:hilt-android:2.44")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.4")
+    debugImplementation("androidx.wear.tiles:tiles-renderer:1.1.0")
+    debugImplementation("androidx.wear.tiles:tiles-renderer:1.1.0")
 }
