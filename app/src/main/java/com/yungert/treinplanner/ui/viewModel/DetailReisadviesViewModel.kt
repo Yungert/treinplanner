@@ -82,7 +82,7 @@ class DetailReisadviesViewModel : ViewModel() {
                         )
 
                         result.data?.primaryMessage?.message?.id?.let { id ->
-                            result.data?.primaryMessage.message.type?.let { type ->
+                            result.data.primaryMessage.message.type.let { type ->
                                 nsApiRepository.fetchDisruptionById(id, type).collect { result ->
                                     detailReisAdvies.eindTijdVerstoring =
                                         formatTime(
