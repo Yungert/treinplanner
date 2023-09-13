@@ -16,6 +16,7 @@ import com.yungert.treinplanner.presentation.Data.Repository.SharedPreferencesRe
 import com.yungert.treinplanner.presentation.Data.api.NSApiClient
 import com.yungert.treinplanner.presentation.Data.api.Resource
 import com.yungert.treinplanner.presentation.Data.models.Leg
+import com.yungert.treinplanner.presentation.utils.formatTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.guava.future
@@ -60,20 +61,17 @@ class ReisTile: TileService() {
         var adies = ""
         val reis = getReisadvies()
         reis.forEach { rit ->
-            adies+= rit.product.number
+            val vertrektijd = rit.origin.actualDateTime ?: rit.origin.plannedDateTime
+            adies+= rit.product.operatorName + " "
+            adies+= rit.product.categoryCode + " naar:\n"
+            adies+= rit.destination.name + " "
+            adies+= formatTime(vertrektijd) + " SP " + (rit.origin.actualTrack ?: rit.origin.plannedTrack) + "\n"
         }
         data = adies
 
         val text = data
-        return LayoutElementBuilders.Box.Builder()
-            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-            .setWidth(DimensionBuilders.expand())
-            .setHeight(DimensionBuilders.expand())
-            .addContent(
-                LayoutElementBuilders.Text.Builder()
-                    .setText(text)
-                    .build()
-            )
+        return LayoutElementBuilders.Text.Builder()
+            .setText(text).setMaxLines(10)
             .build()
     }
 
