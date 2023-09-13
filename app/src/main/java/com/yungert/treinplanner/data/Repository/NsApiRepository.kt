@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
 
-@Keep
 class NsApiRepository(private val nsApiClient: NSApiClient) {
     val apiKey = BuildConfig.API_KEY_NS
     suspend fun fetchReisAdviezen(

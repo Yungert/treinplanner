@@ -13,7 +13,6 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-@Keep
 interface NSApiService {
     @GET("reisinformatie-api/api/v3/trips/")
     suspend fun getReisadviezen(

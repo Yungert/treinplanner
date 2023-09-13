@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-@Keep
 object NSApiClient {
     private const val BASE_URL = "https://gateway.apiportal.ns.nl/"
     val client = OkHttpClient.Builder()
