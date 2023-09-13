@@ -50,4 +50,5 @@
     <string name="label_geen_reisadviezen_gevonden">Geen reisadviezen gevonden</string>
     <string name="label_ov_fiets">OV fiets</string>
     <string name="label_geen_ov_fiets">Geen OV fiets beschikbaar</string>
+    <string name="label_bij_station">bij station</string>
 </resources>

@@ -1,10 +1,5 @@
 package com.yungert.treinplanner.ui.tile
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.wear.tiles.DimensionBuilders
 import androidx.wear.tiles.LayoutElementBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
@@ -23,10 +18,11 @@ import kotlinx.coroutines.guava.future
 
 private const val RESOURCES_VERSION = "1"
 
-class ReisTile: TileService() {
+class ReisTile : TileService() {
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
     private val serviceScope = CoroutineScope(Dispatchers.IO)
-    private val sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository()
+    private val sharedPreferencesRepository: SharedPreferencesRepository =
+        SharedPreferencesRepository()
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest) = serviceScope.future {
 
@@ -48,11 +44,12 @@ class ReisTile: TileService() {
             .build()
     }
 
-    override fun onResourcesRequest(requestParams: RequestBuilders.ResourcesRequest) = serviceScope.future {
-        ResourceBuilders.Resources.Builder()
-            .setVersion(RESOURCES_VERSION)
-            .build()
-    }
+    override fun onResourcesRequest(requestParams: RequestBuilders.ResourcesRequest) =
+        serviceScope.future {
+            ResourceBuilders.Resources.Builder()
+                .setVersion(RESOURCES_VERSION)
+                .build()
+        }
 
 
     private suspend fun tileLayout(): LayoutElementBuilders.LayoutElement {
@@ -62,10 +59,11 @@ class ReisTile: TileService() {
         val reis = getReisadvies()
         reis.forEach { rit ->
             val vertrektijd = rit.origin.actualDateTime ?: rit.origin.plannedDateTime
-            adies+= rit.product.operatorName + " "
-            adies+= rit.product.categoryCode + " naar:\n"
-            adies+= rit.destination.name + " "
-            adies+= formatTime(vertrektijd) + " SP " + (rit.origin.actualTrack ?: rit.origin.plannedTrack) + "\n"
+            adies += rit.product.operatorName + " "
+            adies += rit.product.categoryCode + " naar:\n"
+            adies += rit.destination.name + " "
+            adies += formatTime(vertrektijd) + " SP " + (rit.origin.actualTrack
+                ?: rit.origin.plannedTrack) + "\n"
         }
         data = adies
 
@@ -75,9 +73,12 @@ class ReisTile: TileService() {
             .build()
     }
 
-    private suspend fun getReisadvies(): List<Leg>{
-        val id = sharedPreferencesRepository.getReisadviesId(context = applicationContext, "reisadviesId")
-        if (id == "" && id != null){
+    private suspend fun getReisadvies(): List<Leg> {
+        val id = sharedPreferencesRepository.getReisadviesId(
+            context = applicationContext,
+            "reisadviesId"
+        )
+        if (id == "" && id != null) {
             return emptyList()
         }
         var data = emptyList<Leg>()
@@ -86,6 +87,7 @@ class ReisTile: TileService() {
                 is Resource.Success -> {
                     data = result.data?.legs!!
                 }
+
                 else -> {
 
                 }

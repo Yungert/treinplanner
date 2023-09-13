@@ -49,4 +49,5 @@
     <string name="label_geen_reisadviezen_gevonden">No possible trips found</string>
     <string name="label_ov_fiets">OV bicycles</string>
     <string name="label_geen_ov_fiets">No OV bicycle available</string>
+    <string name="label_bij_station">at station</string>
 </resources>
