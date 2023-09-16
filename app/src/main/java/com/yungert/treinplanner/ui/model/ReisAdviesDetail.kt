@@ -11,7 +11,16 @@ data class DetailReisadvies(
     var rit: List<RitDetail>,
     val hoofdBericht: String?,
     var eindTijdVerstoring: String,
-    var dataEindStation: DataEindbestemmingStation?
+    var dataEindStation: DataEindbestemmingStation?,
+    var dataAlternatiefVervoer: AlternatiefVervoer?
+)
+
+@Keep
+data class AlternatiefVervoer(
+    var advies: String?,
+    var soortVervoer: String?,
+    var vertrekLocatieStation: String?,
+    var extraReistijd: String?,
 )
 
 @Keep

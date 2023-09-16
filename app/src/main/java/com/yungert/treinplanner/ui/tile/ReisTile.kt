@@ -1,5 +1,7 @@
 package com.yungert.treinplanner.ui.tile
 
+import androidx.core.content.ContextCompat
+import androidx.wear.tiles.DimensionBuilders.dp
 import androidx.wear.tiles.LayoutElementBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
@@ -15,8 +17,20 @@ import com.yungert.treinplanner.presentation.utils.formatTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.guava.future
+import androidx.wear.tiles.DimensionBuilders.degrees
+import androidx.wear.tiles.ColorBuilders.argb
+import androidx.wear.tiles.DimensionBuilders.expand
+import androidx.wear.tiles.LayoutElementBuilders.ARC_ANCHOR_START
+import androidx.wear.tiles.LayoutElementBuilders.Arc
+import androidx.wear.tiles.LayoutElementBuilders.ArcLine
+import androidx.wear.tiles.ModifiersBuilders
+import com.yungert.treinplanner.R
+import java.nio.file.WatchEvent.Modifier
+
 
 private const val RESOURCES_VERSION = "1"
+private val PROGRESS_BAR_THICKNESS = dp(6f)
+private const val ARC_TOTAL_DEGREES = 360f
 
 class ReisTile : TileService() {
     private val nsApiRepository: NsApiRepository = NsApiRepository(NSApiClient)
@@ -54,22 +68,21 @@ class ReisTile : TileService() {
 
     private suspend fun tileLayout(): LayoutElementBuilders.LayoutElement {
         var data = "default waarde"
-
         var adies = ""
         val reis = getReisadvies()
         reis.forEach { rit ->
             val vertrektijd = rit.origin.actualDateTime ?: rit.origin.plannedDateTime
             adies += rit.product.operatorName + " "
             adies += rit.product.categoryCode + " naar:\n"
-            adies += rit.destination.name + " "
+            adies += rit.destination.name + "\n"
             adies += formatTime(vertrektijd) + " SP " + (rit.origin.actualTrack
-                ?: rit.origin.plannedTrack) + "\n"
+                ?: rit.origin.plannedTrack) + "\n\n"
         }
         data = adies
 
         val text = data
         return LayoutElementBuilders.Text.Builder()
-            .setText(text).setMaxLines(10)
+            .setText(text).setMaxLines(30)
             .build()
     }
 
@@ -95,4 +108,15 @@ class ReisTile : TileService() {
         }
         return data
     }
+    private fun progressArc(percentage: Float) = Arc.Builder()
+        .addContent(
+                ArcLine.Builder()
+                .setLength(degrees(percentage * ARC_TOTAL_DEGREES))
+                .setColor(argb(ContextCompat.getColor(this, androidx.appcompat.R.color.primary_material_light)))
+                .setThickness(PROGRESS_BAR_THICKNESS)
+                .build()
+        )
+        .setAnchorAngle(degrees(0.0f))
+        .setAnchorType(ARC_ANCHOR_START)
+        .build()
 }

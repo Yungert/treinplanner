@@ -51,4 +51,7 @@
     <string name="label_ov_fiets">OV fiets</string>
     <string name="label_geen_ov_fiets">Geen OV fiets beschikbaar</string>
     <string name="label_bij_station">bij station</string>
+    <string name="label_extra_reistijd">Extra reistijd</string>
+    <string name="label_minuten" translatable="false">minuten</string>
+    <string name="label_alternatief_vervoer_locatie">Locatie alternatief vervoer</string>
 </resources>

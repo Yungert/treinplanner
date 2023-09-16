@@ -55,6 +55,7 @@ import com.yungert.treinplanner.ui.view.detailReisadvies.composables.OverstapOnb
 import com.yungert.treinplanner.ui.view.detailReisadvies.composables.PrimaryMessageComposable
 import com.yungert.treinplanner.ui.view.detailReisadvies.composables.ReisadviesVervaltComposable
 import com.yungert.treinplanner.ui.view.detailReisadvies.composables.RitComposable
+import com.yungert.treinplanner.ui.view.detailReisadvies.composables.ShowInformationAlternatiefVervoer
 import kotlinx.coroutines.launch
 
 private var indexRit = 0
@@ -203,7 +204,8 @@ fun DisplayDetailReisAdvies(
                         extraItem++
                         PrimaryMessageComposable(
                             hoofdBericht = treinRit.hoofdBericht,
-                            eindTijdVerstoring = treinRit.eindTijdVerstoring
+                            eindTijdVerstoring = treinRit.eindTijdVerstoring,
+                            extraReistijd = treinRit.dataAlternatiefVervoer?.extraReistijd
                         )
                     }
                 }
@@ -214,6 +216,12 @@ fun DisplayDetailReisAdvies(
                         ReisadviesVervaltComposable()
                     }
                 }
+
+
+                item {
+                    ShowInformationAlternatiefVervoer(data = treinRit.dataAlternatiefVervoer)
+                }
+
 
                 trips.rit.forEachIndexed { index, reis ->
                     extraItem++

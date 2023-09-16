@@ -50,4 +50,7 @@
     <string name="label_ov_fiets">OV bicycles</string>
     <string name="label_geen_ov_fiets">No OV bicycle available</string>
     <string name="label_bij_station">at station</string>
+    <string name="label_extra_reistijd">Additional travel time</string>
+    <string name="label_minuten">minutes</string>
+    <string name="label_alternatief_vervoer_locatie">Location alternative transport</string>
 </resources>
