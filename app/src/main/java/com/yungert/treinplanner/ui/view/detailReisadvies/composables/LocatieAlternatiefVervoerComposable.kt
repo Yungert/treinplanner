@@ -35,16 +35,15 @@ fun ShowInformationAlternatiefVervoer(data: AlternatiefVervoer?){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
         ) {
-            Icon(
-                imageVector = Icons.Default.Warning,
-                contentDescription = "Icon",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .size(iconSize)
-            )
-
             data?.advies?.let {
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = "Icon",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(iconSize)
+                )
                 Text(
                     text = it,
                     style = fontsizeLabelCard,
@@ -58,16 +57,17 @@ fun ShowInformationAlternatiefVervoer(data: AlternatiefVervoer?){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
         ) {
-            Icon(
-                imageVector = Icons.Default.Warning,
-                contentDescription = "Icon",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .size(iconSize)
-            )
 
             data?.vertrekLocatieStation?.let {
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = "Icon",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(iconSize)
+                )
+
                 Text(
                     text = stringResource(id = R.string.label_alternatief_vervoer_locatie) + ": " + it,
                     style = fontsizeLabelCard,
