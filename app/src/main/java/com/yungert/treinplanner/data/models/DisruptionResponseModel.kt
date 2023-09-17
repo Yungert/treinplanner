@@ -38,8 +38,9 @@ data class DisruptionResponseModel(
     @SerializedName("alternativeTransportTimespans")
     val alternativeTransportTimespans: List<AlternativeTransportTimespan>,
     @SerializedName("expectedDuration")
-    val expectedDuration: ExpectedDuration ,
+    val expectedDuration: ExpectedDuration,
 )
+
 @Keep
 data class TitleSection(
     @SerializedName("type")
@@ -47,11 +48,13 @@ data class TitleSection(
     @SerializedName("value")
     val value: String
 )
+
 @Keep
 data class Impact(
     @SerializedName("value")
     val value: Int
 )
+
 @Keep
 data class SummaryAdditionalTravelTime(
     @SerializedName("label")
@@ -63,6 +66,7 @@ data class SummaryAdditionalTravelTime(
     @SerializedName("maximumDurationInMinutes")
     val maximumDurationInMinutes: Int
 )
+
 @Keep
 data class PublicationSection(
     @SerializedName("section")
@@ -72,6 +76,7 @@ data class PublicationSection(
     @SerializedName("sectionType")
     val sectionType: String
 )
+
 @Keep
 data class Section(
     @SerializedName("stations")
@@ -79,6 +84,7 @@ data class Section(
     @SerializedName("direction")
     val direction: String
 )
+
 @Keep
 data class Station(
     @SerializedName("uicCode")
@@ -92,6 +98,7 @@ data class Station(
     @SerializedName("countryCode")
     val countryCode: String
 )
+
 @Keep
 data class Coordinate(
     @SerializedName("lat")
@@ -99,6 +106,7 @@ data class Coordinate(
     @SerializedName("lng")
     val lng: Double
 )
+
 @Keep
 data class Consequence(
     @SerializedName("section")
@@ -108,6 +116,7 @@ data class Consequence(
     @SerializedName("level")
     val level: String
 )
+
 @Keep
 data class Timespan(
     @SerializedName("start")
@@ -127,16 +136,19 @@ data class Timespan(
     @SerializedName("advices")
     val advices: List<String>
 )
+
 @Keep
 data class Situation(
     @SerializedName("label")
     val label: String
 )
+
 @Keep
 data class Cause(
     @SerializedName("label")
     val label: String
 )
+
 @Keep
 data class AlternativeTransport(
     @SerializedName("label")
@@ -144,6 +156,7 @@ data class AlternativeTransport(
     @SerializedName("shortLabel")
     val shortLabel: String
 )
+
 @Keep
 data class AlternativeTransportTimespan(
     @SerializedName("start")
@@ -159,6 +172,7 @@ data class AlternativeTransportData(
     @SerializedName("location")
     val location: List<LocationAlternatiefVervoer>,
 )
+
 @Keep
 data class LocationAlternatiefVervoer(
     @SerializedName("station")
@@ -166,6 +180,7 @@ data class LocationAlternatiefVervoer(
     @SerializedName("description")
     val description: String
 )
+
 @Keep
 data class ExpectedDuration(
     @SerializedName("description")

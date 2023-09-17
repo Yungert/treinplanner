@@ -24,7 +24,7 @@ import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
 
 @Composable
-fun ShowInformationAlternatiefVervoer(data: AlternatiefVervoer?){
+fun ShowInformationAlternatiefVervoer(data: AlternatiefVervoer?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

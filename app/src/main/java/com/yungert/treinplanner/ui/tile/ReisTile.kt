@@ -1,8 +1,13 @@
 package com.yungert.treinplanner.ui.tile
 
 import androidx.core.content.ContextCompat
+import androidx.wear.tiles.ColorBuilders.argb
+import androidx.wear.tiles.DimensionBuilders.degrees
 import androidx.wear.tiles.DimensionBuilders.dp
 import androidx.wear.tiles.LayoutElementBuilders
+import androidx.wear.tiles.LayoutElementBuilders.ARC_ANCHOR_START
+import androidx.wear.tiles.LayoutElementBuilders.Arc
+import androidx.wear.tiles.LayoutElementBuilders.ArcLine
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
 import androidx.wear.tiles.TileBuilders
@@ -17,15 +22,6 @@ import com.yungert.treinplanner.presentation.utils.formatTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.guava.future
-import androidx.wear.tiles.DimensionBuilders.degrees
-import androidx.wear.tiles.ColorBuilders.argb
-import androidx.wear.tiles.DimensionBuilders.expand
-import androidx.wear.tiles.LayoutElementBuilders.ARC_ANCHOR_START
-import androidx.wear.tiles.LayoutElementBuilders.Arc
-import androidx.wear.tiles.LayoutElementBuilders.ArcLine
-import androidx.wear.tiles.ModifiersBuilders
-import com.yungert.treinplanner.R
-import java.nio.file.WatchEvent.Modifier
 
 
 private const val RESOURCES_VERSION = "1"
@@ -108,11 +104,19 @@ class ReisTile : TileService() {
         }
         return data
     }
+
     private fun progressArc(percentage: Float) = Arc.Builder()
         .addContent(
-                ArcLine.Builder()
+            ArcLine.Builder()
                 .setLength(degrees(percentage * ARC_TOTAL_DEGREES))
-                .setColor(argb(ContextCompat.getColor(this, androidx.appcompat.R.color.primary_material_light)))
+                .setColor(
+                    argb(
+                        ContextCompat.getColor(
+                            this,
+                            androidx.appcompat.R.color.primary_material_light
+                        )
+                    )
+                )
                 .setThickness(PROGRESS_BAR_THICKNESS)
                 .build()
         )
