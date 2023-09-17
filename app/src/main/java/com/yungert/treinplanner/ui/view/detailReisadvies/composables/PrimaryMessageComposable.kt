@@ -22,12 +22,14 @@ import androidx.wear.compose.material.Text
 import com.yungert.treinplanner.R
 import com.yungert.treinplanner.presentation.utils.fontsizeLabelCard
 import com.yungert.treinplanner.presentation.utils.iconSize
+import kotlin.math.max
 
 @Composable
 fun PrimaryMessageComposable(
     hoofdBericht: String,
     eindTijdVerstoring: String?,
-    extraReistijd: String?
+    minimumExtraReistijd: String?,
+    maximumExtraReistijd: String?,
 ) {
     Card(
         onClick = {},
@@ -75,7 +77,11 @@ fun PrimaryMessageComposable(
                     )
                 }
             }
-            if (eindTijdVerstoring != "") {
+            if (maximumExtraReistijd != null) {
+                var extraReistijd = ""
+                if (minimumExtraReistijd != null && minimumExtraReistijd != maximumExtraReistijd){
+                    extraReistijd = minimumExtraReistijd + "-"
+                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -90,7 +96,7 @@ fun PrimaryMessageComposable(
                             .size(iconSize)
                     )
                     Text(
-                        text = stringResource(id = R.string.label_extra_reistijd) + ": " + extraReistijd + " " + stringResource(id = R.string.label_minuten),
+                        text = stringResource(id = R.string.label_extra_reistijd) + ": " + extraReistijd + maximumExtraReistijd + " " + stringResource(id = R.string.label_minuten),
                         style = fontsizeLabelCard,
                         textAlign = TextAlign.Left,
                     )

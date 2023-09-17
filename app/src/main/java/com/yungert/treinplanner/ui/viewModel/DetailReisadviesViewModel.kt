@@ -88,29 +88,26 @@ class DetailReisadviesViewModel : ViewModel() {
                             hoofdBericht = result.data?.primaryMessage?.message?.text,
                             eindTijdVerstoring = eindTijd,
                             dataEindStation = dataEindbestemmingStation,
-                            dataAlternatiefVervoer = AlternatiefVervoer(advies = null, soortVervoer = null, vertrekLocatieStation = null, extraReistijd = null)
+                            dataAlternatiefVervoer = AlternatiefVervoer(advies = null, soortVervoer = null, vertrekLocatieStation = null, minumimExtraReistijd = null, maximumExtraReistijd = null)
                         )
                         result.data?.primaryMessage?.message?.id?.let { id ->
                             result.data.primaryMessage.message.type.let { type ->
                                 nsApiRepository.fetchDisruptionById(id, type).collect { res ->
                                     detailReisAdvies.eindTijdVerstoring =
-                                        formatTime(
-                                            res.data?.expectedDuration?.endTime
-                                                ?: res.data?.end, rekeningHoudenMetDag = true
-                                        )
+                                        formatTime(res.data?.expectedDuration?.endTime ?: res.data?.end, rekeningHoudenMetDag = true)
                                     res.data?.timespans?.forEach {span ->
                                         span.advices.forEach { advice ->
                                             detailReisAdvies.dataAlternatiefVervoer?.advies = advice.trim()
                                         }
-                                        detailReisAdvies.dataAlternatiefVervoer?.extraReistijd = span.additionalTravelTime.maximumDurationInMinutes.toString()
+                                        detailReisAdvies.dataAlternatiefVervoer?.maximumExtraReistijd = span.additionalTravelTime.maximumDurationInMinutes.toString()
+                                        detailReisAdvies.dataAlternatiefVervoer?.minumimExtraReistijd = span.additionalTravelTime.minimumDurationInMinutes.toString()
                                     }
                                     res.data?.alternativeTransportTimespans?.forEach { time ->
                                         val locatie = time.alternativeTransport.location.find { it.station.name == result.data.legs.get(result.data.legs.size - 1).origin.name}
                                         if(locatie?.description == null){
                                             return@forEach
                                         }
-                                        detailReisAdvies.dataAlternatiefVervoer?.vertrekLocatieStation = locatie?.description
-
+                                        detailReisAdvies.dataAlternatiefVervoer?.vertrekLocatieStation = locatie.description
                                     }
                                 }
                             }

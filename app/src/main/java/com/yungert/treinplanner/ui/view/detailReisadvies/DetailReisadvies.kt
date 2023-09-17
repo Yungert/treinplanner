@@ -205,7 +205,8 @@ fun DisplayDetailReisAdvies(
                         PrimaryMessageComposable(
                             hoofdBericht = treinRit.hoofdBericht,
                             eindTijdVerstoring = treinRit.eindTijdVerstoring,
-                            extraReistijd = treinRit.dataAlternatiefVervoer?.extraReistijd
+                            minimumExtraReistijd = treinRit.dataAlternatiefVervoer?.minumimExtraReistijd,
+                            maximumExtraReistijd = treinRit.dataAlternatiefVervoer?.maximumExtraReistijd,
                         )
                     }
                 }

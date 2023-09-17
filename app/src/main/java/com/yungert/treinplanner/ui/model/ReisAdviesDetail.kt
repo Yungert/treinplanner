@@ -20,7 +20,8 @@ data class AlternatiefVervoer(
     var advies: String?,
     var soortVervoer: String?,
     var vertrekLocatieStation: String?,
-    var extraReistijd: String?,
+    var minumimExtraReistijd: String?,
+    var maximumExtraReistijd: String?,
 )
 
 @Keep
