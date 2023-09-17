@@ -40,10 +40,13 @@ import androidx.wear.compose.material.PositionIndicator
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.ScalingLazyListAnchorType
+import androidx.wear.compose.material.SwipeToDismissBox
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.rememberScalingLazyListState
+import androidx.wear.compose.material.rememberSwipeToDismissBoxState
 import com.yungert.treinplanner.R
+import com.yungert.treinplanner.presentation.ui.Navigation.Screen
 import com.yungert.treinplanner.presentation.ui.ViewModel.DetailReisadviesViewModel
 import com.yungert.treinplanner.presentation.ui.ViewModel.ViewStateDetailReisadvies
 import com.yungert.treinplanner.presentation.ui.model.DetailReisadvies
@@ -167,110 +170,117 @@ fun DisplayDetailReisAdvies(
         }
 
     }
-
-    val state = rememberPullRefreshState(refreshing, ::refresh)
-    Box(modifier = Modifier.pullRefresh(state = state)) {
-        Scaffold(
-            positionIndicator = {
-                PositionIndicator(scalingLazyListState = listState)
-            }
-        ) {
-            ScalingLazyColumn(
-                anchorType = ScalingLazyListAnchorType.ItemStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch {
-                            listState.scrollBy(it.verticalScrollPixels)
-                        }
-                        true
-                    }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState)
-            {
-                item {
-                    ListHeader {
-                        Text(
-                            text = stringResource(id = R.string.label_jouw_reis_naar) + " " + treinRit.rit[treinRit.rit.size - 1].naamAankomstStation,
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+    val stateDismiss = rememberSwipeToDismissBoxState()
+    SwipeToDismissBox(
+        state = stateDismiss,
+        onDismissed = {
+            navController.popBackStack()
+        },
+    ) {
+        val state = rememberPullRefreshState(refreshing, ::refresh)
+        Box(modifier = Modifier.pullRefresh(state = state)) {
+            Scaffold(
+                positionIndicator = {
+                    PositionIndicator(scalingLazyListState = listState)
                 }
-                if (treinRit.hoofdBericht != null) {
-                    item {
-                        extraItem++
-                        PrimaryMessageComposable(
-                            hoofdBericht = treinRit.hoofdBericht,
-                            eindTijdVerstoring = treinRit.eindTijdVerstoring,
-                            minimumExtraReistijd = treinRit.dataAlternatiefVervoer?.minumimExtraReistijd,
-                            maximumExtraReistijd = treinRit.dataAlternatiefVervoer?.maximumExtraReistijd,
-                        )
-                    }
-                }
-
-                if (opgeheven) {
-                    extraItem++
-                    item {
-                        ReisadviesVervaltComposable()
-                    }
-                }
-
-
-                item {
-                    ShowInformationAlternatiefVervoer(data = treinRit.dataAlternatiefVervoer)
-                }
-
-
-                trips.rit.forEachIndexed { index, reis ->
-                    extraItem++
-                    item {
-                        if (index > 0 && reis.overstapTijd != "") {
-                            OverstapComposable(reis = reis)
-                        }
-
-                        if (index > 0 && reis.overstapTijd == "") {
-                            OverstapOnbekendComposable()
-                        }
-                    }
-                    item {
-                        RitComposable(
-                            reis = reis,
-                            navController = navController,
-                            index = index,
-                            extraItem = extraItem,
-                            aantalRitten = treinRit.rit.size,
-                            onClick = {
-                                indexRit = it
+            ) {
+                ScalingLazyColumn(
+                    anchorType = ScalingLazyListAnchorType.ItemStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onRotaryScrollEvent {
+                            coroutineScope.launch {
+                                listState.scrollBy(it.verticalScrollPixels)
                             }
-                        )
+                            true
+                        }
+                        .focusRequester(focusRequester)
+                        .focusable(),
+                    state = listState)
+                {
+                    item {
+                        ListHeader {
+                            Text(
+                                text = stringResource(id = R.string.label_jouw_reis_naar) + " " + treinRit.rit[treinRit.rit.size - 1].naamAankomstStation,
+                                textAlign = TextAlign.Center,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                    if (treinRit.hoofdBericht != null) {
+                        item {
+                            extraItem++
+                            PrimaryMessageComposable(
+                                hoofdBericht = treinRit.hoofdBericht,
+                                eindTijdVerstoring = treinRit.eindTijdVerstoring,
+                                minimumExtraReistijd = treinRit.dataAlternatiefVervoer?.minumimExtraReistijd,
+                                maximumExtraReistijd = treinRit.dataAlternatiefVervoer?.maximumExtraReistijd,
+                            )
+                        }
                     }
 
-                }
-                item {
-                    treinRit.dataEindStation?.let {
-                        DataEindStationComposable(
-                            dataEindStation = it,
-                            eindbestemming = treinRit.rit[treinRit.rit.size - 1].naamAankomstStation
-                        )
+                    if (opgeheven) {
+                        extraItem++
+                        item {
+                            ReisadviesVervaltComposable()
+                        }
+                    }
+
+
+                    item {
+                        ShowInformationAlternatiefVervoer(data = treinRit.dataAlternatiefVervoer)
+                    }
+
+
+                    trips.rit.forEachIndexed { index, reis ->
+                        extraItem++
+                        item {
+                            if (index > 0 && reis.overstapTijd != "") {
+                                OverstapComposable(reis = reis)
+                            }
+
+                            if (index > 0 && reis.overstapTijd == "") {
+                                OverstapOnbekendComposable()
+                            }
+                        }
+                        item {
+                            RitComposable(
+                                reis = reis,
+                                navController = navController,
+                                index = index,
+                                extraItem = extraItem,
+                                aantalRitten = treinRit.rit.size,
+                                onClick = {
+                                    indexRit = it
+                                }
+                            )
+                        }
+
+                    }
+                    item {
+                        treinRit.dataEindStation?.let {
+                            DataEindStationComposable(
+                                dataEindStation = it,
+                                eindbestemming = treinRit.rit[treinRit.rit.size - 1].naamAankomstStation
+                            )
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier = Modifier.padding(bottom = 20.dp)
+                        ) {}
                     }
                 }
-                item {
-                    Column(
-                        modifier = Modifier.padding(bottom = 20.dp)
-                    ) {}
-                }
+                PullRefreshIndicator(
+                    modifier = Modifier.align(alignment = Alignment.TopCenter),
+                    refreshing = refreshing,
+                    state = state,
+                )
             }
-            PullRefreshIndicator(
-                modifier = Modifier.align(alignment = Alignment.TopCenter),
-                refreshing = refreshing,
-                state = state,
-            )
+            LaunchedEffect(Unit) { focusRequester.requestFocus() }
+            TimeText()
         }
-        LaunchedEffect(Unit) { focusRequester.requestFocus() }
-        TimeText()
     }
 }
 
