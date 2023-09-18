@@ -185,7 +185,7 @@ fun ReisAdviesCardComposable(
                 ReisadviesNietMogelijkComposable()
             }
 
-            if (advies.primaryMessage != null) {
+            if (advies.primaryMessage != null && (advies.primaryMessage.message?.text?.trim() ?: advies.primaryMessage.title.trim()) != "Dit reisadvies vervalt") {
                 if (advies.primaryMessage.type?.let { PrimaryMessageType.fromValue(it) } != PrimaryMessageType.LEG_TRANSFER_IMPOSSIBLE) {
                     PrimaryMessageComposaBle(advies.primaryMessage)
                 } else {
