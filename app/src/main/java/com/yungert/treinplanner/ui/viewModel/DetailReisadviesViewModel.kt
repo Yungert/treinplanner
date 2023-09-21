@@ -13,6 +13,7 @@ import com.yungert.treinplanner.presentation.ui.model.DataEindbestemmingStation
 import com.yungert.treinplanner.presentation.ui.model.DetailReisadvies
 import com.yungert.treinplanner.presentation.ui.model.OvFiets
 import com.yungert.treinplanner.presentation.ui.model.RitDetail
+import com.yungert.treinplanner.presentation.utils.ShorterStockClassificationType
 import com.yungert.treinplanner.presentation.utils.TransferType
 import com.yungert.treinplanner.presentation.utils.TripStatus
 import com.yungert.treinplanner.presentation.utils.calculateTimeDiff
@@ -105,10 +106,12 @@ class DetailReisadviesViewModel : ViewModel() {
                                             rekeningHoudenMetDag = true
                                         )
 
-                                        res.data?.timespans?.forEach { span ->
-                                            detailReisAdvies.dataAlternatiefVervoer?.soortVervoer = span.alternativeTransport.shortLabel
-                                            span.advices.forEach { advice ->
-                                            detailReisAdvies.dataAlternatiefVervoer?.advies = advice.trim()
+                                    res.data?.timespans?.forEach { span ->
+                                        detailReisAdvies.dataAlternatiefVervoer?.soortVervoer =
+                                            span.alternativeTransport.shortLabel
+                                        span.advices.forEach { advice ->
+                                            detailReisAdvies.dataAlternatiefVervoer?.advies =
+                                                advice.trim()
                                         }
                                         detailReisAdvies.dataAlternatiefVervoer?.maximumExtraReistijd =
                                             span.additionalTravelTime?.maximumDurationInMinutes?.toString()
@@ -191,7 +194,11 @@ class DetailReisadviesViewModel : ViewModel() {
                                 aankomstStationUicCode = advies.destination.uicCode,
                                 datum = advies.origin.plannedDateTime,
                                 overstapTijd = overstap,
-                                kortereTreinDanGepland = advies.shorterStock,
+                                kortereTreinDanGepland = advies.shorterStockClassification?.let {
+                                    ShorterStockClassificationType.fromValue(
+                                        it
+                                    )
+                                } ?: ShorterStockClassificationType.FALSE,
                                 opgeheven = advies.cancelled,
                                 punctualiteit = advies.punctuality ?: 0.0,
                                 crossPlatform = overstapCrossPlatform,

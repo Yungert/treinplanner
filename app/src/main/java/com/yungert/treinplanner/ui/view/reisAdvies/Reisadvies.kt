@@ -184,7 +184,8 @@ fun DisplayReisadvies(
             Scaffold(
                 positionIndicator = {
                     PositionIndicator(
-                        scalingLazyListState = listState)
+                        scalingLazyListState = listState
+                    )
                 }
             ) {
                 ScalingLazyColumn(

@@ -33,7 +33,7 @@
     <string name="label_opniew_plannen">Plan another journey</string>
     <string name="error_geen_internet">No internet connection, data could not be retrieved</string>
     <string name="label_dichtbijzijnde_stations_ophalen">Retrieve nearest stations</string>
-    <string name="label_kortere_trein_waarschuwing">"Shorter train than planned, takes extra crowds into account  "</string>
+    <string name="label_kortere_trein_waarschuwing">"Shorter train, extra busy "</string>
     <string name="label_instellingen">Settings</string>
     <string name="label_geen_optimale_route">Longer journey due to a disruption</string>
     <string name="label_rijdt_niet">Cancelled</string>
@@ -53,4 +53,5 @@
     <string name="label_extra_reistijd">Additional travel time</string>
     <string name="label_minuten">minutes</string>
     <string name="label_alternatief_vervoer_locatie">Location alternative transport</string>
+    <string name="label_volle_trein">Shorter train, extra busy and possibly full</string>
 </resources>
