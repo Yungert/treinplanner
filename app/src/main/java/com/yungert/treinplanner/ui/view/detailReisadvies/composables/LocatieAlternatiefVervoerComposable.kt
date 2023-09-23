@@ -96,7 +96,6 @@ fun ShowInformationAlternatiefVervoer(data: AlternatiefVervoer?) {
                     text = stringResource(id = R.string.label_alternatief_vervoer_locatie) + ": " + it,
                     style = fontsizeLabelCard,
                     textAlign = TextAlign.Start,
-                    maxLines = 2,
                 )
             }
         }

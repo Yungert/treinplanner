@@ -152,9 +152,9 @@ data class Cause(
 @Keep
 data class AlternativeTransport(
     @SerializedName("label")
-    val label: String,
+    val label: String?,
     @SerializedName("shortLabel")
-    val shortLabel: String
+    val shortLabel: String?
 )
 
 @Keep
