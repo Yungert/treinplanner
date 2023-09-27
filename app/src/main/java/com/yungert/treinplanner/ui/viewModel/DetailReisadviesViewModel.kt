@@ -108,7 +108,7 @@ class DetailReisadviesViewModel : ViewModel() {
 
                                     res.data?.timespans?.forEach { span ->
                                         detailReisAdvies.dataAlternatiefVervoer?.soortVervoer =
-                                            span.alternativeTransport.shortLabel
+                                            span.alternativeTransport?.shortLabel
                                         span.advices.forEach { advice ->
                                             detailReisAdvies.dataAlternatiefVervoer?.advies =
                                                 advice.trim()
@@ -164,7 +164,7 @@ class DetailReisadviesViewModel : ViewModel() {
                             }
                             ritDetail = RitDetail(
                                 treinOperator = advies.product.operatorName,
-                                treinOperatorType = if (!alternatiefVervoerInzet) advies.product.categoryCode else advies.product.longCategoryName,
+                                treinOperatorType = if (!alternatiefVervoerInzet) advies.product.categoryCode else advies.product.longCategoryName.trim(),
                                 ritNummer = if (!alternatiefVervoerInzet) advies.product.number else "",
                                 eindbestemmingTrein = advies.direction,
                                 naamVertrekStation = advies.origin.name,

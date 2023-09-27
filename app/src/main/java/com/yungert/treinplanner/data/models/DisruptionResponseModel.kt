@@ -132,7 +132,7 @@ data class Timespan(
     @SerializedName("additionalTravelTime")
     val additionalTravelTime: SummaryAdditionalTravelTime?,
     @SerializedName("alternativeTransport")
-    val alternativeTransport: AlternativeTransport,
+    val alternativeTransport: AlternativeTransport?,
     @SerializedName("advices")
     val advices: List<String>
 )
