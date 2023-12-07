@@ -1,3 +1,8 @@
+# Reisplanner app
+Om de app te gebruiken is een NS-API key nodig, die kan worden aangevraagd op https://apiportal.ns.nl/.
+De api-key moet worden toegevoegd in een local.properties file in dit format:
+``API_KEY_NS = ""``
+
 
 # Reisplanner app
 Een stand-alone app voor Wear Os om treinreizen te plannen binnen Nederland met alle treinvervoerders.
