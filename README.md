@@ -1,7 +1,8 @@
-# Reisplanner app
-Om de app te gebruiken is een NS-API key nodig, die kan worden aangevraagd op https://apiportal.ns.nl/.
-De api-key moet worden toegevoegd in een local.properties file in dit format:
-``API_KEY_NS = ""``
+# Configuratie
+Om de app te gebruiken is een NS-API key nodig met het profiel `NS-app`, die kan worden aangevraagd op https://apiportal.ns.nl/.
+De api-key moet worden toegevoegd in een `local.properties` file in dit format:
+
+````API_KEY_NS = ""````
 
 
 # Reisplanner app
